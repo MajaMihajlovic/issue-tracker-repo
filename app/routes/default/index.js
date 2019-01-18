@@ -1,4 +1,4 @@
-import { startHotAppLoop, LabelsLeftLayout, Controller } from "cx/ui";
+import { startHotAppLoop, LabelsLeftLayout} from "cx/ui";
 import {
     Button,
     Checkbox,
@@ -6,8 +6,7 @@ import {
     TextField,
     ValidationGroup, HtmlElement, Link
   } from "cx/widgets";
-
-
+import Controller from "./Controller.js";
 import {MessageLayout} from 'app/layouts/MessageLayout';
 import {Md} from 'app/components/Md';
 import "./index.scss"
