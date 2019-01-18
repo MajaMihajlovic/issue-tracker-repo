@@ -1,0 +1,32 @@
+.login-form {
+    background: #eee;
+  border-radius: 5px;
+  padding: 20px;
+  width: 300px;
+  align-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-btn {
+    padding: 5px 10px; 
+    margin: 10px;
+}
+
+body {
+ background: white;
+ padding-top: 10px;
+ padding-left: 10px;
+ 
+}
+  
+.logo{
+    width: 300px;
+}
+.page.sign-in {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

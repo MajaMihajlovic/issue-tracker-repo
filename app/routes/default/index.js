@@ -1,18 +1,58 @@
-import { HtmlElement, Link } from 'cx/widgets';
-import { Controller } from 'cx/ui';
-
+import { startHotAppLoop, LabelsLeftLayout, Controller } from "cx/ui";
+import {
+    Button,
+    Checkbox,
+    MsgBox,
+    TextField,
+    ValidationGroup, HtmlElement, Link
+  } from "cx/widgets";
 
 
 import {MessageLayout} from 'app/layouts/MessageLayout';
 import {Md} from 'app/components/Md';
-
+import "./index.scss"
 export default <cx>
+    <div class="page sign-in">
     <main visible:expr="!{user}" outerLayout={MessageLayout} >
-        <h3>Welcome to Cx Starter Kit</h3>
-        <p>This is the default page.</p>
-        <p>
-            <Link href="~/sign/in">Sign In</Link>
-        </p>
+        <img class="logo" src="~/app/assets/img/logo.png" alt="Issue Tracker"/>
+    <form
+      class="login-form"
+      onSubmit="signIn"
+      controller={Controller}
+    >
+      <ValidationGroup layout={LabelsLeftLayout} invalid:bind="login.invalid">
+        <TextField
+          value:bind="login.username"
+          label="Username"
+          required={true}
+        />
+        <TextField
+          value:bind="login.password"
+          label="Password"
+          inputType="password"
+          required={true}
+        />
+        <Checkbox value:bind="login.rememberMe">Remember me</Checkbox>
+        <div>
+        <Button
+          class="login-btn"
+          mod="primary"
+          disabled:bind="login.invalid"
+          submit
+        >
+          Login
+        </Button>
+        <Button
+          class="login-btn"
+          mod="primary"
+          onClick='~/sign/in'
+        >
+          Sign in
+        </Button>
+        </div>
+      </ValidationGroup>
+    </form>
+  
     </main>
 
     <main visible:expr="!!{user}" style="padding: 30px">
@@ -69,5 +109,6 @@ export default <cx>
             The font used is MavenPro from [Google Fonts](https://fonts.google.com/specimen/Maven+Pro).
         </Md>
     </main>
+    </div>
 </cx>
 
