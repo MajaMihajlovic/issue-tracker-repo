@@ -1,6 +1,6 @@
 import { Controller, History, Url } from "cx/ui";
-import { POST, enterApp } from "../../api/methods";
-
+import { login } from "../../api/methods";
+import { showErrorToast } from "../../components/toasts"
 export default class extends Controller {
   signIn() {
     // this.store.set('user', 'test');
@@ -14,12 +14,13 @@ export default class extends Controller {
       username: this.store.get("login.username"),
       password: this.store.get("login.password")
     };
-    //sessionStorage.setItem("userInfo", userInfo);
-    console.log(userInfo);
-    let response = await POST("user/login", userInfo, null);
-    // await enterApp(userInfo);
-    console.log("response:" + JSON.stringify(response));
-    //var returnUrl = this.store.get("$route.returnUrl");
-    //History.pushState({}, null, Url.resolve(returnUrl || "~/"));
+    try {
+      await login(userInfo, this.store);
+      this.store.delete('login');
+    }
+    catch (e) {
+      showErrorToast(e);
+      this.store.set("login.loading", false);
+    }
   }
 }

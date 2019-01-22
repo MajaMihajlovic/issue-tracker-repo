@@ -1,3 +1,7 @@
+import { Url, History } from "cx/ui";
+
+
+
 let restApiUrl = "http://localhost:8080/api/";
 
 export async function checkOk(r, requestType = "normal") {
@@ -75,32 +79,6 @@ export async function doFetch(path, opt = {}, hints = {}) {
   }
 }
 
-export async function enterApp(userInfo) {
-  let options = {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-      "Content-Type": "application/json",
-      'Accept': 'application/json, text/plain, */*'
-    },
-    body: JSON.stringify({
-      username: 'maja',
-      password: 'student'
-    })
-  };
-  await fetch('http://localhost:8080/api/user/login', options)
-    .catch(e => {
-      if (!e.response) {
-        e.message = "Unable to connect to the server. Please check your Internet or VPN connection and try again."
-      }
-      throw e;
-    })
-    .then(r => r.json())
-    .catch(err => {
-      console.error("Login error", err);
-      throw new Error('Failed to sign in. Please check if you entered valid username and password.');
-    });
-}
 
 export function POST(url, data, hints) {
   return doFetch(url, {
@@ -115,6 +93,32 @@ export function POST(url, data, hints) {
     .then(x => x.json());
 }
 
+export async function login(data, store) {
+  var user = await doFetch('user/login', {
+    ...defaultOptions,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(data, null, 2)
+  })
+    .then(async x => {
+      return await x.json();
+    })
+    .catch(err => {
+      console.log("error")
+      throw new Error('Failed to login. Please check if you entered valid username and password.');
+    });
+  console.log("user=" + user);
+  if (user != null) {
+    sessionStorage.setItem("user", user);
+    user.displayName = user.username;
+    store.set("user", user);
+    var returnUrl = store.get("$route.returnUrl");
+    History.pushState({}, null, Url.resolve(returnUrl || "~/"));
+  }
+}
 
 export function PUT(url, data, hints) {
   return doFetch(
