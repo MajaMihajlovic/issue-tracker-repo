@@ -1,5 +1,5 @@
 .login-form {
-    background: #eee;
+  background: #eee;
   border-radius: 5px;
   padding: 20px;
   width: 300px;
@@ -10,23 +10,33 @@
 }
 
 .login-btn {
-    padding: 5px 10px; 
-    margin: 10px;
+  padding: 5px 10px;
+  margin: 10px;
+}
+.sign-in-form {
+  background: #eee;
+  border-radius: 5px;
+  padding: 20px;
+  width: 350px;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
 }
 
 body {
- background: white;
- padding-top: 10px;
- padding-left: 10px;
- 
+  background: white;
+  padding-top: 10px;
+  padding-left: 10px;
 }
-  
-.logo{
-    width: 300px;
+
+.logo {
+  width: 300px;
+  align-items: center;
+  justify-content: center;
 }
 .page.sign-in {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

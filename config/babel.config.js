@@ -20,7 +20,10 @@ module.exports = {
         }]
     ],
     "plugins": [
-
-    ]
+        ["transform-runtime", {
+          "polyfill": false,
+          "regenerator": true
+        }]
+      ]
 };
 

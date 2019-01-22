@@ -4,7 +4,7 @@
 //base colors
 $base-blue-color: #35a8f7;
 $base-back-color: #f0f2f5;
-$base-border-color: darken(#eff1f7,6);
+$base-border-color: darken(#eff1f7, 6);
 
 //layout
 
@@ -13,7 +13,6 @@ $layout-nav-width: 14rem;
 * {
   box-sizing: border-box;
 }
-
 
 html {
   height: 100%;
@@ -24,8 +23,8 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: 'Maven Pro', sans-serif;
-  font-size: .875rem; //14px
+  font-family: "Maven Pro", sans-serif;
+  font-size: 0.875rem; //14px
   color: #475767;
 }
 
@@ -42,7 +41,7 @@ h6 {
 }
 
 a {
-  color: darken($base-blue-color,10);
+  color: darken($base-blue-color, 10);
 }
 
 h1 {
@@ -57,7 +56,7 @@ h3 {
 }
 
 h4 {
-  font-size: .875rem;
+  font-size: 0.875rem;
 }
 
 #app {
