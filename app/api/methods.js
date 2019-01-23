@@ -67,9 +67,7 @@ export async function doFetch(path, opt = {}, hints = {}) {
   };
 
   try {
-    let response = await fetch(resolveAPIUrl(path, opt && opt.query), options);
-
-    return response;
+    return await fetch(resolveAPIUrl(path, opt && opt.query), options);
   }
   catch (e) {
     if (!e.response) {
@@ -86,11 +84,12 @@ export function POST(url, data, hints) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json, text/plain, */*'
     },
     body: JSON.stringify(data, null, 2)
   }, hints)
-    .then(x => x.json());
+  .then(x => x.text());
+  
 }
 
 export async function login(data, store) {
@@ -99,24 +98,24 @@ export async function login(data, store) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json, text/plain, */*'
     },
     body: JSON.stringify(data, null, 2)
   })
-    .then(async x => {
-      return await x.json();
-    })
+    .then(x => {
+      try{
+    return x.json();
+    }catch(e){return x;}    })
     .catch(err => {
       console.log("error")
       throw new Error('Failed to login. Please check if you entered valid username and password.');
     });
-  console.log("user=" + user);
   if (user != null) {
     sessionStorage.setItem("user", user);
     user.displayName = user.username;
     store.set("user", user);
     var returnUrl = store.get("$route.returnUrl");
-    History.pushState({}, null, Url.resolve(returnUrl || "~/"));
+    History.pushState({}, null, Url.resolve( "~/"));
   }
 }
 
