@@ -1,11 +1,8 @@
 import { ContentPlaceholder } from 'cx/ui';
-import { HtmlElement, Link } from 'cx/widgets';
 import { GlobalCacheIdentifier } from 'cx/util';
 
 
 import {SideNav} from 'app/components/SideNav';
-
-import {Glyph} from 'app/components/Glyph';
 import {UserInfo} from 'app/components/UserInfo';
 
 
@@ -17,7 +14,7 @@ function toggleMenu(e, {store}) {
 export const AppLayout = <cx>
     <div class={{"csb-applayout": true, 'css-hide-menu': { bind: 'layout.menu.hide' }}}>
         <header class="cse-applayout-header">
-            <a  class="cse-applayout-logo" href="https://cxjs.io/demos"><span><span>Cx</span> Starter</span></a>
+            <img  class="cse-applayout-logo" src="~/app/assets/img/logo.png"></img>
             <div class="cse-applayout-headercontent">
                 <div class="cse-applayout-menu" onClick={toggleMenu}><i class="csb-cssicon-menu"></i></div>
                 <div class="cse-applayout-customheader">

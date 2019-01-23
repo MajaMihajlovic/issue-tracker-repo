@@ -20,40 +20,9 @@ $applayout-header-border: .4rem;
   left: 0;
   bottom: -$applayout-header-border;
   width: $layout-nav-width;
-  background-color: $base-blue-color;
-  background: linear-gradient(60deg,
-          $base-blue-color 0,
-          $base-blue-color 8%,
-          adjust_color($base-blue-color,$hue:-4%) 8%,
-          adjust_color($base-blue-color,$hue:-4%) 30%,
-          adjust_color($base-blue-color,$hue:-10%) 30%,
-          adjust_color($base-blue-color,$hue:-10%) 40%,
-          adjust_color($base-blue-color,$hue:-13%) 40%,
-          adjust_color($base-blue-color,$hue:-13%) 85%,
-          adjust_color($base-blue-color,$hue:-16%) 85%,
-          adjust_color($base-blue-color,$hue:-16%));
-  border-bottom: $applayout-header-border solid rgba(black, .1);
   color: white;
-  &:focus {
-    outline: 1px solid rgba(white, 0.8);
-    outline-offset: -3px;
-  }
-  > span {
-    position: absolute;
-    top: 50%;
-    left: 1.5rem;
-    text-transform: uppercase;
-    line-height: 1.2rem;
-    margin-top: - .6rem;
-    > span {
-      font-size: 1rem;
-      display: inline-block;
-      border-right: 1px solid rgba(white, .5);
-      padding-right: .4rem;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
-  }
+  padding-top: 10px;
+  padding-left:5px
 }
 
 .cse-applayout-headercontent {

@@ -132,7 +132,7 @@ export function PUT(url, data, hints) {
       body: JSON.stringify(data, null, 2)
     },
     hints
-  ).then(x => x.json());
+  ).then(x => x.text());
 }
 
 export function DELETE(url, hints) {

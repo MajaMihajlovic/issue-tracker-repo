@@ -1,0 +1,24 @@
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    & > div, & > section {
+      flex: 1;
+      margin:3px
+    }
+
+    @media screen and (min-width: 1024px) {
+      & > div, & > section {
+        flex: 0;
+      }
+    }
+  }
+
+  .form-group {
+    margin: 0 1rem;
+  }
+
+  .cxe-uploadbutton-input{
+      position: center;
+  }

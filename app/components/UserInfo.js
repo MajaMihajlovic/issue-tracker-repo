@@ -15,7 +15,9 @@ export const UserInfo = <cx>
             </a>
 
             <Menu putInto="dropdown">
-                <a class="cxm-menu-pad" href="#" onClick={(e, {store}) => { openSettingsWindow(store); e.preventDefault(); }}>Settings</a>
+                <a class="cxm-menu-pad" href="#" onClick={(e, {store}) => { openSettingsWindow(store); e.preventDefault(); }}>Edit profile</a>
+                <a class="cxm-menu-pad" href="#" onClick={(e, {store}) => { openSettingsWindow(store); e.preventDefault(); }}>Change password</a>
+
                 <hr />
                 <Link mod="menu-pad" href="~/sign/out">Sign Out</Link>
             </Menu>

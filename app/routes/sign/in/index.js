@@ -9,7 +9,7 @@ import {
   ValidationGroup, enableMsgBoxAlerts, enableTooltips
 } from "cx/widgets";
 import Controller from "./Controller";
-import { passwordValidationRegex } from "../../../util/validation";
+import { emailValidationRegex, passwordValidationRegex } from "../../../util/validation";
 enableTooltips();
 
 
@@ -63,6 +63,9 @@ export default (
               value:bind="sign_in.email"
               label="Email"
               required={true}
+              validationRegExp={emailValidationRegex}
+              validationErrorText="Please insert a valid email address."
+
             />
             <LabeledContainer label="Photo" trimWhitespace={false}>
               <div style="padding:5px 5px 5px 5px;">

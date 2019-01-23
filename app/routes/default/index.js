@@ -9,7 +9,7 @@ enableTooltips();
 export default (
   <cx>
     <div class="page sign-in">
-      <main visible:xpr="!{user}" layout={LabelsLeftLayout}>
+      <main visible:expr="!{user}" layout={LabelsLeftLayout}>
         <img class="logo" src="~/app/assets/img/logo.png" alt="Issue Tracker" />
         <form class="login-form" onSubmit="login" controller={Controller}>
           <ValidationGroup
@@ -29,16 +29,17 @@ export default (
             />
             <Checkbox value:bind="login.rememberMe">Remember me</Checkbox>
             <div>
+              <Button class="login-btn" mod="primary" onClick="signIn">
+                Register
+              </Button>
               <Button
                 class="login-btn"
                 mod="primary"
                 disabled:bind="login.invalid"
                 onClick="login"
+                default
               >
                 Login
-              </Button>
-              <Button class="login-btn" mod="primary" onClick="signIn">
-                Register
               </Button>
             </div>
           </ValidationGroup>
