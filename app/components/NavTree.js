@@ -6,11 +6,11 @@ export default [{
         {title: 'Web Analytics', url: '~/dashboards/web-analytics'},
     ]
 }, {
-    topic: 'Admin',
+    topic: 'Projects',
     expanded: true,
     articles: [
-        {title: 'Contacts', url: '~/admin/contacts'},
-        {title: 'Orders', url: '~/admin/orders'},
+        {title: 'My projects', url: '~/projects/'},
+        {title: 'Add project', url: '~/projects/create'},
     ]
 }, {
     topic: 'Demos',
@@ -19,13 +19,7 @@ export default [{
         {title: 'Todo List', url: '~/demos/todo'},
         {title: 'GitHub Explorer', url: '~/demos/github'}
     ]
-}, {
-    topic: 'Meta',
-    expanded: true,
-    articles: [
-        {title: 'Open Source', url: '~/meta/open-source-software'},
-    ]
-}];
+} ];
 
 
 

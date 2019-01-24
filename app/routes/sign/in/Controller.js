@@ -4,7 +4,6 @@ import { toast, showErrorToast } from "../../../components/toasts";
 
 export default class extends Controller {
 
-  
   async signIn() {
   
     var user = {
@@ -12,17 +11,29 @@ export default class extends Controller {
       username: this.store.get("sign_in.username"),
       fullName: this.store.get("sign_in.fullname"),
       email: this.store.get("sign_in.email"),
-      //photo: this.file
+      photo: this.file
     };
-
-    console.log(user);
     sessionStorage.setItem("user", user);
     try{
-    var result=await POST("user/registration/", user, null);
-    console.log(result)
+    var data = new FormData();
+     data.append('email',this.store.get("sign_in.email") );
+     data.append('file', this.file);
+     data.append('password',this.store.get("sign_in.password"));
+     data.append('username',this.store.get("sign_in.username"));
+     data.append('fullname',this.store.get('sign_in.fullname'));
+    var result=await fetch('http://localhost:8080/api/user/insert', {
+      method: 'POST',
+      body: data
+    })
+    .then(async r => {
+        let res = await r.text();
+        return res;
+    });
+
     if(result!="Success"){
       showErrorToast(result);}
       else{
+        toast("You are successfully registered.")
         var returnUrl = this.store.get("$route.returnUrl");
     this.store.delete('sign_in');
     History.pushState({}, null, Url.resolve(returnUrl || "~/"));
@@ -39,6 +50,7 @@ export default class extends Controller {
   }
 
   onUploadStarting(xhr, instance, file) {
+    console.log(file)
     if (file.type.indexOf("image/") != 0) {
       toast("Only images are allowed.");
       return false;
@@ -52,11 +64,8 @@ export default class extends Controller {
   }
 
 onUploadComplete(xhr,instance,file,formData){
-  console.log("majaa");console.log(formData);
+  this.file=file;
 }
-
-
-
   onUploadError(e) {
     console.log(e);
   }

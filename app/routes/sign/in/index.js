@@ -31,7 +31,7 @@ export default (
 
             <TextField
               value-bind="sign_in.password"
-              label="Repeated Password"
+              label="Password"
               inputType="password"
               required
               //</form>/validationRegExp={passwordValidationRegex}
@@ -45,7 +45,6 @@ export default (
               value-bind="sign_in.confirmPassword"
               label="Confirm password"
               inputType="password"
-              style="width: 100%"
               required
               //</main>validationRegExp={passwordValidationRegex}
               validationErrorText="Password must include at least 1 lowercase, 1 uppercase, 1 numeric, and one special character."
@@ -82,7 +81,7 @@ alt="Person"
                 onUploadComplete="onUploadComplete"
                 onUploadError="onUploadError"
                 mode-bind="mode"
-                icon="upload"
+                icon="fa-upload"
               >
                 Upload
               </UploadButton>
@@ -90,8 +89,17 @@ alt="Person"
             <div>
               <Button
                 mod="primary"
+                style="padding: 5px 10px; margin: 10px; width:72px"
+                onClick="cancel"
+              >
+                Back
+              </Button>
+              <Button
+                mod="primary"
+                style="padding: 5px 10px; margin: 10px;"
                 disabled-bind="sign_in.invalid"
                 onClick="signIn"
+                onEnter="signIn"
               >
                 Register
               </Button>

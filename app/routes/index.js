@@ -6,7 +6,7 @@ import {MessageLayout} from 'app/layouts/MessageLayout';
 import {PageNotFound} from './PageNotFound';
 
 import SignRoutes from './sign';
-import DemoRoutes from './demos';
+import ProjectRoutes from './projects';
 import LayoutRoutes from './layouts';
 import DashboardRoutes from './dashboards';
 import AdminRoutes from './admin';
@@ -16,9 +16,9 @@ import MetaRoutes from './meta';
 
 export default <cx>
     <Sandbox key-bind="url"
-             storage-bind="pages"
-             recordName="$page"
-             layout={FirstVisibleChildLayout}
+        storage-bind="pages"
+        recordName="$page"
+        layout={FirstVisibleChildLayout}
     >
         {/*always active routes*/}
         <SignRoutes />
@@ -26,7 +26,7 @@ export default <cx>
         <PureContainer visible-expr="!!{user}" layout={FirstVisibleChildLayout} onExplore={applyOuterLayout}>
             {/*signed in routes*/}
             <Route route="~/" url-bind="url" items={Default}/>
-            <DemoRoutes />
+            <ProjectRoutes />
             <AdminRoutes />
             <LayoutRoutes/>
             <DashboardRoutes />
@@ -36,7 +36,7 @@ export default <cx>
 
         <Route route="~/" url-bind="url" items={Default} />
 
-        <RedirectRoute route="~/(*splat)" url-bind="url" redirect-tpl="~/sign/in?returnUrl={url-urlencode}"/>
+        <RedirectRoute route="~/(*splat)" url-bind="url" redirect-tpl="~/sign/in"/>
 
         <PageNotFound outerLayout={MessageLayout}/>
     </Sandbox>
