@@ -9,25 +9,25 @@ enableTooltips();
 export default (
   <cx>
     <div class="page sign-in">
-      <main visible:expr="!{user}" layout={LabelsLeftLayout}>
+      <main visible-expr="!{user}" layout={LabelsLeftLayout}>
         <img class="logo" src="~/app/assets/img/logo.png" alt="Issue Tracker" />
         <form class="login-form" onSubmit="login" controller={Controller}>
           <ValidationGroup
             layout={LabelsLeftLayout}
-            invalid:bind="login.invalid"
+            invalid-bind="login.invalid"
           >
             <TextField
-              value:bind="login.username"
+              value-bind="login.username"
               label="Username"
               required={true}
             />
             <TextField
-              value:bind="login.password"
+              value-bind="login.password"
               label="Password"
               inputType="password"
               required={true}
             />
-            <Checkbox value:bind="login.rememberMe">Remember me</Checkbox>
+            <Checkbox value-bind="login.rememberMe">Remember me</Checkbox>
             <div>
               <Button class="login-btn" mod="primary" onClick="signIn">
                 Register
@@ -35,7 +35,7 @@ export default (
               <Button
                 class="login-btn"
                 mod="primary"
-                disabled:bind="login.invalid"
+                disabled-bind="login.invalid"
                 onClick="login"
               >
                 Login
@@ -45,7 +45,7 @@ export default (
         </form >
       </main >
 
-      <main visible:expr="!!{user}" style="padding: 30px">
+      <main visible-expr="!!{user}" style="padding: 30px">
         <div putInto="header">
           <ul class="csb-breadcrumb">
             <li class="cse-breadcrumb-item">

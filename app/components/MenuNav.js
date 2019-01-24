@@ -25,18 +25,18 @@ export const MenuNav = <cx>
           horizontal
           controller={CController}>
 
-        <Repeater records:bind="contents" recordName="$topic">
+        <Repeater records-bind="contents" recordName="$topic">
             <Submenu mod="menunav"
                      class={{
                 "cxs-active": { bind: "$topic.active" }
             }}>
                 <Text bind="$topic.topic" />
                 <Menu putInto="dropdown">
-                    <Repeater records:bind="$topic.articles" recordName="$article">
-                        <Link href:bind="$article.url"
+                    <Repeater records-bind="$topic.articles" recordName="$article">
+                        <Link href-bind="$article.url"
                               mod="menunav"
-                              url:bind="url">
-                            <Glyph name:expr="{$article.glyph} || 'file-text-o'" />
+                              url-bind="url">
+                            <Glyph name-expr="{$article.glyph} || 'file-text-o'" />
                             <Text bind="$article.title" />
                         </Link>
                     </Repeater>

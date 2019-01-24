@@ -23,15 +23,15 @@ class CController extends Controller {
 export const TabNav = <cx>
     <div controller={CController} class="csb-tabnav">
         <div class="cse-tabnav-tabs">
-            <Repeater records:bind="contents" recordName="$topic">
-                <Tab value:bind="activeTab" tab:bind="$topic.topic" text:bind="$topic.topic" mod="classic"></Tab>
+            <Repeater records-bind="contents" recordName="$topic">
+                <Tab value-bind="activeTab" tab-bind="$topic.topic" text-bind="$topic.topic" mod="classic"></Tab>
             </Repeater>
         </div>
         <div class="cse-tabnav-links">
-            <Repeater records:bind="contents" recordName="$topic">
-                <Repeater records:bind="$topic.articles" recordName="$page" visible:expr="{activeTab}=={$topic.topic}">
-                    <Link href:bind="$page.url" url:bind="url" mod="tabnav">
-                        <Glyph name:expr="{$page.glyph} || 'file-text-o'" />
+            <Repeater records-bind="contents" recordName="$topic">
+                <Repeater records-bind="$topic.articles" recordName="$page" visible-expr="{activeTab}=={$topic.topic}">
+                    <Link href-bind="$page.url" url-bind="url" mod="tabnav">
+                        <Glyph name-expr="{$page.glyph} || 'file-text-o'" />
                         <Text bind="$page.title" />
                     </Link>
                 </Repeater>

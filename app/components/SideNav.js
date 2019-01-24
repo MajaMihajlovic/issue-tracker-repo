@@ -32,7 +32,7 @@ const onItemClick = (e, {store}) => {
 export const SideNav = <cx>
     <List mod="sidenav"
           controller={CController}
-          records:bind="contents"
+          records-bind="contents"
           recordName="$topic"
           adapter={{type: TreeAdapter, childrenField: 'articles', expandedField: 'expanded'}}
           onItemClick={onItemClick}
@@ -40,7 +40,7 @@ export const SideNav = <cx>
               "cxs-selected": { expr: '{url}=={$topic.url}' }
           }}
     >
-        <div visible:expr="{$topic.$level} == 0" preserveWhitespace
+        <div visible-expr="{$topic.$level} == 0" preserveWhitespace
              class={{
                  "csb-sidenavtopic": true,
                  "css-expanded": {expr: "{$topic.expanded}"},
@@ -51,13 +51,13 @@ export const SideNav = <cx>
             <i class="csb-cssicon-arrowleft" style="float:right"></i>
         </div>
 
-        <Link visible:expr="{$topic.$level} > 0"
-              href:bind="$topic.url"
-              url:bind="url"
+        <Link visible-expr="{$topic.$level} > 0"
+              href-bind="$topic.url"
+              url-bind="url"
               match="prefix"
               mod="sidenav"
               tabIndex={-1}>
-            <Glyph name:expr="{$topic.glyph} || 'file-text-o'" />
+            <Glyph name-expr="{$topic.glyph} || 'file-text-o'" />
             <Text bind="$topic.title" />
         </Link>
 
