@@ -21,16 +21,16 @@ export default (
         <form class="sign-in-form" onSubmit="signIn" controller={Controller}>
           <ValidationGroup
             layout={LabelsLeftLayout}
-            invalid:bind="sign_in.invalid"
+            invalid-bind="sign_in.invalid"
           >
             <TextField
-              value:bind="sign_in.username"
+              value-bind="sign_in.username"
               label="Username"
               required
             />
 
             <TextField
-              value:bind="sign_in.password"
+              value-bind="sign_in.password"
               label="Repeated Password"
               inputType="password"
               required
@@ -42,25 +42,25 @@ export default (
               maxLengthValidationErrorText="Maximum allowed length is 16."
             />
             <TextField
-              value:bind="sign_in.confirmPassword"
+              value-bind="sign_in.confirmPassword"
               label="Confirm password"
               inputType="password"
               style="width: 100%"
               required
               //</main>validationRegExp={passwordValidationRegex}
               validationErrorText="Password must include at least 1 lowercase, 1 uppercase, 1 numeric, and one special character."
-              onValidate={v => {
-               // if (v != store.get('sign_in.password'))//kako dobiti store
-                 // return "Passwords must be the same.";
+              onValidate={(v, instance) => {
+                if (v != instance.store.get('sign_in.password'))
+                 return "Passwords must be the same.";
               }}
             />
             <TextField
-              value:bind="sign_in.fullname"
+              value-bind="sign_in.fullname"
               label="Full name"
               required={true}
             />
             <TextField
-              value:bind="sign_in.email"
+              value-bind="sign_in.email"
               label="Email"
               required={true}
               validationRegExp={emailValidationRegex}
@@ -71,17 +71,17 @@ export default (
               <div style="padding:5px 5px 5px 5px;">
                 <img
                   style=" border-radius:50px; height:100px; width:100px; position:relative;"
-                  src:expr="{sign_in.pictureUrl} || '~/app/assets/img/user_placeholder.png'"
+                  src-expr="{sign_in.pictureUrl} || '~/app/assets/img/user_placeholder.png'"
 alt="Person"
 />
               </div>
               <UploadButton
-                value:bind="sign_in.pictureUrl"
+                value-bind="sign_in.pictureUrl"
                 url="#"
                 onUploadStarting="onUploadStarting"
                 onUploadComplete="onUploadComplete"
                 onUploadError="onUploadError"
-                mode:bind="mode"
+                mode-bind="mode"
                 icon="upload"
               >
                 Upload
@@ -90,7 +90,7 @@ alt="Person"
             <div>
               <Button
                 mod="primary"
-                disabled:bind="sign_in.invalid"
+                disabled-bind="sign_in.invalid"
                 onClick="signIn"
               >
                 Register

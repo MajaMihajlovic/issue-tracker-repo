@@ -37,7 +37,6 @@ export default (
                 mod="primary"
                 disabled:bind="login.invalid"
                 onClick="login"
-                default
               >
                 Login
               </Button>

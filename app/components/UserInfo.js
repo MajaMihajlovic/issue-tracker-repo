@@ -6,6 +6,7 @@ import {Glyph} from 'app/components/Glyph';
 
 
 import {openSettingsWindow} from './SettingsWindow';
+import { openChangePasswordWindow } from './EditPasswordWindow';
 
 export const UserInfo = <cx>
     <Menu horizontal>
@@ -16,7 +17,7 @@ export const UserInfo = <cx>
 
             <Menu putInto="dropdown">
                 <a class="cxm-menu-pad" href="#" onClick={(e, {store}) => { openSettingsWindow(store); e.preventDefault(); }}>Edit profile</a>
-                <a class="cxm-menu-pad" href="#" onClick={(e, {store}) => { openSettingsWindow(store); e.preventDefault(); }}>Change password</a>
+                <a class="cxm-menu-pad" href="#" onClick={(e, {store}) => { openChangePasswordWindow(store); e.preventDefault(); }}>Change password</a>
 
                 <hr />
                 <Link mod="menu-pad" href="~/sign/out">Sign Out</Link>

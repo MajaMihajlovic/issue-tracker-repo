@@ -12,24 +12,24 @@ const SettingsWindow = <cx>
         <div style="width:450px;height:250px;padding: 20px" layout={LabelsLeftLayout}>
         <ValidationGroup
             layout={LabelsLeftLayout}
-            invalid:bind="user.invalid"
+            invalid-bind="user.invalid"
           >
           <div class="row">
           <section>
           <div layout={LabelsTopLayout} class="form-group">
             <TextField
-              value:bind="user.username"
+              value-bind="user.username"
               label="Username"
               required
             />
 </div>     <div layout={LabelsTopLayout} class="form-group">
             <TextField
-              value:bind="user.fullName"
+              value-bind="user.fullName"
               label="Full name"
               required={true}
             /></div>     <div layout={LabelsTopLayout} class="form-group">
             <TextField
-              value:bind="user.email"
+              value-bind="user.email"
               label="Email"
               validationRegExp={emailValidationRegex}
               validationErrorText="Please insert a valid email address."
@@ -42,20 +42,20 @@ const SettingsWindow = <cx>
               <div style="padding:5px 5px 5px 5px;">
                 <img
                   style=" border-radius:50px; height:100px; width:100px; position:relative;"
-                  src:expr=" '~/app/assets/img/user_placeholder.png'"
+                  src-expr=" '~/app/assets/img/user_placeholder.png'"
 alt="Person"
 /> 
               </div></div>
               <div layout={LabelsTopLayout} class="form-group" >
 
               <UploadButton
-                value:bind="user.photo"
+                value-bind="user.photo"
                 url="#"
                 style="position:center"
                 onUploadStarting="onUploadStarting"
                 onUploadComplete="onUploadComplete"
                 onUploadError="onUploadError"
-                mode:bind="mode"
+                mode-bind="mode"
                 icon="upload"
               >
                 Upload
@@ -66,16 +66,15 @@ alt="Person"
         </div>
         <div putInto="footer" style="text-align: right">
             <Button style="margin:5px 15px 0px 15px" onClick={(e, instance) => { instance.parentOptions.dismiss() }}>Cancel</Button>
-            <Button  onClick={async(e, {store}) => {
+            <Button  onClick={async(e, instance) => {
         console.log(store.get('user.id'));
       
         try{
-            var result= await PUT("user/"+store.get('user.id'), store.get('user'), null);
-            console.log(result)
+            var result= await PUT("user/"+instance.store.get('user.id'), instance.store.get('user'), null);
             if(result!="Success"){
               showErrorToast(result);}
               else{
-                dismiss()
+                instance.parentOptions.dismiss();
               }
             }catch (e) {
               showErrorToast(e);
