@@ -4,7 +4,7 @@ import { updateArray } from 'cx/data';
 
 
 import NavTree from './NavTree';
-import {Glyph} from 'app/components/Glyph';
+import { Glyph } from 'app/components/Glyph';
 
 class CController extends Controller {
     init() {
@@ -14,29 +14,29 @@ class CController extends Controller {
         this.addTrigger('active-topic-expand', ['url'], (url) => {
             this.store.update('contents', updateArray, t => ({
                 ...t,
-                active: t.articles.some(x=>url.indexOf(x.url) == 0)
-            }), t=>t.active != t.articles.some(x=>url.indexOf(x.url) == 0))
+                active: t.articles.some(x => url.indexOf(x.url) == 0)
+            }), t => t.active != t.articles.some(x => url.indexOf(x.url) == 0))
         }, true);
     }
 }
 
 export const MenuNav = <cx>
     <Menu mod="menunav"
-          horizontal
-          controller={CController}>
+        horizontal
+        controller={CController}>
 
         <Repeater records-bind="contents" recordName="$topic">
             <Submenu mod="menunav"
-                     class={{
-                "cxs-active": { bind: "$topic.active" }
-            }}>
+                class={{
+                    "cxs-active": { bind: "$topic.active" }
+                }}>
                 <Text bind="$topic.topic" />
                 <Menu putInto="dropdown">
                     <Repeater records-bind="$topic.articles" recordName="$article">
                         <Link href-bind="$article.url"
-                              mod="menunav"
-                              url-bind="url">
-                            <Glyph name-expr="{$article.glyph} || 'file-text-o'" />
+                            mod="menunav"
+                            url-bind="url">
+                            <Glyph name-expr="{$article.glyph} || 'file-alt'" />
                             <Text bind="$article.title" />
                         </Link>
                     </Repeater>

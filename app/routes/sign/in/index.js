@@ -10,8 +10,8 @@ import {
 } from "cx/widgets";
 import Controller from "./Controller";
 import { emailValidationRegex, passwordValidationRegex } from "../../../util/validation";
-enableTooltips();
 
+enableTooltips();
 
 export default (
   <cx>

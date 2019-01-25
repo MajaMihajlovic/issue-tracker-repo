@@ -1,5 +1,4 @@
 import { Controller, History, Url } from "cx/ui";
-import { POST } from "../../../api/methods";
 import { toast, showErrorToast } from "../../../components/toasts";
 
 export default class extends Controller {

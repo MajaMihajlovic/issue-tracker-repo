@@ -1,7 +1,8 @@
-import { HtmlElement, Text, Link, Route, Repeater, Overlay, Label } from 'cx/widgets';
+import { Text, Link, Repeater } from 'cx/widgets';
 import { FirstVisibleChildLayout } from 'cx/ui';
 import Controller from './Controller';
 import "./index.scss"
+
 export default <cx>
     <main controller={Controller} class="b-list">
         <div putInto="header">

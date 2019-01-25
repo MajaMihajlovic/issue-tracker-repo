@@ -1,9 +1,6 @@
-import { HtmlElement, Menu, Link, Text, Submenu } from 'cx/widgets';
+import { Menu, Link, Text, Submenu } from 'cx/widgets';
 
 import { Glyph } from 'app/components/Glyph';
-
-
-
 
 import { openSettingsWindow } from './SettingsWindow';
 import { openChangePasswordWindow } from './EditPasswordWindow';

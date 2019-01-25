@@ -1,7 +1,5 @@
 import { Url, History } from "cx/ui";
 
-
-
 let restApiUrl = "http://localhost:8080/api/";
 
 export async function checkOk(r, requestType = "normal") {
@@ -24,7 +22,6 @@ export async function checkOk(r, requestType = "normal") {
     } catch (e) { }
 
     if (data) {
-      //  throw getErrorWithDetails(data);
     }
 
     let errorMsg = r.headers.get("error");
@@ -45,8 +42,6 @@ export function resolveAPIUrl(path, query) {
 }
 
 const defaultOptions = {};
-
-
 
 export function GET(url, hints) {
   return doFetch(
@@ -77,7 +72,6 @@ export async function doFetch(path, opt = {}, hints = {}) {
   }
 }
 
-
 export function POST(url, data, hints) {
   return doFetch(url, {
     ...defaultOptions,
@@ -88,8 +82,8 @@ export function POST(url, data, hints) {
     },
     body: JSON.stringify(data, null, 2)
   }, hints)
-  .then(x => x.text());
-  
+    .then(x => x.text());
+
 }
 
 export async function login(data, store) {
@@ -103,9 +97,10 @@ export async function login(data, store) {
     body: JSON.stringify(data, null, 2)
   })
     .then(x => {
-      try{
-    return x.json();
-    }catch(e){return x;}    })
+      try {
+        return x.json();
+      } catch (e) { return x; }
+    })
     .catch(err => {
       console.log("error")
       throw new Error('Failed to login. Please check if you entered valid username and password.');
@@ -115,7 +110,7 @@ export async function login(data, store) {
     user.displayName = user.username;
     store.set("user", user);
     var returnUrl = store.get("$route.returnUrl");
-    History.pushState({}, null, Url.resolve( "~/"));
+    History.pushState({}, null, Url.resolve("~/"));
   }
 }
 

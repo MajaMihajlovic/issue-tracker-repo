@@ -1,11 +1,9 @@
-import { Controller, History, Url } from 'cx/ui';
+import { Controller } from 'cx/ui';
 import { showErrorToast, toast } from '../../../components/toasts';
 import { POST } from '../../../api/methods';
 import { enableTooltips } from 'cx/widgets';
 
 enableTooltips();
-
-
 
 export default class extends Controller {
   init() {

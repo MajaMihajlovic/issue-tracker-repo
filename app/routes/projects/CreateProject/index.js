@@ -1,19 +1,11 @@
 import {
-    HtmlElement,
-    Section,
-    NumberField,
     Button,
-    DateField,
-    LookupField,
     TextField,
-    PureContainer,
     ValidationGroup,
-    Icon,
     FlexRow,
-    Repeater,
     FlexCol, Link
 } from 'cx/widgets';
-import { bind, expr, computable, tpl, LabelsTopLayout, FirstVisibleChildLayout, LabelsLeftLayout } from 'cx/ui';
+import { LabelsLeftLayout } from 'cx/ui';
 
 import Controller from './Controller';
 import "./index.scss"

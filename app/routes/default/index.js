@@ -49,10 +49,11 @@ export default (
         <div putInto="header">
           <ul class="csb-breadcrumb">
             <li class="cse-breadcrumb-item">
-              <Link href="~/">Home</Link>
+              <Link href="~/">Dashboard</Link>
             </li>
           </ul>
         </div>
+        <p> Ovdje ce biti grafici...</p>
       </main>
     </div >
   </cx >
