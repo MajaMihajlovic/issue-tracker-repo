@@ -8,6 +8,7 @@ export default class extends Controller {
         super.init();
         this.store.delete('user');
         sessionStorage.removeItem('user');
+        localStorage.removeItem('user');
         History.pushState({}, null, Url.resolve('~/'));
     }
 }

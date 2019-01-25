@@ -1,18 +1,14 @@
 import { Route, RedirectRoute, PureContainer, Sandbox, HtmlElement } from 'cx/widgets';
 import { FirstVisibleChildLayout } from 'cx/ui';
 
-import {applyOuterLayout} from 'app/layouts/dynamicLayout';
-import {MessageLayout} from 'app/layouts/MessageLayout';
-import {PageNotFound} from './PageNotFound';
+import { applyOuterLayout } from 'app/layouts/dynamicLayout';
+import { MessageLayout } from 'app/layouts/MessageLayout';
+import { PageNotFound } from './PageNotFound';
 
 import SignRoutes from './sign';
 import ProjectRoutes from './projects';
-import LayoutRoutes from './layouts';
 import DashboardRoutes from './dashboards';
-import AdminRoutes from './admin';
-
 import Default from './default';
-import MetaRoutes from './meta';
 
 export default <cx>
     <Sandbox key-bind="url"
@@ -25,19 +21,16 @@ export default <cx>
 
         <PureContainer visible-expr="!!{user}" layout={FirstVisibleChildLayout} onExplore={applyOuterLayout}>
             {/*signed in routes*/}
-            <Route route="~/" url-bind="url" items={Default}/>
+            <Route route="~/" url-bind="url" items={Default} />
             <ProjectRoutes />
-            <AdminRoutes />
-            <LayoutRoutes/>
             <DashboardRoutes />
-            <MetaRoutes />
             <PageNotFound />
         </PureContainer>
 
         <Route route="~/" url-bind="url" items={Default} />
 
-        <RedirectRoute route="~/(*splat)" url-bind="url" redirect-tpl="~/sign/in"/>
+        <RedirectRoute route="~/(*splat)" url-bind="url" redirect-tpl="~/" />
 
-        <PageNotFound outerLayout={MessageLayout}/>
+        <PageNotFound outerLayout={MessageLayout} />
     </Sandbox>
 </cx>

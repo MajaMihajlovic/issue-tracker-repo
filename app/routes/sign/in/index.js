@@ -50,7 +50,7 @@ export default (
               validationErrorText="Password must include at least 1 lowercase, 1 uppercase, 1 numeric, and one special character."
               onValidate={(v, instance) => {
                 if (v != instance.store.get('sign_in.password'))
-                 return "Passwords must be the same.";
+                  return "Passwords must be the same.";
               }}
             />
             <TextField
@@ -71,8 +71,8 @@ export default (
                 <img
                   style=" border-radius:50px; height:100px; width:100px; position:relative;"
                   src-expr="{sign_in.pictureUrl} || '~/app/assets/img/user_placeholder.png'"
-alt="Person"
-/>
+                  alt="Person"
+                />
               </div>
               <UploadButton
                 value-bind="sign_in.pictureUrl"
@@ -81,15 +81,15 @@ alt="Person"
                 onUploadComplete="onUploadComplete"
                 onUploadError="onUploadError"
                 mode-bind="mode"
-                icon="fa-upload"
+                style="width:72px"
               >
-                Upload
+                Browse
               </UploadButton>
             </LabeledContainer>
             <div>
               <Button
                 mod="primary"
-                style="padding: 5px 10px; margin: 10px; width:72px"
+                style="padding: 5px 10px; margin-right: 10px; width:72px"
                 onClick="cancel"
               >
                 Back
