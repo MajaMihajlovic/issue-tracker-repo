@@ -9,7 +9,7 @@ export const UserInfo = <cx>
     <Menu horizontal>
         <Submenu>
             <a preserveWhitespace class="csb-user">
-                <Glyph name="user" /> <Text bind="user.fullName" />
+                <Glyph name="user" /> <Text bind="user.username" />
             </a>
 
             <Menu putInto="dropdown">

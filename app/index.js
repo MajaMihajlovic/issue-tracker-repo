@@ -13,7 +13,7 @@ if (module.hot) {
   module.hot.accept();
 
   // remember data on dispose
-  module.hot.dispose(function(data) {
+  module.hot.dispose(function (data) {
     data.state = store.getData();
     if (stop) stop();
   });
@@ -30,5 +30,13 @@ History.connect(
 Widget.resetCounter();
 Timing.enable("app-loop");
 Debug.enable("app-data");
+
+let u = localStorage.getItem('user');
+if (u) {
+  let user = JSON.parse(u);
+  store.set('user', {
+    username: user.username
+  });
+}
 
 stop = startAppLoop(document.getElementById("app"), store, Routes);

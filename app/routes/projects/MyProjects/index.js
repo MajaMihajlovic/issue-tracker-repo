@@ -62,7 +62,7 @@ export default <cx>
                         <Link href-tpl="~/emp/{$person.id}">
                             <u text-tpl="Issues" />
                         </Link>
-                    
+
                     </div>
                 </div>
             </Repeater>

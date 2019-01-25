@@ -6,6 +6,7 @@ import { MessageLayout } from 'app/layouts/MessageLayout';
 import { PageNotFound } from './PageNotFound';
 
 import SignRoutes from './sign';
+import IssueRoutes from './issues';
 import ProjectRoutes from './projects';
 import DashboardRoutes from './dashboards';
 import Default from './default';
@@ -23,6 +24,7 @@ export default <cx>
             {/*signed in routes*/}
             <Route route="~/" url-bind="url" items={Default} />
             <ProjectRoutes />
+            <IssueRoutes />
             <DashboardRoutes />
             <PageNotFound />
         </PureContainer>
