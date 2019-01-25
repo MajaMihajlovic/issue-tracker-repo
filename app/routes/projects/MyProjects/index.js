@@ -1,4 +1,4 @@
-import { Text, Link, Repeater } from 'cx/widgets';
+import { Text, Link, Repeater, MenuItem, Menu, Submenu, openContextMenu } from 'cx/widgets';
 import { FirstVisibleChildLayout } from 'cx/ui';
 import Controller from './Controller';
 import "./index.scss"
@@ -34,7 +34,12 @@ export default <cx>
                 recordName="$project"
                 idField="id"
             >
-                <div class="b-card">
+                <div class="b-card" onContextMenu={(e, { store }) => openContextMenu(e, <cx>
+                    <Menu>
+                        <a style="padding-left:10px" href="#"><i style="padding-right:5px" class="fas fa-trash-alt"></i>  Close</a>
+                        <a style="padding-left:10px" href="#"><i style="padding-right:5px" class="fas fa-pencil-alt" />  Edit</a>
+                    </Menu>
+                </cx>, store)}>
                     <div class="e-card-img">
                         <figure>
                         </figure>
@@ -57,7 +62,7 @@ export default <cx>
                         <Link href-tpl="~/emp/{$person.id}">
                             <u text-tpl="Issues" />
                         </Link>
-
+                    
                     </div>
                 </div>
             </Repeater>

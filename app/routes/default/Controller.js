@@ -16,11 +16,11 @@ export default class extends Controller {
 
     try {
       await login(userInfo, this.store);
-      if (this.store.get('login.rememberMe')) {
+
+      sessionStorage.setItem('user', userInfo);
+      if (this.store.get('login.rememberMe'))
         localStorage.setItem('user', userInfo);
-      } else {
-        sessionStorage.setItem('user', userInfo);
-      }
+
       this.store.delete('login');
     }
     catch (e) {

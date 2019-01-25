@@ -9,7 +9,7 @@ const SettingsWindow = <cx>
     <div putInto="header">
       Edit Profile
         </div>
-    <div style="width:450px;height:250px;padding: 20px" layout={LabelsLeftLayout}>
+    <div style="width:430px;height:230px;padding: 10px" layout={LabelsLeftLayout}>
       <ValidationGroup
         layout={LabelsLeftLayout}
         invalid-bind="user.invalid"
