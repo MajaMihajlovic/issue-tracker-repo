@@ -19,7 +19,15 @@
   padding: 1rem;
   color: gray;
 }
+.b-card:active{
+border: #3949AB;
 
+}
+
+.b-card:hover{
+  border-color: #0994f033;
+  background-color:#0994f01a;
+}
 .b-card {
   //float: left;
   margin: 0.5rem;

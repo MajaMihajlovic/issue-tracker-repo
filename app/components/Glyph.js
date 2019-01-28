@@ -1,7 +1,6 @@
 import { Widget, VDOM, CSS } from 'cx/ui';
 
-export class Glyph extends Widget
-{
+export class Glyph extends Widget {
     declareData() {
         super.declareData(...arguments, {
             name: undefined
@@ -9,11 +8,11 @@ export class Glyph extends Widget
     }
 
     render(context, instance, key) {
-        var {data} = instance;
+        var { data } = instance;
         return <i key={key}
-                  className={CSS.expand(data.classNames, `fa fa-${data.name}`)}
-                  style={data.style}
-                  aria-hidden="true"/>;
+            className={CSS.expand(data.classNames, `fa fa-${data.name}`)}
+            style={data.style}
+            aria-hidden="true" />;
     }
 }
 

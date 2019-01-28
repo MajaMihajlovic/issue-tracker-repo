@@ -3,7 +3,7 @@ import {
     TextField,
     ValidationGroup,
     FlexRow,
-    FlexCol, Link
+    FlexCol, Link, UploadButton
 } from 'cx/widgets';
 import { LabelsLeftLayout } from 'cx/ui';
 
@@ -45,7 +45,6 @@ export default <cx>
                             label="Photo URL"
                             style="width: 100%; max-width: 750px"
                         />
-
                         <br />
                         <FlexRow spacing>
                             <Button

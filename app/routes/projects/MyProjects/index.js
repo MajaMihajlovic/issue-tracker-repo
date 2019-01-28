@@ -1,5 +1,5 @@
 import { Text, Link, Repeater, MenuItem, Menu, Submenu, openContextMenu } from 'cx/widgets';
-import { FirstVisibleChildLayout } from 'cx/ui';
+import { FirstVisibleChildLayout, PropertySelection } from 'cx/ui';
 import Controller from './Controller';
 import "./index.scss"
 
@@ -40,11 +40,10 @@ export default <cx>
                         <a style="padding-left:10px" href="#"><i style="padding-right:5px" class="fas fa-pencil-alt" />  Edit</a>
                     </Menu>
                 </cx>, store)}>
-                    <div class="e-card-img">
-                        <figure>
+                    <div class="e-card-img" >
+                        <figure >
                         </figure>
                         <img
-
                             src-expr="{$project.photoUrl} || '~/app/assets/img/projectManagement.jpg'"
                             alt="Project photo"
                         />
