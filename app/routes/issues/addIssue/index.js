@@ -19,107 +19,106 @@ export default <cx>
                 </li>
             </ul>
         </div>
-        <FlexRow style="padding:30px">
-            <FlexCol style="width:600px; padding-right:30px">
-                <LookupField
-                    label="Project"
-                    value-bind="selectedProjectId"
-                    text-bind="selectedProjectName"
-                    options-bind="projects"
-                    value="selectedProjectName"
-                />
-                <TextField
-                    value-bind="issue.title"
-                    label="Summary"
-                    style="width: 100%; max-width: 950px"
-                    asterisk
-                    required
-                />
-                <TextArea
-                    value-bind="issue.description"
-                    label="Description"
-                    style="width: 100%; max-width: 950px"
-                    rows={10}
-                />
-
-                <br />
-                <div layout={LabelsLeftLayout} style="margin-left:10px">
-                    <UploadButton
-                        value-bind="issue.attachments"
-                        url="#"
-                        onUploadStarting="onUploadStarting"
-                        onUploadComplete="onUploadComplete"
-                        onUploadError="onUploadError"
-                        mode-bind="mode"
-                        label="Attachments"
-                        style="width:33px; border-radius:25%">
-                        <Glyph name-expr="{$topic.glyph} || 'plus'" />
-                    </UploadButton>
-                </div>
-                <Repeater
-                    records-bind='issue.attachments'
-                    recordAlias="$file"
-                >
-                    <FlexRow>
-                        <div class="attachment" text-bind="$file.text" /><div class="button" onClick={(e, { store }) => {
-                            MsgBox.yesNo("Are you sure you want to delete this attachment").then((btn) => {
-                                if (btn == 'yes') {
-                                    var record = store.get("$file");
-                                    console.log(store.get("issue.attachments"));
-                                    store.update('issue.attachments', records => records.filter(r => r != record))
-                                }
-                            });
-                        }}
-
-                        ></div></FlexRow>
-                </Repeater>
-
-                <br />
-                <FlexRow spacing>
-                    <Button
-                        onClick="back"
-                        text="Back"
+        <ValidationGroup layout={LabelsLeftLayout} invalid-bind="issue.invalid">
+            <FlexRow style="padding:30px">
+                <FlexCol style="width:600px; padding-right:30px">
+                    <LookupField
+                        label="Project"
+                        value-bind="selectedProjectId"
+                        text-bind="selectedProjectName"
+                        options-bind="projects"
                     />
-                    <Button
-                        mod="primary"
-                        onClick="save"
-                        text="Add"
-                        disabled-bind="issue.invalid"
-                        mod="primary"
+                    <TextField
+                        value-bind="issue.title"
+                        label="Summary"
+                        style="width: 100%; max-width: 950px"
+                        asterisk
+                        required
+                    />
+                    <TextArea
+                        value-bind="issue.description"
+                        label="Description"
+                        style="width: 100%; max-width: 950px"
+                        rows={10}
+                        required
+                        asterisk
                     />
 
-                </FlexRow></FlexCol>
-            <ValidationGroup layout={LabelsLeftLayout} invalid-bind="issue.invalid">
+                    <br />
+                    <div layout={LabelsLeftLayout} >
+                        <UploadButton
+                            value-bind="issue.attachments"
+                            url="#"
+                            onUploadStarting="onUploadStarting"
+                            onUploadComplete="onUploadComplete"
+                            onUploadError="onUploadError"
+                            mode-bind="mode"
+                            label="Attachments"
+                            style="width:33px; border-radius:25%">
+                            <Glyph name-expr="{$topic.glyph} || 'plus'" />
+                        </UploadButton>
+                    </div>
+                    <Repeater
+                        records-bind='issue.attachments'
+                        recordAlias="$file"
+                    >
+                        <FlexRow>
+                            <div class="attachment" text-bind="$file.text" /><div class="button" onClick={(e, { store }) => {
+                                MsgBox.yesNo("Are you sure you want to delete this attachment").then((btn) => {
+                                    if (btn == 'yes') {
+                                        var record = store.get("$file");
+                                        console.log(store.get("issue.attachments"));
+                                        store.update('issue.attachments', records => records.filter(r => r != record))
+                                    }
+                                });
+                            }}
+
+                            ></div></FlexRow>
+                    </Repeater>
+
+                    <br />
+                    <FlexRow spacing>
+
+                        <Button
+                            mod="primary"
+                            onClick="save"
+                            text="Add"
+                            disabled-bind="issue.invalid"
+                            mod="primary"
+                        />
+
+                    </FlexRow></FlexCol>
+
                 <div class="project" style="width:385px"><Section>
                     <h3 style="margin:10px 10px">Project <span text-bind="selectedProjectName" /></h3>
                     <FlexCol>
                         <div layout={LabelsLeftLayout}>
                             <LookupField
                                 label="Priority"
-                                value-bind="selectedPrioriyId"
+                                value-bind="selectedPriorityId"
                                 text-bind="selectedPriorityName"
                                 options-bind="priorities"
-                                value="selectedPriorityName"
+                                multiple={false}
                             />
                             <LookupField
                                 label="Type"
                                 value-bind="selectedTypeId"
                                 text-bind="selectedTypeName"
                                 options-bind="types"
-                                value="selectedTypeName"
+                                multiple={false}
                             /> <LookupField
                                 label="State"
                                 value-bind="selectedStateId"
                                 text-bind="selectedStateName"
                                 options-bind="states"
-                                value="selectedStateName"
+                                multiple={false}
                             />
                             <LookupField
                                 label="Assignee"
                                 value-bind="selectedAssigneeId"
                                 text-bind="selectedAssigneeName"
                                 options-bind="asignees"
-                                value="selectedAssigneeName"
+                                multiple={false}
                             />
                             <LookupField
                                 label="Version"
@@ -130,12 +129,13 @@ export default <cx>
                             />
                             <DateField label="Due date"
                                 minValue={new Date()}
-                                value-bind="issue.duedate" />
+                                value-bind="issue.duedate"
+                                required />
                         </div>
                         <br />
                     </FlexCol>
                 </Section></div>
-            </ValidationGroup>
-        </FlexRow>
+            </FlexRow>
+        </ValidationGroup>
     </main>
 </cx >

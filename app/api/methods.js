@@ -105,13 +105,8 @@ export async function login(data, store) {
       console.log("error")
       throw new Error('Failed to login. Please check if you entered valid username and password.');
     });
-  if (user != null) {
-    sessionStorage.setItem("user", user);
-    user.displayName = user.username;
-    store.set("user", user);
-    var returnUrl = store.get("$route.returnUrl");
-    History.pushState({}, null, Url.resolve("~/"));
-  }
+
+  return user;
 }
 
 export function PUT(url, data, hints) {
