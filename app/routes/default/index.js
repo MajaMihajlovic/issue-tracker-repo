@@ -36,7 +36,7 @@ export default (
                 class="login-btn"
                 mod="primary"
                 disabled-bind="login.invalid"
-                onClick="login"
+                submit
               >
                 Login
               </Button>

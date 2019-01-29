@@ -10,7 +10,8 @@ export default class extends Controller {
     History.pushState({}, null, Url.resolve(returnUrl || "~/sign/in"));
   }
 
-  async login() {
+  async login(e) {
+    e.preventDefault();
     var userInfo = {
       username: this.store.get("login.username"),
       password: this.store.get("login.password")
