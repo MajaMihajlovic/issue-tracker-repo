@@ -50,7 +50,7 @@ export default <cx>
                     </div>
 
                     <div class="e-card-details">
-                        <Link href-tpl="~/emp/{$person.id}">
+                        <Link href-tpl="~/issue/project/{$project.id}">
                             <h3 text-tpl="{$project.name}" />
                         </Link>
 
@@ -58,7 +58,7 @@ export default <cx>
                             <i class="fa fa-newspaper"></i>
                             <Text bind="$project.description" />
                         </div>
-                        <Link href-tpl="~/emp/{$person.id}">
+                        <Link href-tpl="~/issue/project/{$project.id}">
                             <u text-tpl="Issues" />
                         </Link>
 

@@ -6,13 +6,14 @@ import {
     FlexCol, Link, DateField, UploadButton, Repeater, MsgBox, Grid, Pagination, Select, DateTimeField
 } from 'cx/widgets';
 import Controller from './Controller';
-import "./index.scss"
+import "../assignedToMe/index.scss"
+
 export default <cx>
     <main controller={Controller} >
         <div putInto="header">
             <ul class="csb-breadcrumb">
                 <li class="cse-breadcrumb-item">
-                    <Link href="~/issues/">Issues</Link>
+                    <Link href="~/issues/project">Issues</Link>
                 </li>
             </ul>
         </div>

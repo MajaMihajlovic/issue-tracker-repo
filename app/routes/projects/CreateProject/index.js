@@ -3,7 +3,7 @@ import {
     TextField,
     ValidationGroup,
     FlexRow,
-    FlexCol, Link, UploadButton
+    FlexCol, Link, UploadButton, LookupField, TextArea
 } from 'cx/widgets';
 import { LabelsLeftLayout } from 'cx/ui';
 
@@ -20,9 +20,6 @@ export default <cx>
             </ul>
         </div>
         <FlexRow>
-            <figure>
-                <img style="width:200px; heigth:200px; object-fit: cover" src-expr="{new_project.pictureUrl} || 'http://placehold.it/200x200'" alt="Photo" />
-            </figure>
             <ValidationGroup layout={LabelsLeftLayout} invalid-bind="new_project.invalid">
                 <form>
                     <FlexCol style="width:600px">
@@ -45,7 +42,14 @@ export default <cx>
                             label="Photo URL"
                             style="width: 100%; max-width: 750px"
                         />
-                        <br />
+                         <LookupField
+                        label="Users"
+                        value-bind="selectedUserId"
+                        text-bind="selectedUserName"
+                        options-bind="users"
+                        style="width: 100%; max-width: 750px"
+                    />
+                        <hr />
                         <FlexRow spacing>
                             <Button
                                 onClick="back"
@@ -60,10 +64,12 @@ export default <cx>
                                 mod="primary"
                             />
                         </FlexRow>
-
                     </FlexCol>
                 </form>
             </ValidationGroup>
+            <figure>
+                <img style="width:200px; heigth:200px; object-fit: cover" src-expr="{new_project.pictureUrl} || 'http://placehold.it/200x200'" alt="Photo" />
+            </figure>
         </FlexRow>
     </main>
 </cx>

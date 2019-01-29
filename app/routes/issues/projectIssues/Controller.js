@@ -1,17 +1,16 @@
 import { GET } from "../../../api/methods";
 import { Controller } from "cx/ui";
+
+
+
 export default class extends Controller {
     async init() {
         super.init();
-        var user;
-        if ((user = sessionStorage.getItem('user')) == undefined) {
-            user = localStorage.getItem('user')
-        }
-        var id = JSON.parse(user).id;
-        var dataSet = await GET("issue/getAll/" + id);
+        var dataSet = await GET("issue/getAllByProject/" + this.store.get('$route.id'));
+        this.store.init("$page.page", 1);
         this.store.init("$page.pageSize", 10);
-        this.store.init("$page.filter", { type: null, title: null, state: null, priority: null, project: null, version: null });
-        this.store.set("$page.pageSize", 5); this.store.set("$page.pageCount", 1);
+        this.store.init("$page.filter", { type: null, title: null, state: null, project: null, priority: null, version: null });
+
         this.addTrigger(
             "page",
             ["$page.pageSize", "$page.sorters", "$page.filter"],
