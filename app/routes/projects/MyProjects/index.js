@@ -16,7 +16,7 @@ export default <cx>
         <Section mod="card">
             <FlexRow spacing>
                 <TextField
-                    value-bind="$page.search"
+                    value-bind="search.query"
                     placeholder="Search..."
                     style="font-size:30px; width: 100%; max-width: 720px; height:35px"
                     icon="search"
