@@ -117,11 +117,11 @@ export default <cx>
                                 label="Assignee"
                                 value-bind="selectedAssigneeId"
                                 text-bind="selectedAssigneeName"
-                                options-bind="asignees"
+                                options-bind="assignees"
                                 multiple={false}
                             />
                             <LookupField
-                                label="Version"
+                                label="Subsystem"
                                 value-bind="selectedVersionId"
                                 text-bind="selectedVersionName"
                                 options-bind="versions"

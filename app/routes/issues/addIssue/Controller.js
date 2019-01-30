@@ -14,6 +14,11 @@ export default class extends Controller {
         this.store.set('selectedTypeId', projectTypes[0].id);
         this.store.set('types', projectTypes);
 
+        var projectVersions = await getData("version");
+        this.store.set('selectedVersionName', projectVersions[0].text);
+        this.store.set('selectedVersionId', projectVersions[0].id);
+        this.store.set('versions', projectVersions);
+
         var projectPriorities = await getData("priority");
         this.store.set('selectedPriorityName', projectPriorities[0].text);
         this.store.set('selectedPriorityId', projectPriorities[0].id);
@@ -23,6 +28,20 @@ export default class extends Controller {
         this.store.set('selectedStateName', projectStates[0].text);
         this.store.set('selectedStateId', projectStates[0].id);
         this.store.set('states', projectStates);
+
+
+        this.addTrigger("selectedProjectId", ["selectedProjectId"], async selectedProjectId => {
+            var result = await GET("user/getParticipants/" + selectedProjectId);
+            var newResult = [];
+            result.forEach(element => {
+                newResult.push({
+                    id: element.id,
+                    text: element.fullName
+                });
+            })
+            this.store.set('assignees', newResult);
+            console.log(result);
+        });
     }
     onUploadStarting(xhr, instance, file) {
         console.log(file)
@@ -51,6 +70,11 @@ export default class extends Controller {
     }
 
     async  save() {
+        var user;
+        if ((user = sessionStorage.getItem('user')) == undefined) {
+            user = localStorage.getItem('user')
+        }
+        console.log(JSON.parse(user).id);
         var issue = {
             title: this.store.get('issue.title'),
             description: this.store.get('issue.description'),
@@ -59,9 +83,9 @@ export default class extends Controller {
             duedate: this.store.get('issue.duedate'),
             createdDate: new Date(),
             typeId: this.store.get('selectedTypeId'),
-            reporterId: this.store.get('user.id'),
-            assigneeId: 1,
-            versionId: 1,
+            reporterId: JSON.parse(user).id,
+            assigneeId: this.store.get('selectedAssigneeId'),
+            versionId: this.store.get('selectedVersionId'),
             projectId: this.store.get('selectedProjectId')
         }
         console.log(issue);
@@ -69,6 +93,9 @@ export default class extends Controller {
             await POST("issue/insert", issue);
             toast("Issue submitted succesfully. Assignee will receive an email notification.");
             this.store.delete('issue')
+            this.store.delete('selectedAssigneeId');
+            this.store.delete('selectedAssigneeName');
+
         } catch (e) {
             showErrorToast(e);
         }

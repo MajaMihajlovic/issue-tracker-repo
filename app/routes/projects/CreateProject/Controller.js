@@ -21,7 +21,7 @@ export default class extends Controller {
     var project = {
       name: this.store.get("new_project.name"),
       description: this.store.get("new_project.description"),
-      photoUrl: this.store.get("new_project.pictureUrl"),
+      photoUrl: this.store.get("new_project.photoUrl"),
     };
     let body = {
       project: project,

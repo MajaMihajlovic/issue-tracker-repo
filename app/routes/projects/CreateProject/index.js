@@ -40,7 +40,7 @@ export default <cx>
     </div>
     <FlexRow>
       <figure>
-        <img style="width:200px; heigth:200px; object-fit: cover" src-expr="{new_project.pictureUrl} || 'http://placehold.it/200x200'" alt="Photo" />
+        <img style="width:200px; heigth:200px; object-fit: cover" src-expr="{new_project.photoUrl} || 'http://placehold.it/200x200'" alt="Photo" />
       </figure>
       <ValidationGroup layout={LabelsLeftLayout} invalid-bind="new_project.invalid">
         <form>
@@ -60,7 +60,7 @@ export default <cx>
               required
             />
             <TextField
-              value-bind="new_project.pictureUrl"
+              value-bind="new_project.photoUrl"
               label="Photo URL"
               style="width: 100%; max-width: 750px"
             />
@@ -181,7 +181,7 @@ export default <cx>
               <Button
                 mod="primary"
                 onClick="save"
-                text="Add"
+                text="Save"
                 disabled-bind="new_project.invalid"
                 mod="primary"
               />
