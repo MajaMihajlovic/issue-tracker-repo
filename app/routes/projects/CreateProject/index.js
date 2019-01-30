@@ -176,7 +176,6 @@ export default <cx>
               <Button
                 onClick="back"
                 text="Back"
-                style="align:right"
               />
 
               <Button

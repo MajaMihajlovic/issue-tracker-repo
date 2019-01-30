@@ -36,7 +36,7 @@ export default <cx>
                 <div class="b-card" onContextMenu={(e, { store }) => openContextMenu(e, <cx>
                     <Menu controller={Controller}>
                         <a style="padding-left:10px" onClick="finish" href="#"><i style="padding-right:5px" class="fas fa-trash-alt"></i>  Mark as finished</a>
-                        <a style="padding-left:10px" href="#"><i style="padding-right:5px" class="fas fa-pencil-alt" />  Edit</a>
+                        <a style="padding-left:10px" onClick="edit" href="#"><i style="padding-right:5px" class="fas fa-pencil-alt" />  Edit</a>
                     </Menu>
                 </cx>, store)}>
                     <div class="e-card-img" >
