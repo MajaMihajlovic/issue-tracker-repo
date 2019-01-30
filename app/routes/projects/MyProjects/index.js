@@ -26,7 +26,6 @@ export default <cx>
                 class="e-cards-empty"
                 visible-expr="!{list.data} || {list.data}.length == 0"
             >
-                No records found matching the given search criteria.
             </div>
 
             <Repeater
@@ -35,8 +34,8 @@ export default <cx>
                 idField="id"
             >
                 <div class="b-card" onContextMenu={(e, { store }) => openContextMenu(e, <cx>
-                    <Menu>
-                        <a style="padding-left:10px" href="#"><i style="padding-right:5px" class="fas fa-trash-alt"></i>  Close</a>
+                    <Menu controller={Controller}>
+                        <a style="padding-left:10px" onClick="finish" href="#"><i style="padding-right:5px" class="fas fa-trash-alt"></i>  Mark as finished</a>
                         <a style="padding-left:10px" href="#"><i style="padding-right:5px" class="fas fa-pencil-alt" />  Edit</a>
                     </Menu>
                 </cx>, store)}>

@@ -8,4 +8,11 @@ export default class extends Controller {
         this.store.set('list.data', result);
         this.store.set('list.loading', false);
     }
+
+    async finish() {
+
+        var result = await GET("project/finish/" + this.store.get('$project.id'), null, 'text');
+        var result = await GET("project/");
+        this.store.set('list.data', result);
+    }
 };

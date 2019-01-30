@@ -43,7 +43,7 @@ export function resolveAPIUrl(path, query) {
 
 const defaultOptions = {};
 
-export function GET(url, hints) {
+export function GET(url, hints, text) {
   return doFetch(
     url,
     {
@@ -53,8 +53,14 @@ export function GET(url, hints) {
       }
     },
     hints
-  ).then(x => x.json());
+  ).then(x => {
+    try {
+      if (text) return x.text();
+      return x.json();
+    } catch (e) { return x.text(); }
+  })
 }
+
 export async function doFetch(path, opt = {}, hints = {}) {
   let options = {
     method: 'GET',
