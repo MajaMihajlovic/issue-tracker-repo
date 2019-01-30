@@ -40,7 +40,6 @@ export default class extends Controller {
                 });
             })
             this.store.set('assignees', newResult);
-            console.log(result);
         });
     }
     onUploadStarting(xhr, instance, file) {
@@ -74,7 +73,6 @@ export default class extends Controller {
         if ((user = sessionStorage.getItem('user')) == undefined) {
             user = localStorage.getItem('user')
         }
-        console.log(JSON.parse(user).id);
         var issue = {
             title: this.store.get('issue.title'),
             description: this.store.get('issue.description'),
@@ -88,7 +86,6 @@ export default class extends Controller {
             versionId: this.store.get('selectedVersionId'),
             projectId: this.store.get('selectedProjectId')
         }
-        console.log(issue);
         try {
             await POST("issue/insert", issue);
             toast("Issue submitted succesfully. Assignee will receive an email notification.");

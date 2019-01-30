@@ -1,7 +1,8 @@
-import { Text, Link, Repeater, MenuItem, Menu, Submenu, openContextMenu } from 'cx/widgets';
+import { Text, Link, Repeater, MenuItem, Menu, Submenu, openContextMenu, MonthField, Section, FlexRow, TextField, Button } from 'cx/widgets';
 import { FirstVisibleChildLayout, PropertySelection } from 'cx/ui';
 import Controller from './Controller';
 import "./index.scss"
+import { openProjectWindow } from '../../../components/ProjectWindow';
 
 export default <cx>
     <main controller={Controller} class="b-list">
@@ -12,6 +13,18 @@ export default <cx>
                 </li>
             </ul>
         </div>
+        <Section mod="card">
+            <FlexRow spacing>
+                <TextField
+                    value-bind="$page.search"
+                    placeholder="Search..."
+                    style="font-size:30px; width: 100%; max-width: 720px; height:35px"
+                    icon="search"
+                /><div style=" position: absolute; right: 0;">
+                    <Link onClick={(e, { store }) => { openProjectWindow(store); e.preventDefault(); }}
+                        style="font-size:30px" href="#"><i class="fa fa-plus" /></Link></div>
+            </FlexRow>
+        </Section>
         <div
             class="b-cards"
             layout={FirstVisibleChildLayout}
