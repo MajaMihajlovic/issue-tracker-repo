@@ -16,7 +16,7 @@ const ProjectWindow = <cx>
         </div>
         <main style="width:950px;height:auto;padding: 10px">
             <FlexRow>
-                <figure>
+                <figure style="width:200px; heigth:200px;">
                     <img style="width:200px; heigth:200px; object-fit: cover" src-expr="{new_project.photoUrl} || 'http://placehold.it/200x200'" alt="Photo" />
                 </figure>
                 <ValidationGroup layout={LabelsLeftLayout} invalid-bind="new_project.invalid">

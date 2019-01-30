@@ -9,7 +9,6 @@ export default [{
     expanded: true,
     articles: [
         { title: 'My projects', url: '~/projects/' },
-        { title: 'Add project', url: '~/projects/create' },
     ]
 }, {
     topic: 'Issues',
