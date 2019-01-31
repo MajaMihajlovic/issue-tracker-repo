@@ -218,10 +218,10 @@ function moveElement(array, sourceIndex, targetIndex) {
 }
 
 
-
+let win;
 
 export async function openProjectWindow(store) {
-    var win = Widget.create(ProjectWindow);
+    win = Widget.create(ProjectWindow);
     var result = await GET("user/getUsers");
     var resultSet = [];
     if (result != null) {
@@ -252,37 +252,7 @@ export async function openProjectWindow(store) {
 
 }
 
-async function save() {
-    if (this.store.get("cards[1].items.length") == 0) {
-        toast("Please select participants in project.");
-        return;
-    }
-    var project = {
-        name: this.store.get("new_project.name"),
-        description: this.store.get("new_project.description"),
-        photoUrl: this.store.get("new_project.photoUrl"),
-    };
-    let body = {
-        project: project,
-        list: this.store.get("cards[1].items")
-    }
 
-    try {
-        var result = await POST("project/insert", body, null);
-        if (result != "Success") {
-            showErrorToast(result);
-        }
-        else {
-            this.store.delete('new_project');
-            toast("Project successfully added.");
-            var data = await getData("user/getUsers");
-            this.store.set('users', data);
-            initCards(data, this.store);
-        }
-    } catch (e) {
-        showErrorToast(e);
-    }
-};
 
 async function initCards(data, store) {
 

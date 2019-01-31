@@ -1,5 +1,6 @@
 import { GET } from "../../../api/methods";
 import { Controller } from "cx/ui";
+import { openIssueWindow } from "../../../components/IssueWindow";
 export default class extends Controller {
     async init() {
         super.init();
@@ -10,7 +11,7 @@ export default class extends Controller {
         var id = JSON.parse(user).id;
         var dataSet = await GET("issue/getAll/" + id);
         this.store.init("$page.pageSize", 10);
-        this.store.init("$page.filter", { type: null, title: null, state: null, priority: null, project: null, version: null });
+        this.store.init("$page.filter", { type: null, title: null, state: null, priority: null, projectName: null, version: null, duedate: null });
         this.store.set("$page.pageSize", 5); this.store.set("$page.pageCount", 1);
         this.addTrigger(
             "page",
@@ -48,13 +49,17 @@ export default class extends Controller {
                             filtered = filtered.filter(
                                 x => x.priority.indexOf(filter.priority) != -1
                             );
-                        if (filter.project)
+                        if (filter.projectName)
                             filtered = filtered.filter(
-                                x => x.project.indexOf(filter.project) != -1
+                                x => x.projectName.indexOf(filter.projectName) != -1
                             );
                         if (filter.version)
                             filtered = filtered.filter(
                                 x => x.version.indexOf(filter.version) != -1
+                            );
+                        if (filter.duedate)
+                            filtered = filtered.filter(
+                                x => x.duedate.indexOf(filter.duedate) != -1
                             );
                     }
                     /* var getComparer = getComparer(
@@ -73,5 +78,11 @@ export default class extends Controller {
             },
             true
         );
+    }
+
+    edit() {
+        console.log(this.store.get("$record"));
+        this.store.set("editIssue", true);
+        openIssueWindow(this.store);
     }
 }

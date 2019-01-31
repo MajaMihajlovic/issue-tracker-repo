@@ -1,5 +1,6 @@
 import { Controller, Url, History } from 'cx/ui';
-import { GET } from '../../../api/methods';
+import { GET, DELETE } from '../../../api/methods';
+import { showErrorToast } from '../../../components/toasts';
 
 export default class extends Controller {
     async init() {
@@ -16,9 +17,18 @@ export default class extends Controller {
         this.store.set('list.data', result);
     }
 
+    async delete() {
+        try {
+            var result = await DELETE("project/" + this.store.get('$project.id'), null);
+            var result = await GET("project/");
+            this.store.set('list.data', result);
+        } catch (e) {
+            showErrorToast(e);
+        }
+    }
+
     edit(e) {
         e.preventDefault();
-        console.log('eeedot')
         var returnUrl = this.store.get("$route.returnUrl");
         History.pushState({}, null, Url.resolve("~/projects/create"));
         this.store.set('new_project', this.store.get('$project'));

@@ -3,10 +3,12 @@ import {
     TextField,
     ValidationGroup, LookupField, Section,
     FlexRow,
-    FlexCol, Link, DateField, UploadButton, Repeater, MsgBox, Grid, Pagination, Select, DateTimeField
+    FlexCol, Link, DateField, UploadButton, Repeater, MsgBox, Grid, Pagination, Select, DateTimeField, Text, openContextMenu, Menu
 } from 'cx/widgets';
 import Controller from './Controller';
 import "./index.scss"
+import { openIssueWindow } from '../../../components/IssueWindow';
+import { PropertySelection } from 'cx/ui';
 export default <cx>
     <main controller={Controller} >
         <div putInto="header">
@@ -16,12 +18,25 @@ export default <cx>
                 </li>
             </ul>
         </div>
+        <FlexRow spacing style=" width: 100%;  height:45px">
+            <h3 style="color: #24b5d6; margin:15px">Assigned to me</h3>
+            <div style=" position: absolute; right: 0;">
+                <Link onClick={async (e, { store }) => {
+                    openIssueWindow(store); e.preventDefault();
+                }}
+                    style="font-size:30px; margin:10px" href="#"><i class="fa fa-plus" /></Link></div>
+        </FlexRow>
         <Grid
             records-bind="$page.records"
-
+            selection={{ type: PropertySelection, bind: "$page.selection", multiple: false }}
             style={{ width: "100%" }}
             mod="bordered"
             lockColumnWidths
+            onRowContextMenu={(e, { store }) => openContextMenu(e, <cx>
+                <Menu controller={Controller}>
+                    <a style="padding-left:10px" onClick="edit" href="#"><i style="padding-right:5px" class="fas fa-pencil-alt" />  Edit</a>
+                </Menu>
+            </cx>, store)}
             columns={[
                 {
                     field: "type",
@@ -101,13 +116,13 @@ export default <cx>
                     header2: {
                         items: (
                             <TextField
-                                value-bind="$page.filter.project"
+                                value-bind="$page.filter.projectName"
                                 reactOn="enter blur"
                                 style="width:100%"
                             />
                         )
                     },
-                    field: "project",
+                    field: "projectName",
                     sortable: true
                 },
                 {

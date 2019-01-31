@@ -15,7 +15,6 @@ export default [{
     expanded: true,
     articles: [
         { title: 'Assigned to me', url: '~/issues/' },
-        { title: 'Add issue', url: '~/issues/create' },
     ]
 }];
 
