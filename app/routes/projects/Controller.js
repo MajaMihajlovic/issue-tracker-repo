@@ -1,6 +1,6 @@
 import { Controller, Url, History } from 'cx/ui';
-import { GET, DELETE } from '../../../api/methods';
-import { showErrorToast } from '../../../components/toasts';
+import { GET, DELETE } from '../../api/methods';
+import { showErrorToast } from '../../components/toasts';
 
 export default class extends Controller {
     async init() {

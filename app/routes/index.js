@@ -6,10 +6,10 @@ import { MessageLayout } from 'app/layouts/MessageLayout';
 import { PageNotFound } from './PageNotFound';
 
 import SignRoutes from './sign';
-import IssueRoutes from './issues';
-import ProjectRoutes from './projects';
-import DashboardRoutes from './dashboards';
 import Default from './default';
+import AssignedToMe from './issues'
+import ProjectIssue from './projects'
+import MyProjects from './projects';
 
 export default <cx>
     <Sandbox key-bind="url"
@@ -23,9 +23,20 @@ export default <cx>
         <PureContainer visible-expr="!!{user}" layout={FirstVisibleChildLayout} onExplore={applyOuterLayout}>
             {/*signed in routes*/}
             <Route route="~/" url-bind="url" items={Default} />
-            <ProjectRoutes />
-            <IssueRoutes />
-            <DashboardRoutes />
+            <Route route="~/issues/" url-bind="url">
+                <AssignedToMe />
+            </Route>
+
+            <Route route="~/issue/project/:id" url-bind="url">
+                <ProjectIssue />
+            </Route>
+            <Route route="~/projects/" url-bind="url">
+                <MyProjects />
+            </Route>
+
+            <Route route="~/dashboards/sales" url-bind="url">
+
+            </Route>
             <PageNotFound />
         </PureContainer>
 

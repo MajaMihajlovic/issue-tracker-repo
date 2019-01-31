@@ -1,6 +1,6 @@
-import { GET } from "../../../api/methods";
+import { GET } from "../../api/methods";
 import { Controller } from "cx/ui";
-import { openIssueWindow } from "../../../components/IssueWindow";
+import { openIssueWindow } from "../../components/IssueWindow";
 export default class extends Controller {
     async init() {
         super.init();
