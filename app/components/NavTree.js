@@ -2,7 +2,7 @@ export default [{
     topic: 'Dashboard',
     expanded: true,
     articles: [
-        { title: 'Sales', url: '~/dashboards/sales' },
+        { title: 'Reports', url: '~/dashboards/' },
     ]
 }, {
     topic: 'Projects',

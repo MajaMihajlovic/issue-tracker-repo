@@ -10,7 +10,6 @@ import Default from './default';
 import AssignedToMe from './issues'
 import ProjectIssue from './projects'
 import MyProjects from './projects';
-
 export default <cx>
     <Sandbox key-bind="url"
         storage-bind="pages"
@@ -34,8 +33,8 @@ export default <cx>
                 <MyProjects />
             </Route>
 
-            <Route route="~/dashboards/sales" url-bind="url">
-
+            <Route route="~/dashboards/" url-bind="url">
+                <Default />
             </Route>
             <PageNotFound />
         </PureContainer>
