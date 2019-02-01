@@ -8,7 +8,7 @@ import {
 import Controller from './Controller';
 import "./index.scss"
 import { openIssueWindow } from '../../components/IssueWindow';
-import { PropertySelection } from 'cx/ui';
+import { PropertySelection, tpl, computable } from 'cx/ui';
 export default <cx>
     <main controller={Controller} >
         <div putInto="header">
@@ -93,9 +93,13 @@ export default <cx>
                     },
                     field: "priority",
                     sortable: true,
-                    className: "$page.record.priority".toLowerCase(), //treba nesto smisliti ovjde
+                    // className: "$page.record.priority".toLowerCase(), //treba nesto smisliti ovjde
 
-                    class: "priority",
+                    class: tpl("priority {[{$record.priority}.toLowerCase()]}")
+                    // class: computable("$record.priority", (priority = "") => {
+                    //     debugger;
+                    //     return `priority ${priority.toLowerCase()}`;
+                    // })
                 },
                 {
                     header1: "Due date",

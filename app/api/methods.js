@@ -1,4 +1,5 @@
 import { Url, History } from "cx/ui";
+import { showErrorToast } from "../components/toasts";
 
 let restApiUrl = "http://localhost:8080/api/";
 
@@ -57,11 +58,12 @@ export function GET(url, hints, text) {
     try {
       if (text) return x.text();
       return x.json();
-    } catch (e) { return x.text(); }
+    } catch (e) { return e; }
   })
 }
 
 export async function doFetch(path, opt = {}, hints = {}) {
+
   let options = {
     method: 'GET',
     ...opt
@@ -71,6 +73,7 @@ export async function doFetch(path, opt = {}, hints = {}) {
     return await fetch(resolveAPIUrl(path, opt && opt.query), options);
   }
   catch (e) {
+    console.log("Majaaa")
     if (!e.response) {
       e.message = "Unable to connect to the server. Please check your Internet connection and try again.";
     }
@@ -132,15 +135,19 @@ export function PUT(url, data, hints) {
 }
 
 export function DELETE(url, hints) {
-  return doFetch(
-    url,
-    {
-      ...defaultOptions,
-      method: "DELETE",
-      headers: {}
-    },
-    hints
-  );
+  try {
+    return doFetch(
+      url,
+      {
+        ...defaultOptions,
+        method: "DELETE",
+        headers: {}
+      },
+      hints
+    ).then(x => { if (!x.ok) showErrorToast("Deletion is not possible.") });
+  } catch (e) {
+    console.log(e)
+  }
 }
 export function urlEncode(params) {
   return Object.keys(params)

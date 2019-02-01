@@ -53,7 +53,6 @@ export default <cx>
                     <Menu controller={Controller}>
                         <a style="padding-left:10px" onClick={(e, { store }) => {
                             store.set('projectSelected', true);
-                            console.log(e);
                             store.set('projectId', store.get("$project.id"));
                             openIssueWindow(store); e.preventDefault();
                         }} href="#"><i style="padding-right:5px" class="fas fa-trash-alt"></i>  Add issue</a>
@@ -72,7 +71,7 @@ export default <cx>
                     </div>
 
                     <div class="e-card-details">
-                        <Link href-tpl="~/issue/project/{$project.id}">
+                        <Link href-tpl="~/issues/project/{$project.id}">
                             <h3 text-tpl="{$project.name}" />
                         </Link>
 
@@ -80,7 +79,7 @@ export default <cx>
                             <i class="fa fa-newspaper"></i>
                             <Text bind="$project.description" />
                         </div>
-                        <Link href-tpl="~/issue/project/{$project.id}">
+                        <Link href-tpl="~/issues/project/{$project.id}">
                             <u text-tpl="Issues" />
                         </Link>
 

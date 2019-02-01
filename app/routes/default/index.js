@@ -20,10 +20,10 @@ enableTooltips();
 
 export default (
     <cx>
-        <div class="page sign-i">
+        <div class="sign-in">
             <main visible-expr="!{user}" layout={LabelsLeftLayout}>
                 <img class="logo" src="~/app/assets/img/logo.png" alt="Issue Tracker" />
-                <form class="login-form" onSubmit="login" controller={Controller}>
+                <form class="login-form" onSubmit="login" controller={Controller} >
                     <ValidationGroup
                         layout={LabelsLeftLayout}
                         invalid-bind="login.invalid"

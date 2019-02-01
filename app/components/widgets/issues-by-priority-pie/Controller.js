@@ -11,13 +11,15 @@ export default class extends Controller {
         var result = await GET("issue/byPriority/" + id);
         var formatResult = [];
         if (result != null) {
-            result.forEach(element => {
+            result.forEach((element, i) => {
                 formatResult.push({
-                    id: id,
+                    id: i + 1,
                     name: element.type,
-                    value: element.count
+                    value: element.count,
+                    active: true
                 });
-            })
+
+            });
         }
         console.log(formatResult)
         this.store.set('points', formatResult);

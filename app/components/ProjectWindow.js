@@ -182,11 +182,11 @@ const ProjectWindow = <cx>
                                         } catch (e) {
                                             showErrorToast(e);
                                         }
-                                    }
-                                    }
+                                    }}
                                     text="Save"
                                     disabled-bind="new_project.invalid"
                                     mod="primary"
+                                    dismiss
                                 />
                             </FlexRow>
                         </FlexCol>
@@ -251,8 +251,6 @@ export async function openProjectWindow(store) {
     win.open(store);
 
 }
-
-
 
 async function initCards(data, store) {
 

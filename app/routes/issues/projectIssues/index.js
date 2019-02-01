@@ -3,17 +3,17 @@ import {
     TextField,
     ValidationGroup, LookupField, Section,
     FlexRow,
-    FlexCol, Link, DateField, UploadButton, Repeater, MsgBox, Grid, Pagination, Select, DateTimeField
+    FlexCol, Link, DateField, UploadButton, Repeater, MsgBox, Grid, Pagination, Select, DateTimeField, openContextMenu, Menu
 } from 'cx/widgets';
 import Controller from './Controller';
-import "../assignedToMe/index.scss"
+import { PropertySelection } from 'cx/ui';
 
 export default <cx>
     <main controller={Controller} >
         <div putInto="header">
             <ul class="csb-breadcrumb">
                 <li class="cse-breadcrumb-item">
-                    <Link href="~/issues/project">Issues</Link>
+                    <Link href="~/issues/project/:id">Issues</Link>
                 </li>
             </ul>
         </div>
@@ -22,7 +22,13 @@ export default <cx>
 
             style={{ width: "100%" }}
             mod="bordered"
+            selection={{ type: PropertySelection, bind: "$page.selection", multiple: false }}
             lockColumnWidths
+            onRowContextMenu={(e, { store }) => openContextMenu(e, <cx>
+                <Menu controller={Controller}>
+                    <a style="padding-left:10px" onClick="edit" href="#"><i style="padding-right:5px" class="fas fa-pencil-alt" />  Edit</a>
+                </Menu>
+            </cx>, store)}
             columns={[
                 {
                     field: "type",
@@ -98,17 +104,17 @@ export default <cx>
                     field: "duedate",
                 },
                 {
-                    header1: "Project",
+                    header1: "Assignee",
                     header2: {
                         items: (
                             <TextField
-                                value-bind="$page.filter.project"
+                                value-bind="$page.filter.assigneeFullName"
                                 reactOn="enter blur"
                                 style="width:100%"
                             />
                         )
                     },
-                    field: "project",
+                    field: "assigneeFullName",
                     sortable: true
                 },
                 {

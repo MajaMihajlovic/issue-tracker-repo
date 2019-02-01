@@ -1,5 +1,6 @@
 import { GET } from "../../../api/methods";
 import { Controller } from "cx/ui";
+import { openIssueWindow } from "../../../components/IssueWindow";
 
 
 
@@ -9,7 +10,7 @@ export default class extends Controller {
         var dataSet = await GET("issue/getAllByProject/" + this.store.get('$route.id'));
         this.store.init("$page.page", 1);
         this.store.init("$page.pageSize", 10);
-        this.store.init("$page.filter", { type: null, title: null, state: null, project: null, priority: null, version: null });
+        this.store.init("$page.filter", { type: null, title: null, state: null, priority: null, version: null, assigneeFullName: null });
 
         this.addTrigger(
             "page",
@@ -47,9 +48,9 @@ export default class extends Controller {
                             filtered = filtered.filter(
                                 x => x.priority.indexOf(filter.priority) != -1
                             );
-                        if (filter.project)
+                        if (filter.assigneeFullName)
                             filtered = filtered.filter(
-                                x => x.project.indexOf(filter.project) != -1
+                                x => x.assigneeFullName.indexOf(filter.assigneeFullName) != -1
                             );
                         if (filter.version)
                             filtered = filtered.filter(
@@ -72,5 +73,9 @@ export default class extends Controller {
             },
             true
         );
+    }
+    edit() {
+        this.store.set("editIssue", true);
+        openIssueWindow(this.store);
     }
 }

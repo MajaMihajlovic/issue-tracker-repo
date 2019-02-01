@@ -14,7 +14,7 @@ export default (
   <cx>
     <div controller={Controller}>
       <DashboardWidget
-        title="Open Issues by Type"
+        title="Open Issues by Status"
         bodyStyle="padding: 5px; display: flex;"
       >
         <Svg style="flex: 1; height: auto">
