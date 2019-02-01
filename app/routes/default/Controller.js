@@ -6,7 +6,6 @@ enableMsgBoxAlerts();
 export default class extends Controller {
 
   async onInit() {
-    super.init();
     var result = await GET('project');
     var projectNames = [];
     if (result != null) {
@@ -23,13 +22,10 @@ export default class extends Controller {
 
     this.store.set("widgets", [
       {
-        type: "issues-by-type-grid"
+        type: "issues-by-priority-pie"
       },
       {
         type: "issues-by-type-chart"
-      },
-      {
-        type: "burndown-chart"
       },
       {
         type: "throughtput-chart"

@@ -3,6 +3,7 @@ import { FirstVisibleChildLayout, PropertySelection } from 'cx/ui';
 import Controller from './Controller';
 import "./index.scss"
 import { openProjectWindow } from '../../components/ProjectWindow';
+import { openIssueWindow } from '../../components/IssueWindow';
 
 export default <cx>
     <main controller={Controller} class="b-list">
@@ -50,6 +51,12 @@ export default <cx>
             >
                 <div class="b-card" onContextMenu={(e, { store }) => openContextMenu(e, <cx>
                     <Menu controller={Controller}>
+                        <a style="padding-left:10px" onClick={(e, { store }) => {
+                            store.set('projectSelected', true);
+                            console.log(e);
+                            store.set('projectId', store.get("$project.id"));
+                            openIssueWindow(store); e.preventDefault();
+                        }} href="#"><i style="padding-right:5px" class="fas fa-trash-alt"></i>  Add issue</a>
                         <a style="padding-left:10px" onClick="delete" href="#"><i style="padding-right:5px" class="fas fa-trash-alt"></i>  Delete</a>
                         <a style="padding-left:10px" onClick="finish" href="#"><i style="padding-right:5px" class="fas fa-check"></i>  Mark as finished</a>
                         <a style="padding-left:10px" onClick="edit" href="#"><i style="padding-right:5px" class="fas fa-pencil-alt" />  Edit</a>
