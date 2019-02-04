@@ -15,12 +15,13 @@ import "./index.scss";
 import { swapElements } from "./swapElements";
 import issuesByTypeChart from "./../../components/widgets/issues-by-type-chart";
 import IssuesByPriorityPie from "./../../components/widgets/issues-by-priority-pie";
+import issuesByStateBarChart from "./../../components/widgets/issues-by-state-bar";
 
 enableTooltips();
 
 export default (
     <cx>
-        <div class="sign-in">
+        <div class="sign-in" style=" height: 100%;">
             <main visible-expr="!{user}" layout={LabelsLeftLayout}>
                 <img class="logo" src="~/app/assets/img/logo.png" alt="Issue Tracker" />
                 <form class="login-form" onSubmit="login" controller={Controller} >
@@ -57,7 +58,7 @@ export default (
                 </form >
             </main >
         </div>
-        <main visible-expr="!!{user}">
+        <main visible-expr="!!{user}" >
             <div putInto="header">
                 <ul class="csb-breadcrumb">
                     <li class="cse-breadcrumb-item">
@@ -105,11 +106,10 @@ export default (
                                             switch (type) {
                                                 case "issues-by-type-chart":
                                                     return issuesByTypeChart;
-
-
+                                                case "issues-by-state-bar":
+                                                    return issuesByStateBarChart;
                                                 case "issues-by-priority-pie":
                                                     return IssuesByPriorityPie;
-
                                                 default:
                                                     return null;
                                             }

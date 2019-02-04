@@ -28,7 +28,7 @@ export default class extends Controller {
         type: "issues-by-priority-pie"
       },
       {
-        type: "issues-by-type-chart"
+        type: "issues-by-state-bar"
       }
 
     ]);

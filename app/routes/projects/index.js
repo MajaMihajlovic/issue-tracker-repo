@@ -1,5 +1,5 @@
 import { Text, Link, Repeater, MenuItem, Menu, Submenu, openContextMenu, MonthField, Section, FlexRow, TextField, Button } from 'cx/widgets';
-import { FirstVisibleChildLayout, PropertySelection } from 'cx/ui';
+import { FirstVisibleChildLayout, PropertySelection, Restate } from 'cx/ui';
 import Controller from './Controller';
 import "./index.scss"
 import { openProjectWindow } from '../../components/ProjectWindow';
@@ -55,35 +55,40 @@ export default <cx>
                             store.set('projectSelected', true);
                             store.set('projectId', store.get("$project.id"));
                             openIssueWindow(store); e.preventDefault();
-                        }} href="#"><i style="padding-right:5px" class="fas fa-trash-alt"></i>  Add issue</a>
+                        }} href="#"><i style="padding-right:5px" class="fas fa-plus"></i>  Add issue</a>
                         <a style="padding-left:10px" onClick="delete" href="#"><i style="padding-right:5px" class="fas fa-trash-alt"></i>  Delete</a>
                         <a style="padding-left:10px" onClick="finish" href="#"><i style="padding-right:5px" class="fas fa-check"></i>  Mark as finished</a>
                         <a style="padding-left:10px" onClick="edit" href="#"><i style="padding-right:5px" class="fas fa-pencil-alt" />  Edit</a>
                     </Menu>
                 </cx>, store)}>
-                    <div class="e-card-img" >
-                        <figure >
-                        </figure>
-                        <img
-                            src-expr="{$project.photoUrl} || '~/app/assets/img/projectManagement.jpg'"
-                            alt="Project photo"
-                        />
-                    </div>
+                    <Restate
+                        data={{
+                            project: { bind: "$project" },
+                        }}
+                    >
+                        <div class="e-card-img" >
 
-                    <div class="e-card-details">
-                        <Link href-tpl="~/issues/project/{$project.id}">
-                            <h3 text-tpl="{$project.name}" />
-                        </Link>
-
-                        <div style="  white-space: wrap; height: 3.6em; overflow: hidden;  text-overflow: -o-ellipsis-lastline;">
-                            <i class="fa fa-newspaper"></i>
-                            <Text bind="$project.description" />
+                            <img width="100px"
+                                src-expr="{project.photoUrl} || '~/app/assets/img/projectManagement.jpg'"
+                                alt="Project photo"
+                            />
                         </div>
-                        <Link href-tpl="~/issues/project/{$project.id}">
-                            <u text-tpl="Issues" />
-                        </Link>
+                        <a href-tpl="~/projects/{project.id}" style="text-decoration:none">
+                            <div class="e-card-details">
+                                <Link href-tpl="~/projects/{project.id}">
+                                    <h3 class="e-card-name" text-tpl="{project.name}" />
+                                </Link>
 
-                    </div>
+                                <div style="  white-space: wrap; height: 3.6em; overflow: hidden;  text-overflow: -o-ellipsis-lastline;">
+                                    <i class="fa fa-newspaper"></i>
+                                    <Text bind="project.description" />
+                                </div>
+                                <Link href-tpl="~/issues?projectId={project.id}">
+                                    <u text-tpl="Issues" />
+                                </Link>
+                            </div>
+                        </a>
+                    </Restate>
                 </div>
             </Repeater>
         </div>

@@ -1,21 +1,20 @@
-.priority {
+ .priority {
     border-radius: 3px;
     background: gray;
     display: inline-block;
-    padding: 0 5px;
-    line-height: 16px;
+    padding: 5px;
+    line-height: 12px;
     font-size: 11px;
     text-transform: uppercase;
     font-weight: 500;
     color: white;
-    border-top: 1px solid #bfbfbf !important;
-
+    width: 60px;
     &.critical, {
-        background:  #f8614d;
+        background: #e79f64;
     }
 
     &.major{
-        background: #ff8b44;
+        background: #e66a61e1;
     }
 
     &.minor {
@@ -23,7 +22,7 @@
     }
 
     &.normal{
-        background: #89d38e;
+        background: #bde292e8;
     }
 
 }

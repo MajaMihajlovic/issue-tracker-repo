@@ -8,12 +8,9 @@ import Controller from "./Controller";
 export default (
     <cx>
         <div controller={Controller}>
-            {/* <Repeater records-bind="points">
-                <div text-bind="$record.name" />
-            </Repeater> */}
             <DashboardWidget title="Issues by Priority" bodyStyle="padding: 5px; display: flex;">
                 <Legend />
-                <Svg style="width:600px; height:350px;">
+                <Svg style="width:600px; height:300px;">
                     <ColorMap />
                     <PieChart angle={360}>
                         <Repeater records-bind="points">
@@ -33,14 +30,14 @@ export default (
                                 innerPointRadius={80}
                                 outerPointRadius={90}
                                 name-tpl="{$record.name}"
-                            // selection={{
-                            //     type: KeySelection,
-                            //     bind: '$page.selection',
-                            //     records: { bind: 'points' },
-                            //     record: { bind: '$record' },
-                            //     index: { bind: '$index' },
-                            //     keyField: 'id'
-                            // }}
+                                selection={{
+                                    type: KeySelection,
+                                    bind: '$page.selection',
+                                    records: { bind: 'points' },
+                                    record: { bind: '$record' },
+                                    index: { bind: '$index' },
+                                    keyField: 'id'
+                                }}
                             >
                             </PieSlice>
                         </Repeater>

@@ -5,9 +5,11 @@ import {
   ColumnGraph,
   Gridlines,
   CategoryAxis,
-  NumericAxis
+  NumericAxis,
+  BarGraph
 } from "cx/charts";
 import Controller from "./Controller";
+import { KeySelection } from "cx/ui";
 
 
 export default (
@@ -17,31 +19,25 @@ export default (
         title="Open Issues by Status"
         bodyStyle="padding: 5px; display: flex;"
       >
-        <Svg style="flex: 1; height: auto">
-          <Chart
-            margin="10 10 40 30"
-            axes={{
-              x: {
-                type: CategoryAxis,
-                snapToTicks: 0,
-                labelWrap: true,
-                style: "font-size: 13px"
-              },
-              y: {
-                type: NumericAxis,
-                vertical: true,
-                snapToTicks: 1
-              }
-            }}
-          >
+        <Svg style="width:400px; height:300px;">
+          <Chart offset="20 -20 -30 150" axes={{
+            x: { type: NumericAxis, snapToTicks: 1 },
+            y: { type: CategoryAxis, vertical: true }
+          }}>
             <Gridlines />
-            <ColumnGraph
-              data-bind="chartData"
-              colorIndex={10} //ovdje napraviti expr i razlicite boje
-              xField="type"
-              yField="count"
-              size={0.7}
+            <BarGraph data-bind="barChartData"
+              colorIndex={0}
+              size={0.5}
+              xField="count"
+              yField="type"
+              selection={{
+                type: KeySelection,
+                bind: '$page.selected.type',
+                keyField: 'type'
+              }}
             />
+
+
           </Chart>
         </Svg>
       </DashboardWidget>

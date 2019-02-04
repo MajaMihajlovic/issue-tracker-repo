@@ -8,8 +8,10 @@ import { PageNotFound } from './PageNotFound';
 import SignRoutes from './sign';
 import Default from './default';
 import AssignedToMe from './issues'
-import ProjectIssue from './issues/projectIssues'
+// import ProjectIssue from './issues/projectIssues'
 import MyProjects from './projects';
+import ProjectDetails from './projects/details';
+
 export default <cx>
     <Sandbox key-bind="url"
         storage-bind="pages"
@@ -22,17 +24,19 @@ export default <cx>
         <PureContainer visible-expr="!!{user}" layout={FirstVisibleChildLayout} onExplore={applyOuterLayout}>
             {/*signed in routes*/}
             <Route route="~/" url-bind="url" items={Default} />
-            <Route route="~/issues/" url-bind="url">
+            <Route route="~/issues(/)" url-bind="url">
                 <AssignedToMe />
             </Route>
 
-            <Route route="~/issues/project/:id" url-bind="url">
-                <ProjectIssue />
-            </Route>
+            {/* <Route route="~/issues/project/:projectId" url-bind="url">
+                <span>Project issue</span>
+            </Route> */}
             <Route route="~/projects/" url-bind="url">
                 <MyProjects />
             </Route>
-
+            <Route route="~/projects/:id" url-bind="url">
+                <ProjectDetails />
+            </Route>
             <Route route="~/dashboards/" url-bind="url">
                 <Default />
             </Route>

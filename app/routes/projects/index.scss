@@ -20,9 +20,20 @@
 }
 .b-card:active{
 border: #3949AB;
-
+}
+.e-card-name{
+  padding-bottom:10px;
 }
 
+.edit-button{
+  align-self: flex-end;
+  margin-right: 20px;
+  margin-top: 10px;
+  width: 75px;
+}
+.e-card-name:hover{
+  text-decoration: underline
+}
 .b-card:hover{
   border-color: #0994f033;
   background-color:#0994f01a;
@@ -80,20 +91,11 @@ border: #3949AB;
   float: left;
   margin-right: 1rem;
 
-  figure {
-    position: absolute;
-    background: #e1e1e1;
-    width: 100%;
-    height: 100%;
-    font-size: 2rem;
-    line-height: 8rem;
-    margin: 0;
-  }
 
   img {
     position: relative;
     height: 100%;
-    width: auto;
+    width: 130px;
   }
 }
 
