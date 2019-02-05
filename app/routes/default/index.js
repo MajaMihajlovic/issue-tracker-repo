@@ -21,8 +21,8 @@ enableTooltips();
 
 export default (
     <cx>
-        <div class="sign-in" style=" height: 100%;">
-            <main visible-expr="!{user}" layout={LabelsLeftLayout}>
+        <main visible-expr="!{user}" class="sign-in">
+            <div layout={LabelsLeftLayout}>
                 <img class="logo" src="~/app/assets/img/logo.png" alt="Issue Tracker" />
                 <form class="login-form" onSubmit="login" controller={Controller} >
                     <ValidationGroup
@@ -56,8 +56,10 @@ export default (
                         </div>
                     </ValidationGroup>
                 </form >
-            </main >
-        </div>
+            </div>
+        </main >
+
+
         <main visible-expr="!!{user}" >
             <div putInto="header">
                 <ul class="csb-breadcrumb">

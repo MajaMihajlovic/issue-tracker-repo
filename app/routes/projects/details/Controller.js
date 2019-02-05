@@ -1,5 +1,5 @@
 import { Controller } from "cx/ui";
-import { GET, PUT } from "../../../api/methods";
+import { GET, PUT, POST } from "../../../api/methods";
 import { showErrorToast, toast } from "../../../components/toasts";
 
 export default class extends Controller {
@@ -7,7 +7,7 @@ export default class extends Controller {
         this.loadProject(this.store);
         this.store.set("$page.mode", "view")
         this.store.init("$page.filter", { fullName: null, email: null });
-        var dataSet = this.store.get("projectDetails.users");
+        var dataSet = this.store.get("$page.projectDetails.users");
         this.addTrigger(
             "pagination",
             ["$page.filter"],
@@ -34,42 +34,89 @@ export default class extends Controller {
 
     }
 
+    async addParticipant() {
+        let id = this.store.get("$page.selectedParticipantId");
+        if (id != null) {
+            let user = await GET("user/" + id);
+            let newUser = {
+                id: this.store.get("$page.selectedParticipantId"),
+                fullName: this.store.get("$page.selectedParticipantName"),
+                email: user.email
+            }
+            this.store.update("$page.newUsers", (newUsers = []) => {
+                return [...newUsers, newUser]
+            });
+            this.store.update("$page.projectDetails.users", (existingUsers = []) => {
+                return [
+                    ...existingUsers,
+                    newUser
+                ];
+            });
+
+        }
+    }
+
     async loadProject(store) {
         var result = await GET("project/" + store.get("$route.id"));
-        store.set('projectDetails', result);
+        store.set('$page.projectDetails', result);
         var users = await GET("user/getParticipants/" + store.get("$route.id"), "text");
-        store.set('projectDetails.users', users);
+        store.set('$page.projectDetails.users', users);
         return users;
     }
 
-    edit(e) {
+    async edit(e) {
         e.preventDefault();
+        var result = await GET("user/getNonParticipants/" + this.store.get("$page.projectDetails.id"));
+        console.log(result)
+        var newResult = [];
+
+        result.forEach(element => {
+            newResult.push({
+                id: element.id,
+                text: element.fullName,
+            });
+        });
+
+        this.store.set("$page.participants", newResult)
         this.store.set('$page.mode', 'edit');
     }
 
     async save(e) {
-        console.log("save");
+        var users = this.store.get("$page.newUsers");
+        let resultSet = []
+        users.forEach(element => {
+            resultSet.push({
+                id: element.id,
+                text: element.fullName + " [" + element.email + "]"
+            });
+        })
         var project = {
-            name: this.store.get("projectDetails.name"),
-            description: this.store.get("projectDetails.description"),
-            photoUrl: this.store.get("projectDetails.photoUrl"),
+            id: this.store.get("$route.id"),
+            name: this.store.get("$page.projectDetails.name"),
+            description: this.store.get("$page.projectDetails.description"),
+            photoUrl: this.store.get("$page.projectDetails.photoUrl"),
         };
+        let body = {
+            project: project,
+            list: resultSet
+        }
         try {
-            var result = await PUT("project/" + this.store.get("$route.id"), project, null);
-            console.log(result)
+
+            var result = await PUT("project/update", body, null);
             if (result != "Success") {
                 showErrorToast(result);
             }
             else {
-
                 toast("Project successfully updated.");
                 this.store.set('$page.mode', 'view');
-                //  var data = await getData("user/getUsers");
-                // store.set('users', data);
             }
         } catch (e) {
             showErrorToast(e);
         }
+        this.store.remove('$page.newUsers');
+        this.store.remove("$page.selectedParticipantName");
+        this.store.remove("$page.selectedParticipantId");
+
     }
     cancel(e) {
         e.preventDefault();

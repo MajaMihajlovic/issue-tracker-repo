@@ -47,7 +47,6 @@ export default class extends Controller {
 
     try {
       var user = await login(userInfo, this.store);
-      console.log(user)
       this.store.set('user', user);
       sessionStorage.setItem('user', JSON.stringify(user));
       if (this.store.get('login.rememberMe'))

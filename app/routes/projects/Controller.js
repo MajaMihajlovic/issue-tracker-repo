@@ -1,6 +1,7 @@
 import { Controller, Url, History } from 'cx/ui';
 import { GET, DELETE } from '../../api/methods';
 import { showErrorToast } from '../../components/toasts';
+import { openProjectWindow } from '../../components/ProjectWindow';
 
 export default class extends Controller {
     async init() {
@@ -25,6 +26,11 @@ export default class extends Controller {
         }
         var result = await GET("project/");
         this.store.set('list.data', result);
+    }
+
+    async addProject() {
+        openProjectWindow(this.store);
+        load();
     }
 
     edit(e) {

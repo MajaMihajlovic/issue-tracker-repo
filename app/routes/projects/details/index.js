@@ -1,6 +1,6 @@
 import Controller from './Controller';
-import { Link, ValidationGroup, FlexCol, TextArea, TextField, FlexRow, Text, Grid, Button } from 'cx/widgets';
-import { PropertySelection, expr } from 'cx/ui';
+import { Link, ValidationGroup, FlexCol, TextArea, TextField, FlexRow, Text, Grid, Button, LookupField } from 'cx/widgets';
+import { PropertySelection, expr, LabelsLeftLayout, LabelsTopLayout } from 'cx/ui';
 import "./../index.scss"
 export default <cx>
     <main controller={Controller} >
@@ -14,11 +14,11 @@ export default <cx>
 
         <div>
             <FlexRow>
-                <figure style="width:300px; heigth:200px; margin-inline-start: 20px; margin-inline-end: 20px;">
-                    <img style="width:300px; heigth:200px; object-fit: cover" src-expr="{projectDetails.photoUrl} || 'http://placehold.it/300x200'" alt="Photo" />
+                <figure style="width:300px; heigth:250px; margin-inline-start: 20px; margin-inline-end: 20px;">
+                    <img style="width:300px; heigth:250px; object-fit: cover" src-expr="{$page.projectDetails.photoUrl} || 'http://placehold.it/300x250'" alt="Photo" />
                 </figure>
                 <FlexCol style="width:600px; padding-top:15px;">
-                    <TextField value-bind="projectDetails.name"
+                    <TextField value-bind="$page.projectDetails.name"
                         //label-expr="{$page.mode}=='edit' ? 'maja':''"
                         label={{
                             visible: expr("{$page.mode}=='edit'"),
@@ -28,21 +28,33 @@ export default <cx>
                         mode-bind="$page.mode" />
                     <br />
                     <TextField
-                        value-bind="projectDetails.description"
+                        value-bind="$page.projectDetails.description"
                         style="width:100%; min-width:10rem; font-size: 1rem"
                         mode-bind="$page.mode"
                     />
                     <TextField
-                        value-bind="projectDetails.photoUrl"
+                        value-bind="$page.projectDetails.photoUrl"
                         visible-expr="{$page.mode} == 'edit'"
                         label="Photo URL"
                         style="width: 100%; max-width: 750px"
-                    />
+                    /><div layout={LabelsTopLayout}>
+                        <LookupField
+                            label="Participants"
+                            value-bind="$page.selectedParticipantId"
+                            text-bind="$page.selectedParticipantName"
+                            visible-expr="{$page.mode} == 'edit'"
+                            options-bind="$page.participants"
+                            multiple={false}
+                        />
+                        <Button
+                            visible-expr="{$page.mode} == 'edit'" onClick="addParticipant"
+                        ><i style="padding-right:5px" class="fas fa-plus" />Add</Button>
+                    </div>
                     <hr />
-                </FlexCol>
-                <span></span>
 
-                <FlexCol style="width:100%; padding-top:10px;" >
+                </FlexCol>
+
+                <FlexCol style=" padding:20px;" >
                     <Button class="edit-button" visible-expr="{$page.mode}!='edit'" onClick="edit"><i style="padding-right:5px" class="fa fa-pencil-alt" /> Edit</Button>
                     <div style="box-sizing: border-box;  position: relative;  display: flex;  flex-direction: column;">
                         <Button class="edit-button" visible-expr="{$page.mode}=='edit'" onClick="save"><i style="padding-right:5px" class="fas fa-check" /> Save</Button>
@@ -50,9 +62,11 @@ export default <cx>
 
                     </div></FlexCol>
             </FlexRow>
+
             <Grid
-                records-bind="$page.records"
-                style={{ width: "750px", padding: "20px" }}
+                records-bind="$page.projectDetails.users"
+                label="Participants"
+                style={{ width: "960px", padding: "20px" }}
                 lockColumnWidths
                 columns={[
                     {

@@ -22,10 +22,7 @@ export default <cx>
                     style="font-size:30px; width: 100%; max-width: 720px; height:35px"
                     icon="search"
                 /><div style=" position: absolute; right: 0;">
-                    <Link onClick={async (e, { store }) => {
-                        openProjectWindow(store); e.preventDefault();
-                    }}
-                        style="font-size:30px" href="#"><i class="fa fa-plus" /></Link></div>
+                    <Link onClick='addProject' style="font-size:30px" href="#"><i class="fa fa-plus" /></Link></div>
             </FlexRow>
         </Section>
         <div
