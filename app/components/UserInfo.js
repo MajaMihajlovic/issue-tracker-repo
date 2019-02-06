@@ -4,12 +4,21 @@ import { Glyph } from 'app/components/Glyph';
 
 import { openSettingsWindow } from './SettingsWindow';
 import { openChangePasswordWindow } from './EditPasswordWindow';
+import { computable } from 'cx/ui';
 
 export const UserInfo = <cx>
     <Menu horizontal>
         <Submenu>
             <a preserveWhitespace class="csb-user">
-                <Glyph name="user" /> <Text bind="user.username" />
+                <img style=" display: inline-block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover; " src-tpl={"data:image/jpg;base64, {user.photo}"} alt="User image" />
+                <Text bind="user.username" />
             </a>
 
             <Menu putInto="dropdown">

@@ -1,5 +1,5 @@
 import { Controller } from "cx/ui";
-import { GET, PUT, POST } from "../../../api/methods";
+import { GET, PUT, POST, DELETE } from "../../../api/methods";
 import { showErrorToast, toast } from "../../../components/toasts";
 
 export default class extends Controller {
@@ -53,14 +53,22 @@ export default class extends Controller {
                 ];
             });
 
+            this.store.update('$page.projectDetails.participants', records => records.filter(r => r.id != newUser.id))
+            this.store.delete("$page.selectedParticipantId");
+            this.store.delete("$page.selectedParticipantName");
         }
     }
 
     async loadProject(store) {
-        var result = await GET("project/" + store.get("$route.id"));
-        store.set('$page.projectDetails', result);
-        var users = await GET("user/getParticipants/" + store.get("$route.id"), "text");
-        store.set('$page.projectDetails.users', users);
+        try {
+            var result = await GET("project/" + store.get("$route.id"));
+            store.set('$page.projectDetails', result);
+            var users = await GET("user/getParticipants/" + store.get("$route.id"), "text");
+            store.set('$page.projectDetails.users', users);
+        } catch (e) {
+            console.log(e)
+            store.set('$page.projectDetails.users', []);
+        }
         return users;
     }
 
@@ -77,19 +85,21 @@ export default class extends Controller {
             });
         });
 
-        this.store.set("$page.participants", newResult)
+        this.store.set("$page.projectDetails.participants", newResult)
         this.store.set('$page.mode', 'edit');
     }
 
     async save(e) {
         var users = this.store.get("$page.newUsers");
         let resultSet = []
-        users.forEach(element => {
-            resultSet.push({
-                id: element.id,
-                text: element.fullName + " [" + element.email + "]"
-            });
-        })
+        if (users) {
+            users.forEach(element => {
+                resultSet.push({
+                    id: element.id,
+                    text: element.fullName + " [" + element.email + "]"
+                });
+            })
+        }
         var project = {
             id: this.store.get("$route.id"),
             name: this.store.get("$page.projectDetails.name"),
@@ -113,11 +123,35 @@ export default class extends Controller {
         } catch (e) {
             showErrorToast(e);
         }
-        this.store.remove('$page.newUsers');
-        this.store.remove("$page.selectedParticipantName");
-        this.store.remove("$page.selectedParticipantId");
+        this.store.delete('$page.newUsers');
+        this.store.delete('$page.projectDetails.participants');
+        this.store.delete("$page.selectedParticipantName");
+        this.store.delete("$page.selectedParticipantId");
 
     }
+
+    async delete() {
+        var users = this.store.get("$page.projectDetails.users");
+        let removeUser;
+        if (users) {
+            users.forEach(element => {
+                if (element.selected) {
+                    removeUser = element;
+                }
+            })
+        }
+        if (removeUser) {
+            let result = await DELETE("project-has-user/" + removeUser.id + "/" + this.store.get("$route.id"))
+            if (result == "Success") {
+                this.store.update('$page.projectDetails.users', records => records.filter(r => r.id != removeUser.id))
+            } else {
+                toast(result);
+            }
+        } else {
+            showErrorToast("Please select user and then press button Delete.")
+        }
+    }
+
     cancel(e) {
         e.preventDefault();
         this.store.set('$page.mode', 'view');

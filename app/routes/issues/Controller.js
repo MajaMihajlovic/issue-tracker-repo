@@ -1,16 +1,13 @@
 import { GET } from "../../api/methods";
 import { Controller } from "cx/ui";
-import { openIssueWindow } from "../../components/IssueWindow";
+import { openIssueWindow } from "../../components/issueWindow/index";
 // import { URLSearchParams } from "url";
 export default class extends Controller {
     async init() {
         this.loadData();
         this.store.init("$page.page", 1);
         this.store.init("$page.pageSize", 10);
-        // this.store.init("$page.filter", { type: null, title: null, state: null, priority: null, version: null, assigneeFullName: null });
-
         this.addTrigger("page", ["$page.pageSize"], () => this.store.set("$page.page", 1), true);
-
         this.addTrigger("filter", ["issues", "$page.pageSize", "$page.page", "$page.filter"], (issues, size, page, filter) => {
             if (!issues)
                 return;
@@ -21,6 +18,18 @@ export default class extends Controller {
             this.store.set("$page.records", issues.slice((page - 1) * size, page * size));
             this.store.set("$page.pageCount", Math.ceil(issues.length / size));
         }, true);
+        var projectNames = await getData("project");
+        this.store.set('$page.projects', projectNames);
+        var assigneeNames = await GET("user");
+        var newResult = [];
+        assigneeNames.forEach(element => {
+            newResult.push({
+                id: element.id,
+                text: element.fullName
+            });
+        });
+
+        this.store.set('$page.assignees', newResult);
     }
 
     async loadData() {
@@ -28,6 +37,9 @@ export default class extends Controller {
         var id = JSON.parse(user).id;
         const urlParams = new URLSearchParams(this.store.get('url').split("?")[1]);
         const projectId = urlParams.get('projectId');
+        if (projectId) {
+
+        }
         let issues = projectId ? await GET("issue/getAllByProject/" + projectId) : await GET("issue/getAll/" + id);
 
         this.store.set('issues', issues)
@@ -50,6 +62,7 @@ function filterIssues(issues, filter) {
     issues = filterIssuesByStringProperty(issues, filter, 'priority');
     issues = filterIssuesByStringProperty(issues, filter, 'assigneeFullName');
     issues = filterIssuesByStringProperty(issues, filter, 'version');
+    issues = filterIssuesByStringProperty(issues, filter, 'assignee');
 
     if (filter.duedate)
         issues = filterIssuesByDueDate(issues, filter);
@@ -83,4 +96,18 @@ function filterIssuesByDueDate(issues, filter) {
     });
 
     return filteredIssues;
+}
+
+async function getData(path) {
+    var result = await GET(path);
+    var projectNames = [];
+    if (result != null) {
+        result.forEach(element => {
+            projectNames.push({
+                id: element.id,
+                text: element.name
+            });
+        })
+    }
+    return projectNames;
 }

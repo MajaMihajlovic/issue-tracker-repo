@@ -1,5 +1,5 @@
 import { PropertySelection } from 'cx/ui';
-import { DateTimeField, FlexRow, Grid, Link, Menu, openContextMenu, Pagination, Select, TextField, Button } from 'cx/widgets';
+import { DateTimeField, FlexRow, Grid, Link, Menu, openContextMenu, Pagination, Select, TextField, Button, Section, LookupField } from 'cx/widgets';
 import Controller from './Controller';
 
 export default <cx>
@@ -11,13 +11,28 @@ export default <cx>
                 </li>
             </ul>
         </div>
-        <FlexRow spacing style=" width: 100%;  height:45px">
-            <h3 style="margin:15px">Assigned to me</h3>
+        <FlexRow spacing style=" width: 100%; margin-left:10px; margin-top:10px">
+            <FlexRow spacing>
+                <LookupField
+                    label="Project"
+                    value-bind="$page.selectedProjectId"
+                    text-bind="$page.selectedProjectName"
+                    options-bind="$page.projects"
+                /><div style="width:100px"></div>
+                <LookupField
+                    label="Assignee"
+                    value-bind="$page.selectedAssigneeId"
+                    text-bind="$page.selectedAssigneeName"
+                    options-bind="$page.assignees"
+                />
+            </FlexRow>
+
+
             <Button
-                style="position: absolute; right: 0;"
+                style="border-radius:25%; padding:5px; position: absolute; right: 20px; font-size:20px"
                 onClick="addIssue"
-                icon="fa-plus"
-            />
+
+            ><i class="fa fa-plus" /></Button>
         </FlexRow>
         <Grid
             records-bind="$page.records"
@@ -31,6 +46,32 @@ export default <cx>
                 </Menu>
             </cx>, store)}
             columns={[
+                {
+                    header1: "Project",
+                    header2: {
+                        items: (
+                            <TextField
+                                value-bind="$page.filter.projectName"
+                                style="width:100%"
+                            />
+                        )
+                    },
+                    field: "projectName",
+                    sortable: true
+                },
+                {
+                    header1: "Assignee",
+                    header2: {
+                        items: (
+                            <TextField
+                                value-bind="$page.filter.assignee"
+                                style="width:100%"
+                            />
+                        )
+                    },
+                    field: "assigneeFullName",
+                    sortable: true
+                },
                 {
                     field: "type",
                     sortable: true,
@@ -99,19 +140,6 @@ export default <cx>
                         )
                     },
                     field: "duedate",
-                },
-                {
-                    header1: "Project",
-                    header2: {
-                        items: (
-                            <TextField
-                                value-bind="$page.filter.projectName"
-                                style="width:100%"
-                            />
-                        )
-                    },
-                    field: "projectName",
-                    sortable: true
                 },
                 {
                     header1: "Version",

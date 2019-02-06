@@ -97,7 +97,7 @@ export default (
               <Button
                 mod="primary"
                 style="padding: 5px 10px; margin: 10px;"
-                disabled-bind="sign_in.invalid"
+                disabled-expr="{sign_in.invalid} || {fileLoading}"
                 onClick="signIn"
                 onEnter="signIn"
               >

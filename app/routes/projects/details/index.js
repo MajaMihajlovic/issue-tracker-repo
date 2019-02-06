@@ -19,7 +19,6 @@ export default <cx>
                 </figure>
                 <FlexCol style="width:600px; padding-top:15px;">
                     <TextField value-bind="$page.projectDetails.name"
-                        //label-expr="{$page.mode}=='edit' ? 'maja':''"
                         label={{
                             visible: expr("{$page.mode}=='edit'"),
                             text: "Name"
@@ -43,12 +42,15 @@ export default <cx>
                             value-bind="$page.selectedParticipantId"
                             text-bind="$page.selectedParticipantName"
                             visible-expr="{$page.mode} == 'edit'"
-                            options-bind="$page.participants"
+                            options-bind="$page.projectDetails.participants"
                             multiple={false}
                         />
                         <Button
                             visible-expr="{$page.mode} == 'edit'" onClick="addParticipant"
                         ><i style="padding-right:5px" class="fas fa-plus" />Add</Button>
+                        <Button
+                            visible-expr="{$page.mode} == 'edit'" onClick="delete"
+                        ><i style="padding-right:5px" class="fas fa-trash-alt" />Remove </Button>
                     </div>
                     <hr />
 
@@ -65,9 +67,11 @@ export default <cx>
 
             <Grid
                 records-bind="$page.projectDetails.users"
+                selection={{ type: PropertySelection, bind: "$page.selection", multiple: false }}
                 label="Participants"
                 style={{ width: "960px", padding: "20px" }}
                 lockColumnWidths
+                multi
                 columns={[
                     {
                         field: "fullName",

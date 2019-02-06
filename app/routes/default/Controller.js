@@ -47,6 +47,8 @@ export default class extends Controller {
 
     try {
       var user = await login(userInfo, this.store);
+      let photo = atob(user.photo)
+      user.photo = photo;
       this.store.set('user', user);
       sessionStorage.setItem('user', JSON.stringify(user));
       if (this.store.get('login.rememberMe'))

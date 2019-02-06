@@ -1,31 +1,28 @@
-import { Widget, LabelsLeftLayout, Repeater, Controller } from 'cx/ui';
+import { Widget, LabelsLeftLayout, Repeater, Text } from 'cx/ui';
 import {
     Button,
     TextField,
     ValidationGroup,
     FlexRow,
     FlexCol, Link, LookupField, TextArea, Window, Section,
-    DateField, UploadButton, MsgBox
+    DateField, UploadButton, MsgBox, initiateDragDrop
 } from 'cx/widgets';
 
 import { Glyph } from 'app/components/Glyph';
-import { GET, POST } from '../api/methods';
-import { store } from '../store';
-import { showErrorToast, toast } from './toasts';
-import "./issueWindow.scss"
-import MyController from './MyController';
+import "./index.scss"
+import Controller from "./Controller"
 const IssueWindow = <cx>
 
     <Window modal center >
-        <main >
+        <main controller={Controller} >
             <div putInto="header">
                 <ul class="csb-breadcrumb">
                     <li class="cse-breadcrumb-item">
-                        Odgovarajuci naslov
+                        <h3>Add Issue </h3>
                     </li>
                 </ul>
             </div>
-            <div controller={MyController}>
+            <div controller={Controller}>
                 <ValidationGroup layout={LabelsLeftLayout} invalid-bind="issue.invalid">
                     <FlexRow style="padding:30px">
                         <FlexCol style="width:600px; padding-right:30px">
@@ -56,9 +53,9 @@ const IssueWindow = <cx>
                                 <UploadButton
                                     value-bind="issue.attachments"
                                     url="#"
-                                    onUploadStarting={onUploadStarting}
-                                    onUploadComplete={onUploadComplete}
-                                    onUploadError={onUploadError}
+                                    onUploadStarting="onUploadStarting"
+                                    onUploadComplete="onUploadComplete"
+                                    onUploadError="onUploadError"
                                     mode-bind="mode"
                                     label="Attachments"
                                     style="width:33px; border-radius:25%">
@@ -88,10 +85,11 @@ const IssueWindow = <cx>
 
                                 <Button
                                     mod="primary"
-                                    onClick={save}
+                                    onClick="save"
                                     text="Add"
                                     disabled-bind="issue.invalid"
                                     mod="primary"
+                                    dismiss
                                 />
 
                             </FlexRow></FlexCol>
@@ -126,6 +124,8 @@ const IssueWindow = <cx>
                                         text-bind="selectedAssigneeName"
                                         options-bind="assignees"
                                         multiple={false}
+                                        required
+                                        asterisk
                                     />
                                     <LookupField
                                         label="Subsystem"
@@ -153,30 +153,7 @@ const IssueWindow = <cx>
 
 export async function openIssueWindow(store) {
     let win = Widget.create(IssueWindow);
-    var projectNames = await getData("project");
-    store.set('selectedProjectName', projectNames[0].text);
-    store.set('selectedProjectId', projectNames[0].id);
-    store.set('projects', projectNames);
 
-    var projectTypes = await getData("type");
-    store.set('selectedTypeName', projectTypes[0].text);
-    store.set('selectedTypeId', projectTypes[0].id);
-    store.set('types', projectTypes);
-
-    var projectVersions = await getData("version");
-    store.set('selectedVersionName', projectVersions[0].text);
-    store.set('selectedVersionId', projectVersions[0].id);
-    store.set('versions', projectVersions);
-
-    var projectPriorities = await getData("priority");
-    store.set('selectedPriorityName', projectPriorities[0].text);
-    store.set('selectedPriorityId', projectPriorities[0].id);
-    store.set('priorities', projectPriorities);
-
-    var projectStates = await getData("state");
-    store.set('selectedStateName', projectStates[0].text);
-    store.set('selectedStateId', projectStates[0].id);
-    store.set('states', projectStates);
 
 
     /*addTrigger("selectedProjectId", ["selectedProjectId"], async selectedProjectId => {
@@ -191,78 +168,4 @@ export async function openIssueWindow(store) {
          store.set('assignees', newResult);
      });*/
     win.open(store);
-}
-function onUploadStarting(xhr, instance, file) {
-
-    if (file.size > 1e6) {
-        toast("The file is too large.");
-        return false;
-    }
-}
-
-function onUploadComplete(xhr, instance, file) {
-    this.file = file;
-    let newAttachment = {
-        text: file.name
-    };
-    store.update("issue.attachments", (existingAttachments = []) => {
-        return [
-            ...existingAttachments,
-            newAttachment
-        ];
-    });
-}
-
-function onUploadError(e) {
-    console.log(e);
-}
-
-async function save() {
-    var user;
-    if ((user = sessionStorage.getItem('user')) == undefined) {
-        user = localStorage.getItem('user')
-    }
-    var issue = {
-        title: store.get('issue.title'),
-        description: store.get('issue.description'),
-        stateId: store.get('selectedStateId'),
-        priorityId: store.get('selectedPriorityId'),
-        duedate: store.get('issue.duedate'),
-        createdDate: new Date(),
-        typeId: store.get('selectedTypeId'),
-        reporterId: JSON.parse(user).id,
-        assigneeId: store.get('selectedAssigneeId'),
-        versionId: store.get('selectedVersionId'),
-    }
-
-    if (store.get("selectedProject")) {
-        issue.projectId = store.get('projectId');
-    } else {
-        issue.projectId = store.get('selectedProjectId')
-    }
-    try {
-        await POST("issue/insert", issue);
-        toast("Issue submitted succesfully. Assignee will receive an email notification.");
-        store.delete('issue')
-        store.delete('selectedAssigneeId');
-        store.delete('selectedAssigneeName');
-
-    } catch (e) {
-        showErrorToast(e);
-    }
-}
-
-
-async function getData(path) {
-    var result = await GET(path);
-    var projectNames = [];
-    if (result != null) {
-        result.forEach(element => {
-            projectNames.push({
-                id: element.id,
-                text: element.name
-            });
-        })
-    }
-    return projectNames;
 }

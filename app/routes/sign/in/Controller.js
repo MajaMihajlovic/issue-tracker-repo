@@ -4,16 +4,17 @@ import { toast, showErrorToast } from "../../../components/toasts";
 export default class extends Controller {
 
   async signIn() {
-
-    console.log("file" + this.store.get('sign_in.file'));
-
     try {
       var data = new FormData();
-      data.append('email', this.store.get("sign_in.email"));
-      data.append('file', this.store.get('sign_in.file'));
-      data.append('password', this.store.get("sign_in.password"));
-      data.append('username', this.store.get("sign_in.username"));
-      data.append('fullname', this.store.get('sign_in.fullname'));
+
+      let formData = this.store.get('sign_in');
+      let { email, file, password, username, fullname } = formData;
+      data.append('email', email);
+      data.append('file', JSON.stringify(file).replace(/^"(.+(?="$))"$/, '$1'));
+      data.append('password', password);
+      data.append('username', username);
+      data.append('fullname', fullname);
+
       var result = await fetch('http://localhost:8080/api/user/insert', {
         method: 'POST',
         body: data
@@ -58,8 +59,20 @@ export default class extends Controller {
   }
 
   onUploadComplete(xhr, instance, file, formData) {
-    this.file = file;
-    this.store.set('sign_in.file', file);
+    var reader = new FileReader();
+    let store = this.store;
+    store.set('fileLoading', true);
+    reader.onload = function (event) {
+      var img = new Image();
+      img.onload = function (evm) {
+
+        store.set('sign_in.file', event.target.result.split("base64,")[1]);
+        store.set('fileLoading', false);
+      };
+
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
   }
   onUploadError(e) {
     console.log(e);

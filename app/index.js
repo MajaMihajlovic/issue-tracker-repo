@@ -35,7 +35,8 @@ let u = localStorage.getItem('user');
 if (u) {
   let user = JSON.parse(u);
   store.set('user', {
-    username: user.username
+    username: user.username,
+    photo: user.photo
   });
 }
 

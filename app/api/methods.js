@@ -73,7 +73,7 @@ export async function doFetch(path, opt = {}, hints = {}) {
     return await fetch(resolveAPIUrl(path, opt && opt.query), options);
   }
   catch (e) {
-    console.log("Majaaa")
+
     if (!e.response) {
       e.message = "Unable to connect to the server. Please check your Internet connection and try again.";
     }
@@ -141,10 +141,16 @@ export function DELETE(url, hints) {
       {
         ...defaultOptions,
         method: "DELETE",
-        headers: {}
+        headers: {
+          "Content-Type": "application/json",
+          'Accept': "application/json"
+        }
       },
       hints
-    ).then(x => { if (!x.ok) showErrorToast("Deletion is not possible.") });
+    ).then(x => {
+      if (!x.ok) showErrorToast("Deletion is not possible.")
+      else return x.text();
+    });
   } catch (e) {
     console.log(e)
   }
