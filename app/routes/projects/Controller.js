@@ -1,7 +1,6 @@
 import { Controller, Url, History } from 'cx/ui';
 import { GET, DELETE } from '../../api/methods';
-import { showErrorToast } from '../../components/toasts';
-import { openProjectWindow } from '../../components/ProjectWindow';
+import { openProjectWindow } from '../../components/projectWindow/index';
 
 export default class extends Controller {
     async init() {
@@ -29,8 +28,10 @@ export default class extends Controller {
     }
 
     async addProject() {
-        openProjectWindow(this.store);
-        load();
+        let result = await openProjectWindow(this.store);
+
+        if (result)
+            this.load();
     }
 
     edit(e) {

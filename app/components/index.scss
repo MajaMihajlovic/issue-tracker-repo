@@ -36,17 +36,6 @@
       color: white;   
 }
 
-.cards {
-   display: flex;
-   flex-direction: row;
-   align-items: flex-start;
-   flex-wrap: wrap;
-
-   .cxm-hspace {
-      height: 450px;
-   }
-}
-
 .card {
    width: 295px;
    margin-right: 10px;
@@ -54,8 +43,6 @@
    background: #E2E4E6;
    border-radius: 3px;
    box-shadow: 0 0 1px rgba(128, 128, 128, 0.5);
-
-   
 }
 
 .card h4 {
