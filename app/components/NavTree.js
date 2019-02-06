@@ -1,21 +1,18 @@
 export default [{
-    topic: 'Dashboard',
-    expanded: true,
-    articles: [
-        { title: 'Reports', url: '~/dashboards/' },
-    ]
+    topic: 'Reports',
+    url: '~/dashboards/',
+    expanded: false,
+    icon: 'https://img.icons8.com/color/48/000000/bar-chart.png'
 }, {
     topic: 'Projects',
     expanded: true,
-    articles: [
-        { title: 'My projects', url: '~/projects/' },
-    ]
+    url: '~/projects/',
+    icon: 'https://img.icons8.com/color/48/000000/project.png'
 }, {
     topic: 'Issues',
     expanded: true,
-    articles: [
-        { title: 'Assigned to me', url: '~/issues/' },
-    ]
+    url: '~/issues/',
+    icon: 'https://img.icons8.com/color/48/000000/tasks.png'
 }];
 
 

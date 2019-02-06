@@ -8,13 +8,6 @@ class CController extends Controller {
     init() {
         super.init();
         this.store.init('contents', NavTree);
-
-        this.addTrigger('active-topic-expand', ['url'], (url) => {
-            this.store.update('contents', updateArray, t => ({
-                ...t,
-                expanded: true
-            }), t => !t.expanded && t.articles.some(x => url.indexOf(x.url) == 0))
-        }, true);
     }
 }
 
@@ -34,32 +27,22 @@ export const SideNav = <cx>
         controller={CController}
         records-bind="contents"
         recordName="$topic"
-        adapter={{ type: TreeAdapter, childrenField: 'articles', expandedField: 'expanded' }}
         onItemClick={onItemClick}
         itemClassName={{
             "cxs-selected": { expr: '{url}=={$topic.url}' }
         }}
     >
-        <div visible-expr="{$topic.$level} == 0" preserveWhitespace
-            class={{
-                "csb-sidenavtopic": true,
-                "css-expanded": { expr: "{$topic.expanded}" },
-                "css-collapsed": { expr: "!{$topic.expanded}" }
-            }}>
+        <div class="csb-sidenavtopic">
+            <Link
+                href-bind="$url"
+                url-bind="url"
+                match="prefix"
+                mod="sidenav">
+                <img style="margin-right:15px;width:30px; height:30px" src-expr="{$topic.icon}"></img>
+                <Text style="padding: 5px" bind="$topic.topic" />
+            </Link>
 
-            <Text bind="$topic.topic" />
-            <i class="csb-cssicon-arrowleft" style="float:right"></i>
         </div>
-
-        <Link visible-expr="{$topic.$level} > 0"
-            href-bind="$topic.url"
-            url-bind="url"
-            match="prefix"
-            mod="sidenav"
-            tabIndex={-1}>
-            <Glyph name-expr="{$topic.glyph} || 'bars'" />
-            <Text bind="$topic.title" />
-        </Link>
 
     </List>
 </cx>;
