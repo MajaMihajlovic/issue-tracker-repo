@@ -78,7 +78,7 @@ export default (
                                 value-bind="$report.selectedProjectId"
                                 text-bind="$report.selectedProjectName"
                                 options-bind="$report.projects"
-                                style="width:300px"
+                                style="width:300px;"
                             />
                         </div>
                     </FlexRow>

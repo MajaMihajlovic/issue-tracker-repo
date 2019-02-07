@@ -1,7 +1,6 @@
 import { GET } from "../../api/methods";
 import { Controller } from "cx/ui";
 import { openIssueWindow } from "../../components/issueWindow/index";
-// import { URLSearchParams } from "url";
 export default class extends Controller {
     async init() {
         this.loadData();
@@ -11,14 +10,13 @@ export default class extends Controller {
         this.addTrigger("filter", ["issues", "$page.pageSize", "$page.page", "$page.filter"], (issues, size, page, filter) => {
             if (!issues)
                 return;
-
             if (filter)
                 issues = filterIssues(issues, filter);
-
             this.store.set("$page.records", issues.slice((page - 1) * size, page * size));
             this.store.set("$page.pageCount", Math.ceil(issues.length / size));
         }, true);
         var projectNames = await getData("project");
+        projectNames.push({ id: projectNames.length - 1, text: "All projects" });
         this.store.set('$page.projects', projectNames);
         var assigneeNames = await GET("user");
         var newResult = [];
@@ -28,20 +26,50 @@ export default class extends Controller {
                 text: element.fullName
             });
         });
-
+        newResult.push({ id: newResult.length - 1, text: "All assignees" });
         this.store.set('$page.assignees', newResult);
+        this.addTrigger("selectedProjectId", ["$page.selectedProjectId"], () => {
+            this.loadProjectsAndAssignees();
+        });
+        this.addTrigger("selectedAssigneeId", ["$page.selectedAssigneeId"], () => {
+            this.loadProjectsAndAssignees();
+        });
+    }
+
+    async loadProjectsAndAssignees() {
+        let projectName = this.store.get("$page.selectedProjectName");
+        let assigneName = this.store.get("$page.selectedAssigneeName");
+        let assigneeId = this.store.get("$page.selectedAssigneeId");
+        let projectId = this.store.get("$page.selectedProjectId");
+        let issues;
+        if (projectName == "All projects" && assigneName == "All assignees") {
+            issues = await GET("issue/getAll/")
+        } else if (assigneName == "All assignees") {
+            issues = await GET("issue/getAllByProject/" + projectId);
+        } else if (projectName == "All projects") {
+            issues = await GET("issue/getAll/" + assigneeId);
+        } else {
+            issues = await GET("issue/getAllByProjectAndAssignee/" + projectId + "/" + assigneeId);
+        }
+        this.store.set('issues', issues)
     }
 
     async loadData() {
         let user = sessionStorage.getItem('user') || localStorage.getItem('user');
         var id = JSON.parse(user).id;
+        this.store.set("$page.selectedAssigneeId", id);
+        this.store.set("$page.selectedAssigneeName", JSON.parse(user).fullName);
         const urlParams = new URLSearchParams(this.store.get('url').split("?")[1]);
         const projectId = urlParams.get('projectId');
+        console.log(projectId)
         if (projectId) {
-
+            this.store.set("$page.selectedProjectId", projectId);
+            let project = await GET("project/" + projectId);
+            this.store.set("$page.selectedProjectName", project.name);
+        } else {
+            this.store.set("$page.selectedProjectName", "All projects");
         }
-        let issues = projectId ? await GET("issue/getAllByProject/" + projectId) : await GET("issue/getAll/" + id);
-
+        let issues = projectId ? await GET("issue/getAllByProjectAndAssignee/" + projectId + "/" + id) : await GET("issue/getAll/" + id);
         this.store.set('issues', issues)
     }
 

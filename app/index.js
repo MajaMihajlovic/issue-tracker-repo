@@ -36,7 +36,8 @@ if (u) {
   let user = JSON.parse(u);
   store.set('user', {
     username: user.username,
-    photo: user.photo
+    photo: user.photo,
+    fullName: user.fullName
   });
 }
 

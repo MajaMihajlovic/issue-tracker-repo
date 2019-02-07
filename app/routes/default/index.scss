@@ -24,7 +24,7 @@
 }
 
 .reportCard{
-  border: 1px solid #e1e1e1;
+ // border: 1px solid #e1e1e1;
   border-radius: 0.25rem;
   box-shadow: 1px 1px 2px rgba(128, 128, 128, 0.1);
   overflow: hidden;
@@ -87,14 +87,19 @@ $block-height: 350px;
   cursor: move;
 }
 
+.cxe-lookupfield-input{
+  border-radius: 8px  !important;
+  border-style: unset !important;
+} 
+
 .cxb-dragsource.cxm-widget {
   .cxb-section.cxm-widget {
-    background: aliceblue;
+    background: #DDE7F3;
     width: $block-width;
     height: $block-height;
     margin-left:20px;
 
-    border: 1px solid #e1e1e1;
+    //border: 1px solid #e1e1e1;
   border-radius: 0.25rem;
   box-shadow: 1px 1px 2px rgba(128, 128, 128, 0.1);
   overflow: hidden;
@@ -142,8 +147,8 @@ $block-height: 350px;
 .panel {
   float: left;
   margin: 10px;
-  border: 1px solid lightgray;
-  background: #fefefd;
+ // border: 1px solid lightgray;
+  background: #DDE7F3;
   border-radius: 5px;
   box-shadow: 0 0 3px rgba(128, 128, 128, 0.3);
   width: 200px;
