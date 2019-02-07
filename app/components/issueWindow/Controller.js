@@ -69,17 +69,37 @@ export default class extends Controller {
         }
     }
 
-    onUploadComplete(xhr, instance, file) {
-        this.file = file;
+    onUploadComplete(xhr, instance, filee) {
+        console.log('nesto radi')
+        //debugger
+        let store = this.store;
+        this.filee = filee;
         let newAttachment = {
-            text: file.name
+            text: filee.name
         };
-        this.store.update("issue.attachments", (existingAttachments = []) => {
+        store.update("issue.attachments", (existingAttachments = []) => {
             return [
                 ...existingAttachments,
                 newAttachment
             ];
         });
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            var newDocument = {
+                name: filee.name,
+                file: event.target.result.split("base64,")[1]
+            }
+            console.log(newDocument)
+            console.log('nesto radi')
+            store.update("issue.attachmentsForDb", (existingAttachments = []) => {
+                return [
+                    ...existingAttachments,
+                    newDocument
+                ];
+            });
+        }
+        reader.readAsDataURL(filee);
+        console.log(this.store.get("issue.attachmentsForDb"))
     }
     onUploadError(e) {
         console.log(e);
@@ -90,7 +110,7 @@ export default class extends Controller {
         if ((user = sessionStorage.getItem('user')) == undefined) {
             user = localStorage.getItem('user')
         }
-        var issue = {
+        var newIssue = {
             title: this.store.
                 get('issue.title'),
             description: this.store.
@@ -112,22 +132,25 @@ export default class extends Controller {
         }
 
         if (this.store.get("selectedProject")) {
-            issue.projectId = this.store.
+            newIssue.projectId = this.store.
                 get('projectId');
         } else {
-            issue.projectId = this.store.
+            newIssue.projectId = this.store.
                 get('selectedProjectId')
         }
+        let files = this.store.get("issue.attachmentsForDb")
         try {
-            await POST("issue/insert", issue);
+            let issueAttachmnt = {
+                issue: newIssue,
+                list: files
+            }
+            await POST("issue/insert", issueAttachmnt);
             toast("Issue submitted succesfully. Assignee will receive an email notification.");
-            this.store.
-                delete('issue')
-            this.store.
-                delete('selectedAssigneeId');
-            this.store.
-                delete('selectedAssigneeName');
-
+            this.store.delete('issue')
+            this.store.delete('selectedAssigneeId');
+            this.store.delete('selectedAssigneeName');
+            this.store.delete("issue.attachmentsForDb");
+            this.store.delete("issue.attachments")
         } catch (e) {
             showErrorToast(e);
         }

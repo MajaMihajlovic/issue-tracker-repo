@@ -58,7 +58,7 @@ export default class extends Controller {
     this.store.set("sign_in.pictureUrl", URL.createObjectURL(file));
   }
 
-  onUploadComplete(xhr, instance, file, formData) {
+  onUploadComplete(xhr, instance, file) {
     var reader = new FileReader();
     let store = this.store;
     store.set('fileLoading', true);

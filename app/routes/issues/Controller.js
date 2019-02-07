@@ -79,6 +79,8 @@ export default class extends Controller {
 
     edit() {
         this.store.set("editIssue", true);
+        //ne mogu dobiti selection
+        //this.store.set("issueForEditing", this.store.get())
         openIssueWindow(this.store);
     }
 }
