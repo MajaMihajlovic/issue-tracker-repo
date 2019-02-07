@@ -10,19 +10,19 @@ import {
 
 import { Glyph } from 'app/components/Glyph';
 import "./index.scss"
-import Controller from "./Controller"
-const IssueWindow = <cx>
+import getController from "./Controller";
 
-    <Window modal center >
-        <main controller={Controller} >
-            <div putInto="header">
-                <ul class="csb-breadcrumb">
-                    <li class="cse-breadcrumb-item">
-                        <h3>Add Issue </h3>
-                    </li>
-                </ul>
-            </div>
-            <div controller={Controller}>
+export async function openIssueWindow(store, id) {
+    return new Promise(async (resolve) => {
+        let window = <cx><Window
+            title="Add Issue"
+            modal
+            center
+
+            bodyStyle="display: flex; flex-direction: column; padding: 20px"
+            controller={getController(resolve, id)}
+        >
+            <div >
                 <ValidationGroup layout={LabelsLeftLayout} invalid-bind="issue.invalid">
                     <FlexRow style="padding:30px">
                         <FlexCol style="width:600px; padding-right:30px">
@@ -81,15 +81,17 @@ const IssueWindow = <cx>
                             </Repeater>
 
                             <br />
-                            <FlexRow spacing>
-
+                            <FlexRow spacing justify="end" putInto="footer">
+                                <Button
+                                    text="Cancel"
+                                    dismiss
+                                />
                                 <Button
                                     mod="primary"
-                                    onClick="save"
-                                    text="Add"
+                                    onClick='save'
+                                    text="Save"
                                     disabled-bind="issue.invalid"
                                     mod="primary"
-                                    dismiss
                                 />
 
                             </FlexRow></FlexCol>
@@ -143,29 +145,27 @@ const IssueWindow = <cx>
                             </FlexCol>
                         </Section></div>
                     </FlexRow>
-                </ValidationGroup></div>
-        </main>
-    </Window>
-</cx >;
+                </ValidationGroup>
+            </div>
+        </Window></cx>;
 
-
-
-
-export async function openIssueWindow(store) {
-    let win = Widget.create(IssueWindow);
-
-
-
-    /*addTrigger("selectedProjectId", ["selectedProjectId"], async selectedProjectId => {
-         var result = await GET("user/getParticipants/" + selectedProjectId);
-         var newResult = [];
-         result.forEach(element => {
-             newResult.push({
-                 id: element.id,
-                 text: element.fullName
-             });
-         })
-         store.set('assignees', newResult);
-     });*/
-    win.open(store);
+        let win = Widget.create(window);
+        win.open(store);
+    });
 }
+
+
+
+
+
+/*addTrigger("selectedProjectId", ["selectedProjectId"], async selectedProjectId => {
+     var result = await GET("user/getParticipants/" + selectedProjectId);
+        var newResult = [];
+     result.forEach(element => {
+            newResult.push({
+                id: element.id,
+                text: element.fullName
+            });
+        })
+        store.set('assignees', newResult);
+    });*/

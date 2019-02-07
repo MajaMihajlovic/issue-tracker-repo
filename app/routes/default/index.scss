@@ -88,9 +88,16 @@ $block-height: 350px;
 }
 
 .cxe-lookupfield-input{
-  border-radius: 8px  !important;
-  border-style: unset !important;
+ border-radius: 5px  !important;
+ // border-style: unset !important;
 } 
+
+.cxe-textarea-input{
+ border-radius: 5px  !important;
+ // border-style: unset !important;
+} 
+
+
 
 .cxb-dragsource.cxm-widget {
   .cxb-section.cxm-widget {

@@ -1,4 +1,4 @@
-import { PropertySelection } from 'cx/ui';
+import { PropertySelection, KeySelection } from 'cx/ui';
 import { DateTimeField, FlexRow, Grid, Link, Menu, openContextMenu, Pagination, Select, TextField, Button, Section, LookupField } from 'cx/widgets';
 import Controller from './Controller';
 
@@ -36,15 +36,11 @@ export default <cx>
         </FlexRow>
         <Grid
             records-bind="$page.records"
-            selection={{ type: PropertySelection, bind: "$page.selection", multiple: false }}
+            onRowDoubleClick="openDetails"
+            selection={{ type: KeySelection, bind: "$page.selection" }}
             style={{ width: "100%", padding: "10px" }}
             mod="bordered"
             lockColumnWidths
-            onRowContextMenu={(e, { store }) => openContextMenu(e, <cx>
-                <Menu controller={Controller}>
-                    <a style="padding-left:10px" onClick="edit" href="#"><i style="padding-right:5px" class="fas fa-pencil-alt" />  Edit</a>
-                </Menu>
-            </cx>, store)}
             columns={[
                 {
                     header1: "Project",

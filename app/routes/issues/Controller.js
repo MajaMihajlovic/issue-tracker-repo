@@ -1,5 +1,5 @@
 import { GET } from "../../api/methods";
-import { Controller } from "cx/ui";
+import { Controller, History, Url } from "cx/ui";
 import { openIssueWindow } from "../../components/issueWindow/index";
 export default class extends Controller {
     async init() {
@@ -54,6 +54,10 @@ export default class extends Controller {
         this.store.set('issues', issues)
     }
 
+    openDetails() {
+        History.pushState({}, null, Url.resolve("~/issues/" + this.store.get("$page.selection")));
+    }
+
     async loadData() {
         let user = sessionStorage.getItem('user') || localStorage.getItem('user');
         var id = JSON.parse(user).id;
@@ -74,7 +78,7 @@ export default class extends Controller {
     }
 
     async addIssue() {
-        openIssueWindow(this.store);
+        openIssueWindow(this.store, this.store.get("$page.selection"));
     }
 
     edit() {

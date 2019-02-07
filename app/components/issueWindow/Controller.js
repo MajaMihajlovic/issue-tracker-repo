@@ -2,33 +2,32 @@ import { Controller } from "cx/ui";
 import { GET, POST } from "../../api/methods";
 import { showErrorToast, toast } from "../toasts";
 
-export default class extends Controller {
+export default (resolve, id) => class extends Controller {
 
     async initWindow() {
         var projectNames = await getData("project");
-        this.store.set('selectedProjectName', projectNames[0].text);
-        this.store.set('selectedProjectId', projectNames[0].id);
         this.store.set('projects', projectNames);
-
         var projectTypes = await getData("type");
-        this.store.set('selectedTypeName', projectTypes[0].text);
-        this.store.set('selectedTypeId', projectTypes[0].id);
-        this.store.set('types', projectTypes);
-
+        this.store.set('types', projectTypes)
         var projectVersions = await getData("version");
-        this.store.set('selectedVersionName', projectVersions[0].text);
-        this.store.set('selectedVersionId', projectVersions[0].id);
         this.store.set('versions', projectVersions);
-
         var projectPriorities = await getData("priority");
-        this.store.set('selectedPriorityName', projectPriorities[0].text);
-        this.store.set('selectedPriorityId', projectPriorities[0].id);
         this.store.set('priorities', projectPriorities);
-
         var projectStates = await getData("state");
-        this.store.set('selectedStateName', projectStates[0].text);
-        this.store.set('selectedStateId', projectStates[0].id);
         this.store.set('states', projectStates);
+
+        if (id != null) {
+            this.store.set('selectedProjectName', projectNames[0].text);
+            this.store.set('selectedProjectId', projectNames[0].id);
+            this.store.set('selectedTypeName', projectTypes[0].text);
+            this.store.set('selectedTypeId', projectTypes[0].id);
+            this.store.set('selectedVersionName', projectVersions[0].text);
+            this.store.set('selectedVersionId', projectVersions[0].id);
+            this.store.set('selectedPriorityName', projectPriorities[0].text);
+            this.store.set('selectedPriorityId', projectPriorities[0].id);
+            this.store.set('selectedStateName', projectStates[0].text);
+            this.store.set('selectedStateId', projectStates[0].id);
+        }
     }
 
     onInit() {
@@ -144,13 +143,19 @@ export default class extends Controller {
                 issue: newIssue,
                 list: files
             }
-            await POST("issue/insert", issueAttachmnt);
-            toast("Issue submitted succesfully. Assignee will receive an email notification.");
-            this.store.delete('issue')
-            this.store.delete('selectedAssigneeId');
-            this.store.delete('selectedAssigneeName');
-            this.store.delete("issue.attachmentsForDb");
-            this.store.delete("issue.attachments")
+            let response = await POST("issue/insert", issueAttachmnt);
+            if (response != 'Success') {
+                showErrorToast(response);
+            } else {
+                toast("Issue submitted succesfully. Assignee will receive an email notification.");
+                resolve(true);
+                this.instance.dismiss();
+                this.store.delete('issue')
+                this.store.delete('selectedAssigneeId');
+                this.store.delete('selectedAssigneeName');
+                this.store.delete("issue.attachmentsForDb");
+                this.store.delete("issue.attachments")
+            }
         } catch (e) {
             showErrorToast(e);
         }

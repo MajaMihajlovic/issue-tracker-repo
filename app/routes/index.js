@@ -8,9 +8,9 @@ import { PageNotFound } from './PageNotFound';
 import SignRoutes from './sign';
 import Default from './default';
 import AssignedToMe from './issues'
-// import ProjectIssue from './issues/projectIssues'
 import MyProjects from './projects';
 import ProjectDetails from './projects/details';
+import IssueDetails from './issues/details'
 
 export default <cx>
     <Sandbox key-bind="url"
@@ -27,10 +27,9 @@ export default <cx>
             <Route route="~/issues(/)" url-bind="url">
                 <AssignedToMe />
             </Route>
-
-            {/* <Route route="~/issues/project/:projectId" url-bind="url">
-                <span>Project issue</span>
-            </Route> */}
+            <Route route="~/issues/:id" url-bind="url">
+                <IssueDetails />
+            </Route>
             <Route route="~/projects/" url-bind="url">
                 <MyProjects />
             </Route>

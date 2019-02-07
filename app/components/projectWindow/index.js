@@ -148,15 +148,15 @@ export async function openProjectWindow(store) {
                                 </FlexRow>
                                 <FlexRow spacing justify="end" putInto="footer">
                                     <Button
+                                        text="Cancel"
+                                        dismiss
+                                    />
+                                    <Button
                                         mod="primary"
                                         onClick='save'
                                         text="Save"
                                         disabled-bind="new_project.invalid"
                                         mod="primary"
-                                    />
-                                    <Button
-                                        text="Cancel"
-                                        dismiss
                                     />
                                 </FlexRow>
                             </form>

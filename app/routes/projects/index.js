@@ -21,7 +21,7 @@ export default <cx>
                     style="font-size:30px; width: 100%; max-width: 720px; height:35px"
                     icon="search"
                 /><div style=" position: absolute; right: 0;">
-                    <Link onClick='addProject' style="font-size:30px" href="#"><i class="fa fa-plus" /></Link></div>
+                    <Link onClick='addProject' style="font-size:18px" href="#" > Add project <i style="padding-left:10px" class="fa fa-plus" /></Link></div>
             </FlexRow>
         </Section>
         <div
