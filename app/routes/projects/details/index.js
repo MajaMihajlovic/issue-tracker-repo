@@ -15,7 +15,8 @@ export default <cx>
         <div>
             <FlexRow>
                 <figure style="width:300px; heigth:250px; margin-inline-start: 20px; margin-inline-end: 20px;">
-                    <img style="width:300px; heigth:250px; object-fit: cover" src-expr="{$page.projectDetails.photoUrl} || 'http://placehold.it/300x250'" alt="Photo" />
+
+                    <img style="width:300px; heigth:250px; object-fit: cover" src-expr="{$page.projectDetails.photoUrl} || '~/app/assets/img/projectManagement.jpg'" alt=" Photo" />
                 </figure>
                 <FlexCol style="width:600px; padding-top:15px;">
                     <TextField value-bind="$page.projectDetails.name"

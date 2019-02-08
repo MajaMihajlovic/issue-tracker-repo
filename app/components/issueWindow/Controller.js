@@ -15,19 +15,16 @@ export default (resolve, id) => class extends Controller {
         this.store.set('priorities', projectPriorities);
         var projectStates = await getData("state");
         this.store.set('states', projectStates);
-
-        if (id != null) {
-            this.store.set('selectedProjectName', projectNames[0].text);
-            this.store.set('selectedProjectId', projectNames[0].id);
-            this.store.set('selectedTypeName', projectTypes[0].text);
-            this.store.set('selectedTypeId', projectTypes[0].id);
-            this.store.set('selectedVersionName', projectVersions[0].text);
-            this.store.set('selectedVersionId', projectVersions[0].id);
-            this.store.set('selectedPriorityName', projectPriorities[0].text);
-            this.store.set('selectedPriorityId', projectPriorities[0].id);
-            this.store.set('selectedStateName', projectStates[0].text);
-            this.store.set('selectedStateId', projectStates[0].id);
-        }
+        this.store.set('selectedProjectName', projectNames[0].text);
+        this.store.set('selectedProjectId', projectNames[0].id);
+        this.store.set('selectedTypeName', projectTypes[0].text);
+        this.store.set('selectedTypeId', projectTypes[0].id);
+        this.store.set('selectedVersionName', projectVersions[0].text);
+        this.store.set('selectedVersionId', projectVersions[0].id);
+        this.store.set('selectedPriorityName', projectPriorities[0].text);
+        this.store.set('selectedPriorityId', projectPriorities[0].id);
+        this.store.set('selectedStateName', projectStates[0].text);
+        this.store.set('selectedStateId', projectStates[0].id);
     }
 
     onInit() {
@@ -69,8 +66,6 @@ export default (resolve, id) => class extends Controller {
     }
 
     onUploadComplete(xhr, instance, filee) {
-        console.log('nesto radi')
-        //debugger
         let store = this.store;
         this.filee = filee;
         let newAttachment = {
@@ -88,8 +83,6 @@ export default (resolve, id) => class extends Controller {
                 name: filee.name,
                 file: event.target.result.split("base64,")[1]
             }
-            console.log(newDocument)
-            console.log('nesto radi')
             store.update("issue.attachmentsForDb", (existingAttachments = []) => {
                 return [
                     ...existingAttachments,

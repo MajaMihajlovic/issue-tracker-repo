@@ -25,7 +25,7 @@ export async function openIssueWindow(store, id) {
             <div >
                 <ValidationGroup layout={LabelsLeftLayout} invalid-bind="issue.invalid">
                     <FlexRow style="padding:30px">
-                        <FlexCol style="width:600px; padding-right:30px">
+                        <FlexCol style="width:500px; padding-right:30px">
                             <LookupField //visible-expr="!{projectSelected}"
                                 label="Project"
                                 value-bind="selectedProjectId"

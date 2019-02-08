@@ -5,7 +5,7 @@ export default class extends Controller {
     async init() {
         this.loadData();
         this.store.init("$page.page", 1);
-        this.store.init("$page.pageSize", 10);
+        this.store.init("$page.pageSize", 20);
         this.addTrigger("page", ["$page.pageSize"], () => this.store.set("$page.page", 1), true);
         this.addTrigger("filter", ["issues", "$page.pageSize", "$page.page", "$page.filter"], (issues, size, page, filter) => {
             if (!issues)
