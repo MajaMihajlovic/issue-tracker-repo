@@ -5,6 +5,7 @@ import Routes from "./routes";
 import { store } from "./store";
 import "whatwg-fetch";
 import "./index.scss";
+import "cx-theme-aquamarine";
 
 var stop;
 

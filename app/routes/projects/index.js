@@ -47,6 +47,7 @@ export default <cx>
             >
                 <div class="b-card" onContextMenu={(e, { store }) => openContextMenu(e, <cx>
                     <Menu controller={Controller}>
+                        <a style="padding-left:10px" onClick="details" href="#"><i style="padding-right:5px" class="fas fa-file-alt"></i>  Details</a>
                         <a style="padding-left:10px" onClick="delete" href="#"><i style="padding-right:5px" class="fas fa-trash-alt"></i>  Delete</a>
                         <a style="padding-left:10px" onClick="finish" href="#"><i style="padding-right:5px" class="fas fa-check"></i>  Mark as finished</a>
                     </Menu>
@@ -63,19 +64,13 @@ export default <cx>
                                 alt="Project photo"
                             />
                         </div>
-                        <a href-tpl="~/projects/{project.id}" style="text-decoration:none">
+                        <a href-tpl="~/issues?projectId={project.id}" style="text-decoration:none">
                             <div class="e-card-details">
-                                <Link href-tpl="~/projects/{project.id}">
-                                    <h3 class="e-card-name" text-tpl="{project.name}" />
-                                </Link>
-
+                                <h3 class="e-card-name" text-tpl="{project.name}" />
                                 <div style="  white-space: wrap; height: 3.6em; overflow: hidden;  text-overflow: -o-ellipsis-lastline;">
                                     <i class="fa fa-newspaper"></i>
                                     <Text bind="project.description" />
                                 </div>
-                                <Link href-tpl="~/issues?projectId={project.id}">
-                                    <u text-tpl="Issues" />
-                                </Link>
                             </div>
                         </a>
                     </Restate>

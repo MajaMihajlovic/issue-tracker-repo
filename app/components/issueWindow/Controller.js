@@ -4,56 +4,68 @@ import { showErrorToast, toast } from "../toasts";
 
 export default (resolve, id) => class extends Controller {
 
-    async initWindow() {
-        var projectNames = await getData("project");
-        this.store.set('projects', projectNames);
-        var projectTypes = await getData("type");
-        this.store.set('types', projectTypes)
-        var projectVersions = await getData("version");
-        this.store.set('versions', projectVersions);
-        var projectPriorities = await getData("priority");
-        this.store.set('priorities', projectPriorities);
-        var projectStates = await getData("state");
-        this.store.set('states', projectStates);
-        this.store.set('selectedProjectName', projectNames[0].text);
-        this.store.set('selectedProjectId', projectNames[0].id);
-        this.store.set('selectedTypeName', projectTypes[0].text);
-        this.store.set('selectedTypeId', projectTypes[0].id);
-        this.store.set('selectedVersionName', projectVersions[0].text);
-        this.store.set('selectedVersionId', projectVersions[0].id);
-        this.store.set('selectedPriorityName', projectPriorities[0].text);
-        this.store.set('selectedPriorityId', projectPriorities[0].id);
-        this.store.set('selectedStateName', projectStates[0].text);
-        this.store.set('selectedStateId', projectStates[0].id);
-    }
-
     onInit() {
-        this.initWindow();
+        if (id) {
+            this.loadAttachments();
+        }
+        this.loadData(id);
         this.addTrigger("selectedProjectId", ["selectedProjectId"], () => {
-            this.loadData();
+            this.loadParticipants();
         });
     }
 
-    async loadData() {
-        try {
-            var result = await GET("user/getParticipants/" + this.store.get("selectedProjectId"));
-            var newResult = [];
-            result.forEach(element => {
-                newResult.push({
-                    id: element.id,
-                    text: element.fullName
-                });
+    async loadAttachments() {
+        var result = await GET("attachment/getById/" + id);
+        var newResult = [];
+        result.forEach(element => {
+            newResult.push({
+                text: element.name,
+                file: btoa(element.file)
             });
+        });
+        this.store.set("issue.attachments", newResult);
+    }
 
-            if (newResult.length > 0) {
-                this.store.set('selectedAssigneeName', newResult[0].text);
-                this.store.set('selectedAssigneeId', newResult[0].id);
-            }
-            this.store.set('assignees', newResult);
+    async loadData() {
+        var projectNames = await GET("project");
+        this.store.set('projects', projectNames);
+        var projectTypes = await GET("type");
+        this.store.set('types', projectTypes)
+        var projectVersions = await GET("version");
+        this.store.set('versions', projectVersions);
+        var projectPriorities = await GET("priority");
+        this.store.set('priorities', projectPriorities);
+        var projectStates = await GET("state");
+        this.store.set('states', projectStates);
+        if (id) {
+            let issue = await GET("issue/getIssueById/" + id);
+            console.log(issue)
+            this.store.set('selectedProjectId', issue.projectId);
+            this.store.set('selectedTypeId', issue.typeId);
+            this.store.set('selectedVersionId', issue.versionId);
+            this.store.set('selectedPriorityId', issue.priorityId);
+            this.store.set('selectedStateId', issue.stateId);
+            this.store.set('selectedAssigneeId', issue.assigneeId);
+            this.store.set('issue.title', issue.title);
+            this.store.set('issue.description', issue.description);
+            this.store.set('issue.duedate', issue.duedate);
+
+        } else {
+            this.store.set('selectedProjectId', projectNames[0].id);
+            this.store.set('selectedTypeId', projectTypes[0].id);
+            this.store.set('selectedVersionId', projectVersions[0].id);
+            this.store.set('selectedPriorityId', projectPriorities[0].id);
+            this.store.set('selectedStateId', projectStates[0].id);
+        }
+        this.loadParticipants();
+    }
+
+    async loadParticipants() {
+        try {
+            var participants = await GET("user/getParticipants/" + this.store.get("selectedProjectId"));
+            this.store.set('assignees', participants);
         } catch (e) {
             this.store.delete('assignees');
-            this.store.delete('selectedAssigneeName');
-            this.store.delete("selectedAssigneeId")
         }
     }
 
@@ -68,9 +80,7 @@ export default (resolve, id) => class extends Controller {
     onUploadComplete(xhr, instance, filee) {
         let store = this.store;
         this.filee = filee;
-        let newAttachment = {
-            text: filee.name
-        };
+        let newAttachment = { text: filee.name };
         store.update("issue.attachments", (existingAttachments = []) => {
             return [
                 ...existingAttachments,
@@ -91,8 +101,8 @@ export default (resolve, id) => class extends Controller {
             });
         }
         reader.readAsDataURL(filee);
-        console.log(this.store.get("issue.attachmentsForDb"))
     }
+
     onUploadError(e) {
         console.log(e);
     }
@@ -103,48 +113,29 @@ export default (resolve, id) => class extends Controller {
             user = localStorage.getItem('user')
         }
         var newIssue = {
-            title: this.store.
-                get('issue.title'),
-            description: this.store.
-                get('issue.description'),
-            stateId: this.store.
-                get('selectedStateId'),
-            priorityId: this.store.
-                get('selectedPriorityId'),
-            duedate: this.store.
-                get('issue.duedate'),
+            title: this.store.get('issue.title'),
+            description: this.store.get('issue.description'),
+            stateId: this.store.get('selectedStateId'),
+            priorityId: this.store.get('selectedPriorityId'),
+            duedate: this.store.get('issue.duedate'),
             createdDate: new Date(),
-            typeId: this.store.
-                get('selectedTypeId'),
+            typeId: this.store.get('selectedTypeId'),
             reporterId: JSON.parse(user).id,
-            assigneeId: this.store.
-                get('selectedAssigneeId'),
-            versionId: this.store.
-                get('selectedVersionId'),
+            assigneeId: this.store.get('selectedAssigneeId'),
+            versionId: this.store.get('selectedVersionId'),
         }
 
-        if (this.store.get("selectedProject")) {
-            newIssue.projectId = this.store.
-                get('projectId');
-        } else {
-            newIssue.projectId = this.store.
-                get('selectedProjectId')
-        }
+        if (this.store.get("selectedProject"))
+            newIssue.projectId = this.store.get('projectId');
+        else newIssue.projectId = this.store.get('selectedProjectId')
+
         let files = this.store.get("issue.attachmentsForDb")
 
-        let issueAttachmnt = {
-            issue: newIssue,
-            list: files
-        }
-        let response;
-        if (files) {
+        let issueAttachmnt = { issue: newIssue, list: files }
+        if (files) var response = await POST("issue/insertWithAttachment", issueAttachmnt);
+        else var response = await POST("issue/insert", newIssue);
 
-            response = await POST("issue/insertWithAttachment", issueAttachmnt);
-        } else {
-            response = await POST("issue/insert", newIssue);
-        }
         try {
-
             if (response != 'Success') {
                 showErrorToast(response);
             } else {
@@ -161,17 +152,4 @@ export default (resolve, id) => class extends Controller {
             showErrorToast(e);
         }
     }
-}
-async function getData(path) {
-    var result = await GET(path);
-    var projectNames = [];
-    if (result != null) {
-        result.forEach(element => {
-            projectNames.push({
-                id: element.id,
-                text: element.name
-            });
-        })
-    }
-    return projectNames;
 }

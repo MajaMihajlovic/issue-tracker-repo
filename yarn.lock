@@ -1582,13 +1582,17 @@ cx-react@^17.10.0:
   version "17.10.0"
   resolved "https://registry.yarnpkg.com/cx-react/-/cx-react-17.10.0.tgz#9ef22248f0f37aeae4450a7318c3a083d59fda8b"
 
+cx-theme-aquamarine@^18.7.3:
+  version "18.7.3"
+  resolved "https://registry.yarnpkg.com/cx-theme-aquamarine/-/cx-theme-aquamarine-18.7.3.tgz#f46ced1fba168bfe530e0d8af23a45f40ac21af5"
+
 cx-theme-material@^18.7.0:
   version "18.7.0"
   resolved "https://registry.yarnpkg.com/cx-theme-material/-/cx-theme-material-18.7.0.tgz#a69d77d1bc0ae5735941a207f989f6bb6f362424"
 
-cx@19.1.2:
-  version "19.1.2"
-  resolved "https://registry.yarnpkg.com/cx/-/cx-19.1.2.tgz#6bae14dcf3d783a942ccf6919f07c2eb29dd2151"
+cx@19.1.4:
+  version "19.1.4"
+  resolved "https://registry.yarnpkg.com/cx/-/cx-19.1.4.tgz#1a246b6cc5cceb8ba7044f067328778c09893296"
   dependencies:
     intl-io "^0.2.11"
     route-parser "^0.0.5"

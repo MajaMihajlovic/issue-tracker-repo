@@ -1,13 +1,6 @@
+import { LabelsLeftLayout, Repeater } from 'cx/ui';
+import { Button, DateField, FlexCol, FlexRow, Link, LookupField, MsgBox, Section, TextArea, TextField, UploadButton, ValidationGroup } from 'cx/widgets';
 import Controller from './Controller';
-import { Widget, LabelsLeftLayout, Repeater, Text, LabelsTopLayout } from 'cx/ui';
-import {
-    Button,
-    TextField,
-    ValidationGroup,
-    FlexRow,
-    FlexCol, Link, LookupField, TextArea, Window, Section,
-    DateField, UploadButton, MsgBox, initiateDragDrop
-} from 'cx/widgets';
 
 export default <cx>
     <main controller={Controller} >
@@ -68,7 +61,6 @@ export default <cx>
                                         MsgBox.yesNo("Are you sure you want to delete this attachment").then((btn) => {
                                             if (btn == 'yes') {
                                                 var record = store.get("$file");
-                                                console.log(store.get("issue.attachments"));
                                                 store.update('issue.attachments', records => records.filter(r => r != record))
                                             }
                                         });

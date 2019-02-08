@@ -14,16 +14,16 @@ module.exports = {
             loose: true,
             cx: {
                 imports: {
-                    useSrc: true
+                    useSrc: false
                 }
             }
         }]
     ],
     "plugins": [
         ["transform-runtime", {
-          "polyfill": false,
-          "regenerator": true
+            "polyfill": false,
+            "regenerator": true
         }]
-      ]
+    ]
 };
 

@@ -1,36 +1,25 @@
-import { Widget, LabelsLeftLayout, Repeater, Text } from 'cx/ui';
-import {
-    Button,
-    TextField,
-    ValidationGroup,
-    FlexRow,
-    FlexCol, Link, LookupField, TextArea, Window, Section,
-    DateField, UploadButton, MsgBox, initiateDragDrop
-} from 'cx/widgets';
-
-import { Glyph } from 'app/components/Glyph';
-import "./index.scss"
+import { LabelsLeftLayout, Repeater, Widget } from 'cx/ui';
+import { Button, DateField, FlexCol, FlexRow, LookupField, MsgBox, Section, TextArea, TextField, UploadButton, ValidationGroup, Window } from 'cx/widgets';
 import getController from "./Controller";
 
-export async function openIssueWindow(store, id) {
+export async function openIssueWindow(id) {
     return new Promise(async (resolve) => {
         let window = <cx><Window
-            title="Add Issue"
+            title={id ? "Edit Issue" : "Add Issue"}
             modal
             center
-
-            bodyStyle="display: flex; flex-direction: column; padding: 20px"
+            bodyStyle="display: flex; flex-direction: column;"
             controller={getController(resolve, id)}
         >
             <div >
                 <ValidationGroup layout={LabelsLeftLayout} invalid-bind="issue.invalid">
-                    <FlexRow style="padding:30px">
+                    <FlexRow style="padding:20px">
                         <FlexCol style="width:500px; padding-right:30px">
                             <LookupField //visible-expr="!{projectSelected}"
                                 label="Project"
                                 value-bind="selectedProjectId"
-                                text-bind="selectedProjectName"
                                 options-bind="projects"
+                                optionTextField="name"
                             />
                             <TextField
                                 value-bind="issue.title"
@@ -58,8 +47,8 @@ export async function openIssueWindow(store, id) {
                                     onUploadError="onUploadError"
                                     mode-bind="mode"
                                     label="Attachments"
-                                    style="width:33px; border-radius:25%">
-                                    <Glyph name-expr="{$topic.glyph} || 'plus'" />
+                                    style="border-radius:30%; padding:5px; width:24px; font-size:15px">
+                                    <i class="fa fa-plus" />
                                 </UploadButton>
                             </div>
                             <Repeater
@@ -67,12 +56,17 @@ export async function openIssueWindow(store, id) {
                                 recordAlias="$file"
                             >
                                 <FlexRow>
-                                    <div class="attachment" text-bind="$file.text" /><div class="button" onClick={(e, { store }) => {
+                                    <body>
+                                        <a href-tpl={"data:image/jpg;base64, {$file.file}"}>test</a>
+                                    </body>
+
+                                    <div class="attachment" text-bind="$file.text" />
+                                    <div class="button" onClick={(e, { store }) => {
                                         MsgBox.yesNo("Are you sure you want to delete this attachment").then((btn) => {
                                             if (btn == 'yes') {
                                                 var record = store.get("$file");
-                                                console.log(store.get("issue.attachments"));
                                                 store.update('issue.attachments', records => records.filter(r => r != record))
+                                                store.update('issue.attachmentsForDb', records => records.filter(r => r != record))
                                             }
                                         });
                                     }}
@@ -103,38 +97,34 @@ export async function openIssueWindow(store, id) {
                                     <LookupField
                                         label="Priority"
                                         value-bind="selectedPriorityId"
-                                        text-bind="selectedPriorityName"
                                         options-bind="priorities"
-                                        multiple={false}
+                                        optionTextField="name"
                                     />
                                     <LookupField
                                         label="Type"
                                         value-bind="selectedTypeId"
-                                        text-bind="selectedTypeName"
                                         options-bind="types"
-                                        multiple={false}
-                                    /> <LookupField
+                                        optionTextField="name"
+                                    />
+                                    <LookupField
                                         label="State"
                                         value-bind="selectedStateId"
-                                        text-bind="selectedStateName"
                                         options-bind="states"
-                                        multiple={false}
+                                        optionTextField="name"
                                     />
                                     <LookupField
                                         label="Assignee"
                                         value-bind="selectedAssigneeId"
-                                        text-bind="selectedAssigneeName"
                                         options-bind="assignees"
-                                        multiple={false}
                                         required
                                         asterisk
+                                        optionTextField="fullName"
                                     />
                                     <LookupField
                                         label="Subsystem"
                                         value-bind="selectedVersionId"
-                                        text-bind="selectedVersionName"
                                         options-bind="versions"
-                                        value="selectedVersionName"
+                                        optionTextField="name"
                                     />
                                     <DateField label="Due date"
                                         minValue={new Date()}
@@ -150,22 +140,6 @@ export async function openIssueWindow(store, id) {
         </Window></cx>;
 
         let win = Widget.create(window);
-        win.open(store);
+        win.open();
     });
 }
-
-
-
-
-
-/*addTrigger("selectedProjectId", ["selectedProjectId"], async selectedProjectId => {
-     var result = await GET("user/getParticipants/" + selectedProjectId);
-        var newResult = [];
-     result.forEach(element => {
-            newResult.push({
-                id: element.id,
-                text: element.fullName
-            });
-        })
-        store.set('assignees', newResult);
-    });*/

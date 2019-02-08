@@ -2,91 +2,77 @@ import { GET } from "../../api/methods";
 import { Controller, History, Url } from "cx/ui";
 import { openIssueWindow } from "../../components/issueWindow/index";
 export default class extends Controller {
-    async init() {
-        this.loadData();
+    init() {
         this.store.init("$page.page", 1);
         this.store.init("$page.pageSize", 20);
-        this.addTrigger("page", ["$page.pageSize"], () => this.store.set("$page.page", 1), true);
+
+        this.loadAll();
+
+        this.addTrigger("page", ["$page.pageSize"], () => { this.store.set("$page.page", 1) });
         this.addTrigger("filter", ["issues", "$page.pageSize", "$page.page", "$page.filter"], (issues, size, page, filter) => {
             if (!issues)
                 return;
+
             if (filter)
                 issues = filterIssues(issues, filter);
+
             this.store.set("$page.records", issues.slice((page - 1) * size, page * size));
             this.store.set("$page.pageCount", Math.ceil(issues.length / size));
         }, true);
-        var projectNames = await getData("project");
-        projectNames.push({ id: projectNames.length - 1, text: "All projects" });
-        this.store.set('$page.projects', projectNames);
-        var assigneeNames = await GET("user");
-        var newResult = [];
-        assigneeNames.forEach(element => {
-            newResult.push({
-                id: element.id,
-                text: element.fullName
-            });
-        });
-        newResult.push({ id: newResult.length - 1, text: "All assignees" });
-        this.store.set('$page.assignees', newResult);
-        this.addTrigger("selectedProjectId", ["$page.selectedProjectId"], () => {
-            this.loadProjectsAndAssignees();
-        });
-        this.addTrigger("selectedAssigneeId", ["$page.selectedAssigneeId"], () => {
-            this.loadProjectsAndAssignees();
-        });
+
+        this.addTrigger("selectedProjectId", ["$page.selectedProjectId"], (projectId) =>
+            History.pushState({}, null, Url.resolve(projectId ? `~/issues?projectId=${projectId}` : "~/issues/")));
+
+        this.addTrigger("selectedAssigneeId", ["$page.selectedAssigneeId"], () => this.loadIssues());
     }
 
-    async loadProjectsAndAssignees() {
-        let projectName = this.store.get("$page.selectedProjectName");
-        let assigneName = this.store.get("$page.selectedAssigneeName");
+    async loadAll() {
+        await Promise.all([this.loadProjects(), this.loadAssignees()]);
+        this.loadIssues();
+    }
+
+    async loadIssues() {
+        let urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('projectId');
+        if (!this.store.get('$page.selectedProjectId') && projectId)
+            this.store.set('$page.selectedProjectId', projectId);
+
         let assigneeId = this.store.get("$page.selectedAssigneeId");
-        let projectId = this.store.get("$page.selectedProjectId");
-        let issues;
-        if (projectName == "All projects" && assigneName == "All assignees") {
-            issues = await GET("issue/getAll/")
-        } else if (assigneName == "All assignees") {
-            issues = await GET("issue/getAllByProject/" + projectId);
-        } else if (projectName == "All projects") {
-            issues = await GET("issue/getAll/" + assigneeId);
+
+        if (!projectId && !assigneeId) {
+            var issues = await GET("issue/getAll/")
+        } else if (!assigneeId) {
+            var issues = await GET("issue/getAllByProject/" + projectId);
+        } else if (!projectId) {
+            var issues = await GET("issue/getAll/" + assigneeId);
         } else {
-            if (projecId != null && assigneId != null)
-                issues = await GET("issue/getAllByProjectAndAssignee/" + projectId + "/" + assigneeId);
+            var issues = await GET(`issue/getAllByProjectAndAssignee/${projectId}/${assigneeId}`);
         }
+
         this.store.set('issues', issues)
     }
 
     openDetails() {
-        History.pushState({}, null, Url.resolve("~/issues/" + this.store.get("$page.selection")));
-    }
-
-    async loadData() {
-        let user = sessionStorage.getItem('user') || localStorage.getItem('user');
-        var id = JSON.parse(user).id;
-        this.store.set("$page.selectedAssigneeId", id);
-        this.store.set("$page.selectedAssigneeName", JSON.parse(user).fullName);
-        const urlParams = new URLSearchParams(this.store.get('url').split("?")[1]);
-        const projectId = urlParams.get('projectId');
-        console.log(projectId)
-        if (projectId) {
-            this.store.set("$page.selectedProjectId", projectId);
-            let project = await GET("project/" + projectId);
-            this.store.set("$page.selectedProjectName", project.name);
-        } else {
-            this.store.set("$page.selectedProjectName", "All projects");
-        }
-        let issues = projectId ? await GET("issue/getAllByProjectAndAssignee/" + projectId + "/" + id) : await GET("issue/getAll/" + id);
-        this.store.set('issues', issues)
+        History.pushState({}, null, Url.resolve("~/issues/" + this.store.get("$page.selectedIssue")));
     }
 
     async addIssue() {
-        openIssueWindow(this.store, this.store.get("$page.selection"));
+        openIssueWindow();
     }
 
     edit() {
-        this.store.set("editIssue", true);
-        //ne mogu dobiti selection
-        //this.store.set("issueForEditing", this.store.get())
-        openIssueWindow(this.store);
+        let issueId = this.store.get("$page.selectedIssue");
+        openIssueWindow(issueId);
+    }
+
+    async loadProjects() {
+        let projects = await GET("project");
+        this.store.set('$page.projects', projects);
+    }
+
+    async loadAssignees() {
+        let assignees = await GET("user");
+        this.store.set('$page.assignees', assignees);
     }
 }
 
@@ -98,6 +84,7 @@ function filterIssues(issues, filter) {
     issues = filterIssuesByStringProperty(issues, filter, 'assigneeFullName');
     issues = filterIssuesByStringProperty(issues, filter, 'version');
     issues = filterIssuesByStringProperty(issues, filter, 'assignee');
+    issues = filterIssuesByStringProperty(issues, filter, 'description');
 
     if (filter.duedate)
         issues = filterIssuesByDueDate(issues, filter);
@@ -131,18 +118,4 @@ function filterIssuesByDueDate(issues, filter) {
     });
 
     return filteredIssues;
-}
-
-async function getData(path) {
-    var result = await GET(path);
-    var projectNames = [];
-    if (result != null) {
-        result.forEach(element => {
-            projectNames.push({
-                id: element.id,
-                text: element.name
-            });
-        })
-    }
-    return projectNames;
 }

@@ -34,6 +34,10 @@ export default class extends Controller {
             this.load();
     }
 
+    details() {
+        History.pushState({}, null, Url.resolve("~/projects/" + this.store.get('$project.id')));
+    }
+
     edit(e) {
         e.preventDefault();
         History.pushState({}, null, Url.resolve("~/projects/create"));

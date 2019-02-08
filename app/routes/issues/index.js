@@ -1,5 +1,5 @@
 import { PropertySelection, KeySelection } from 'cx/ui';
-import { DateTimeField, FlexRow, Grid, Link, Menu, openContextMenu, Pagination, Select, TextField, Button, Section, LookupField } from 'cx/widgets';
+import { DateTimeField, FlexRow, Grid, Link, Menu, openContextMenu, Pagination, Select, TextField, Button, Section, LookupField, MenuItem, Icon } from 'cx/widgets';
 import Controller from './Controller';
 
 export default <cx>
@@ -11,19 +11,22 @@ export default <cx>
                 </li>
             </ul>
         </div>
-        <FlexRow spacing style=" width: 100%; margin-left:10px; margin-top:10px">
+        <FlexRow spacing style=" width: 99.1%; margin-left:10px; margin-top:10px">
             <FlexRow spacing>
                 <LookupField
                     label="Project"
                     value-bind="$page.selectedProjectId"
-                    text-bind="$page.selectedProjectName"
                     options-bind="$page.projects"
-                /><div style="width:100px"></div>
+                    optionTextField="name"
+                    style="margin-right: 100px;"
+                    placeholder="All Projects"
+                />
                 <LookupField
                     label="Assignee"
                     value-bind="$page.selectedAssigneeId"
-                    text-bind="$page.selectedAssigneeName"
                     options-bind="$page.assignees"
+                    optionTextField="fullName"
+                    placeholder="All Assignees"
                 />
             </FlexRow>
 
@@ -37,9 +40,15 @@ export default <cx>
         <Grid
             records-bind="$page.records"
             onRowDoubleClick="openDetails"
-            selection={{ type: KeySelection, bind: "$page.selection" }}
-            style={{ width: "100%", padding: "10px" }}
+            selection={{ type: KeySelection, bind: "$page.selectedIssue" }}
+            style={{ width: "99.1%", height: "85%", padding: "10px" }}
             mod="bordered"
+            onRowContextMenu={(e, { store }) => openContextMenu(e, <cx>
+                <Menu controller={Controller}>
+                    <MenuItem onClick="edit">Edit</MenuItem>
+                    <MenuItem onClick="details">Details</MenuItem>
+                </Menu>
+            </cx>, store)}
             lockColumnWidths
             columns={[
                 {
@@ -56,6 +65,31 @@ export default <cx>
                     sortable: true
                 },
                 {
+                    header1: "Summary",
+                    header2: {
+                        items: (
+                            <TextField
+                                value-bind="$page.filter.title"
+                                style="width:100%"
+                            />
+                        )
+                    },
+                    style: "width: 200px",
+                    field: "title"
+                }, {
+                    header1: "Description",
+                    style: "width: 400px",
+                    header2: {
+                        items: (
+                            <TextField
+                                value-bind="$page.filter.description"
+                                style="width:100%"
+                            />
+                        )
+                    },
+                    field: "description"
+                },
+                {
                     header1: "Assignee",
                     header2: {
                         items: (
@@ -67,8 +101,7 @@ export default <cx>
                     },
                     field: "assigneeFullName",
                     sortable: true
-                },
-                {
+                }, {
                     field: "type",
                     sortable: true,
                     header1: "Type",
@@ -81,18 +114,6 @@ export default <cx>
                             />
                         )
                     }
-                },
-                {
-                    header1: "Title",
-                    header2: {
-                        items: (
-                            <TextField
-                                value-bind="$page.filter.title"
-                                style="width:100%"
-                            />
-                        )
-                    },
-                    field: "title"
                 },
                 {
                     header1: "State",
@@ -109,6 +130,7 @@ export default <cx>
                 },
                 {
                     header1: "Priority",
+                    style: "width:50px",
                     header2: {
                         items: (
                             <TextField
@@ -152,7 +174,7 @@ export default <cx>
                 }
             ]}
         />
-        <div style={{ marginTop: "40px", marginRight: "20px", float: "right" }}>
+        <div style={{ margin: "40px 40px 0px 40px", float: "right" }}>
             <Pagination page-bind="$page.page" pageCount-bind="$page.pageCount" />
             <Select value-bind="$page.pageSize" style={{ marginLeft: "20px", float: "right" }}>
                 <option value="5">5</option>
