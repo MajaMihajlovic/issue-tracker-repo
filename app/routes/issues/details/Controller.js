@@ -7,12 +7,7 @@ export default class extends Controller {
         // this.loadProject(this.store);
         this.store.set("$page.mode", "view");
         this.loadData();
-
-
-
     }
-
-
 
     async edit(e) {
         e.preventDefault();

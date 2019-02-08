@@ -131,12 +131,20 @@ export default (resolve, id) => class extends Controller {
                 get('selectedProjectId')
         }
         let files = this.store.get("issue.attachmentsForDb")
+
+        let issueAttachmnt = {
+            issue: newIssue,
+            list: files
+        }
+        let response;
+        if (files) {
+
+            response = await POST("issue/insertWithAttachment", issueAttachmnt);
+        } else {
+            response = await POST("issue/insert", newIssue);
+        }
         try {
-            let issueAttachmnt = {
-                issue: newIssue,
-                list: files
-            }
-            let response = await POST("issue/insert", issueAttachmnt);
+
             if (response != 'Success') {
                 showErrorToast(response);
             } else {

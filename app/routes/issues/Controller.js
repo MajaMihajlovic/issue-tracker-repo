@@ -49,7 +49,8 @@ export default class extends Controller {
         } else if (projectName == "All projects") {
             issues = await GET("issue/getAll/" + assigneeId);
         } else {
-            issues = await GET("issue/getAllByProjectAndAssignee/" + projectId + "/" + assigneeId);
+            if (projecId != null && assigneId != null)
+                issues = await GET("issue/getAllByProjectAndAssignee/" + projectId + "/" + assigneeId);
         }
         this.store.set('issues', issues)
     }
