@@ -1,4 +1,4 @@
-import { Route, RedirectRoute, PureContainer, Sandbox, HtmlElement } from 'cx/widgets';
+import { Route, RedirectRoute, PureContainer, Sandbox } from 'cx/widgets';
 import { FirstVisibleChildLayout } from 'cx/ui';
 
 import { applyOuterLayout } from 'app/layouts/dynamicLayout';
