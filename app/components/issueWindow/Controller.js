@@ -39,7 +39,6 @@ export default (resolve, id) => class extends Controller {
         this.store.set('states', projectStates);
         if (id) {
             let issue = await GET("issue/getIssueById/" + id);
-            console.log(issue)
             this.store.set('selectedProjectId', issue.projectId);
             this.store.set('selectedTypeId', issue.typeId);
             this.store.set('selectedVersionId', issue.versionId);

@@ -69,7 +69,7 @@ export default (
                 </ul>
             </div>
             <div class="reportCard">
-                <Section style="background: ghostwhite;">
+                <Section>
                     <FlexRow spacing>
                         <h3 style="margin-left:15px">Reports for specific project</h3>
                         <div style=" position: absolute; right: 10px; margin-top:10px;">
@@ -83,7 +83,7 @@ export default (
                         </div>
                     </FlexRow>
                 </Section>
-                <FlexRow wrap spacing padding controller={Controller} style="background: ghostwhite;">
+                <FlexRow wrap spacing padding controller={Controller}>
                     <Repeater records-bind="widgets" recordAlias="$widget" >
                         <DropZone
                             mod="widget"

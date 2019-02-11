@@ -1,12 +1,11 @@
 
-
 .cxb-list.cxm-sidenav {
-   margin-top: 2rem;
    overflow: hidden;
-   background: lighten($base-back-color,1);
+   //background: lighten($base-back-color,1);
 
    .cxe-list-item {
       padding: 0;
+      border: 0 !important;
       position: relative;
    }
 
@@ -20,54 +19,16 @@
 
 }
 
-.csb-sidenavtopic {
-   padding: .75rem .75rem .75rem 1.25rem;
-   display: block;
-   border-bottom: 1px solid $base-back-color;
-   text-transform: uppercase;
-   font-size: .75rem;
-   font-weight: bolder;
-   background: white;
-   transition: border-bottom-width .2s;
-   transition-timing-function: linear;
-     color: #555;
-   &.css-expanded {
-      border-bottom-width: 6px;
-      border-bottom-color: darken($base-border-color,1);
-      .cxb-list.cxs-focused & {
-         //border-bottom-color: $base-blue-color;
-      }
-   }
-
-}
-
-
 .cxb-link.cxm-sidenav {
-
    display: block;
    text-decoration: none;
    color: #555;
    padding: .75rem 1rem;
-  // background-color: rgba(152, 155, 185, 0.555);
    border-radius: 15px;
    margin: .4rem;
-
 
    i {
       display: inline-block;
       margin-right: 3px;
    }
-}
-.cxb-link.cxm-sidenav:active{
-    color:red;
-  -webkit-transform: scale(1.3);
-  -moz-transform: scale(1.3);
-  -ms-transform: scale(1.3);
-  -o-transform: scale(1.3);
-  transform: scale(1.3);
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -ms-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 1s ease;
 }

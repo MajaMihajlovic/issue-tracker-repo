@@ -1,8 +1,6 @@
-import { HtmlElement, List, Repeater, Text, Link, Menu, TreeAdapter } from 'cx/widgets';
-import { Controller, KeySelection, History, Url } from 'cx/ui';
-import { updateArray } from 'cx/data';
+import { List, Text, Link } from 'cx/widgets';
+import { Controller, History, Url } from 'cx/ui';
 import NavTree from './NavTree';
-import { Glyph } from 'app/components/Glyph';
 
 class CController extends Controller {
     init() {
@@ -38,11 +36,12 @@ export const SideNav = <cx>
                 url-bind="url"
                 match="prefix"
                 mod="sidenav">
-                <img style="margin-right:15px;width:30px; height:30px" src-expr="{$topic.icon}"></img>
-                <Text style="padding: 5px" bind="$topic.topic" />
+                <img style="margin-right:15px; align: center; width:40px; height:40px margin-bottom:0px;padding-bottom:0" src-expr="{$topic.icon}"></img>
+
+                <Text style="align: center; " bind="$topic.topic" />
             </Link>
 
         </div>
 
     </List>
-</cx>;
+</cx >;

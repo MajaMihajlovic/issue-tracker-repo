@@ -10,7 +10,7 @@ $applayout-header-border: .4rem;
 
 .cse-applayout-header {
   background: white;
-  border-bottom: $applayout-header-border solid $base-border-color;
+  border-bottom: $applayout-header-border solid #d8dce0;
   position: relative;
 }
 
@@ -46,7 +46,7 @@ $applayout-header-border: .4rem;
 
   & > aside {
     position: absolute;
-    top: 0;
+    top: 5px;
     left: 0;
     bottom: 0;
     width: $layout-nav-width;
@@ -71,11 +71,33 @@ $applayout-header-border: .4rem;
   }
 }
 
+.csb-sidenavtopic {
+   padding: .5rem .75rem .75rem 1.25rem;
+   display: block;
+   text-transform: uppercase;
+   font-size: .75rem;
+   font-weight: bolder;
 
+   transition-timing-function: linear;
+    
+   &.css-expanded {
+      border-bottom-color: darken($base-border-color,1);
+      .cxb-list.cxs-focused & {
+         border-bottom-color: $base-blue-color;
+      }
+   }
+
+}
 
 .cse-applayout-contentheader {
   padding: 1.5rem 2rem;
+
   //background-color: #f9f9fb;
   background-color: $base-back-color;
   border-bottom: 1px solid darken($base-border-color,2);
+}
+.cxb-list.cxs-focused > .cxe-list-item.cxs-selected.cxs-cursor, .cxe-list-item.cxs-selected.cxs-cursor{
+      border-bottom-left-radius: 30px;
+    border-top-left-radius: 30px;
+   // background-color:#80a4cf79;
 }

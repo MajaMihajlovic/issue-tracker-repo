@@ -11,7 +11,7 @@ export default <cx>
                 </li>
             </ul>
         </div>
-        <FlexRow spacing style=" width: 99.1%; margin-left:10px; margin-top:10px">
+        <FlexRow spacing style="margin-left:10px; margin-top:10px">
             <FlexRow spacing>
                 <LookupField
                     label="Project"
@@ -41,7 +41,7 @@ export default <cx>
             records-bind="$page.records"
             onRowDoubleClick="openDetails"
             selection={{ type: KeySelection, bind: "$page.selectedIssue" }}
-            style={{ width: "99.1%", height: "85%", padding: "10px" }}
+            style={{ padding: "10px" }}
             mod="bordered"
             onRowContextMenu={(e, { store }) => openContextMenu(e, <cx>
                 <Menu controller={Controller}>
@@ -174,9 +174,9 @@ export default <cx>
                 }
             ]}
         />
-        <div style={{ margin: "40px 40px 0px 40px", float: "right" }}>
+        <div style={{ margin: "10px 10px 0px", float: "right" }}>
             <Pagination page-bind="$page.page" pageCount-bind="$page.pageCount" />
-            <Select value-bind="$page.pageSize" style={{ marginLeft: "20px", float: "right" }}>
+            <Select value-bind="$page.pageSize" style={{ marginLeft: "10px", float: "right" }}>
                 <option value="5">5</option>
                 <option value={10}>10</option>
                 <option value="20">20</option>

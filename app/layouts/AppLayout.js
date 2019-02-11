@@ -15,7 +15,7 @@ export const AppLayout = <cx>
             <div class="cse-applayout-headercontent">
                 <div class="cse-applayout-menu" onClick={toggleMenu}><i class="csb-cssicon-menu"></i></div>
                 <div class="cse-applayout-customheader">
-                    <ContentPlaceholder name="header" />
+                    <ContentPlaceholder name="" />
                 </div>
                 <div class="cse-applayout-user">
                     <UserInfo />
