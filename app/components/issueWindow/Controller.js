@@ -1,6 +1,7 @@
 import { Controller } from "cx/ui";
-import { GET, POST } from "../../api/methods";
+import { GET, POST, PUT } from "../../api/methods";
 import { showErrorToast, toast } from "../toasts";
+import { MsgBox } from "cx/widgets";
 
 export default (resolve, id) => class extends Controller {
 
@@ -14,16 +15,26 @@ export default (resolve, id) => class extends Controller {
         });
     }
 
+    delete() {
+        MsgBox.yesNo("Are you sure you want to delete this attachment").then((btn) => {
+            if (btn == 'yes') {
+                var record = this.store.get("$file");
+                this.store.update('issue.attachmentsForDb', records => records.filter(r => r != record))
+            }
+        });
+    }
+
+
     async loadAttachments() {
         var result = await GET("attachment/getById/" + id);
         var newResult = [];
         result.forEach(element => {
             newResult.push({
-                text: element.name,
-                file: btoa(element.file)
+                name: element.name,
+                file: element.file
             });
         });
-        this.store.set("issue.attachments", newResult);
+        this.store.set("issue.attachmentsForDb", newResult);
     }
 
     async loadData() {
@@ -39,6 +50,7 @@ export default (resolve, id) => class extends Controller {
         this.store.set('states', projectStates);
         if (id) {
             let issue = await GET("issue/getIssueById/" + id);
+            this.store.set('issueId', issue.id);
             this.store.set('selectedProjectId', issue.projectId);
             this.store.set('selectedTypeId', issue.typeId);
             this.store.set('selectedVersionId', issue.versionId);
@@ -79,19 +91,20 @@ export default (resolve, id) => class extends Controller {
     onUploadComplete(xhr, instance, filee) {
         let store = this.store;
         this.filee = filee;
-        let newAttachment = { text: filee.name };
-        store.update("issue.attachments", (existingAttachments = []) => {
-            return [
-                ...existingAttachments,
-                newAttachment
-            ];
-        });
+
         var reader = new FileReader();
         reader.onload = function (event) {
             var newDocument = {
                 name: filee.name,
                 file: event.target.result.split("base64,")[1]
             }
+            let newAttachment = { text: filee.name, file: event.target.result.split("base64,")[1] };
+            store.update("issue.attachments", (existingAttachments = []) => {
+                return [
+                    ...existingAttachments,
+                    newAttachment
+                ];
+            });
             store.update("issue.attachmentsForDb", (existingAttachments = []) => {
                 return [
                     ...existingAttachments,
@@ -129,10 +142,25 @@ export default (resolve, id) => class extends Controller {
         else newIssue.projectId = this.store.get('selectedProjectId')
 
         let files = this.store.get("issue.attachmentsForDb")
-
         let issueAttachmnt = { issue: newIssue, list: files }
-        if (files) var response = await POST("issue/insertWithAttachment", issueAttachmnt);
-        else var response = await POST("issue/insert", newIssue);
+        if (files) {
+            if (!id) {
+                var response = await POST("issue/insertWithAttachment", issueAttachmnt);
+            }
+            else {
+                issueAttachmnt.issue.id = this.store.get("issueId")
+                response = await PUT("issue/insertWithAttachment", issueAttachmnt);
+            }
+        }
+        else {
+            if (!id) {
+                var response = await POST("issue/insert", newIssue);
+            }
+            else {
+                newIssue.id = this.store.get("issueId")
+                response = await PUT("issue/insert", newIssue);
+            }
+        }
 
         try {
             if (response != 'Success') {

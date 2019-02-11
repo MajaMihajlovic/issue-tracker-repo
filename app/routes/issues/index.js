@@ -4,13 +4,7 @@ import Controller from './Controller';
 
 export default <cx>
     <main controller={Controller} >
-        <div putInto="header">
-            <ul class="csb-breadcrumb">
-                <li class="cse-breadcrumb-item">
-                    <Link href="~/issues/">Issues</Link>
-                </li>
-            </ul>
-        </div>
+
         <FlexRow spacing style="margin-left:10px; margin-top:10px">
             <FlexRow spacing>
                 <LookupField
@@ -29,13 +23,8 @@ export default <cx>
                     placeholder="All Assignees"
                 />
             </FlexRow>
-
-
-            <Button
-                style="border-radius:25%; padding:5px; position: absolute; right: 20px; font-size:20px"
-                onClick="addIssue"
-
-            ><i class="fa fa-plus" /></Button>
+            <div style=" position: absolute; right: 0; padding:10px 10px 10px 0px">
+                <Link onClick='addIssue' style="font-size:15px" href="#" > Create issue <i style="padding-left:10px" class="fa fa-plus" /></Link></div>
         </FlexRow>
         <Grid
             records-bind="$page.records"
@@ -45,8 +34,8 @@ export default <cx>
             mod="bordered"
             onRowContextMenu={(e, { store }) => openContextMenu(e, <cx>
                 <Menu controller={Controller}>
-                    <MenuItem onClick="edit">Edit</MenuItem>
-                    <MenuItem onClick="details">Details</MenuItem>
+                    <a style="padding-left:10px" onClick="edit" href="#"><i style="padding-right:5px" class="fas fa-pencil-alt"></i> Edit</a>
+                    <a style="padding-left:10px" onClick="details" href="#"><i style="padding-right:5px" class="fas fa-file-alt"></i>  Details</a>
                 </Menu>
             </cx>, store)}
             lockColumnWidths

@@ -47,31 +47,18 @@ export async function openIssueWindow(id) {
                                     onUploadError="onUploadError"
                                     mode-bind="mode"
                                     label="Attachments"
-                                    style="border-radius:30%; padding:5px; width:24px; font-size:15px">
-                                    <i class="fa fa-plus" />
+                                > <i style="padding-right:10px" class=" fas fa-upload"></i>Upload
                                 </UploadButton>
                             </div>
                             <Repeater
-                                records-bind='issue.attachments'
+                                records-bind='issue.attachmentsForDb'
                                 recordAlias="$file"
                             >
                                 <FlexRow>
-                                    <body>
-                                        <a href-tpl={"data:image/jpg;base64, {$file.file}"}>test</a>
-                                    </body>
-
-                                    <div class="attachment" text-bind="$file.text" />
-                                    <div class="button" onClick={(e, { store }) => {
-                                        MsgBox.yesNo("Are you sure you want to delete this attachment").then((btn) => {
-                                            if (btn == 'yes') {
-                                                var record = store.get("$file");
-                                                store.update('issue.attachments', records => records.filter(r => r != record))
-                                                store.update('issue.attachmentsForDb', records => records.filter(r => r != record))
-                                            }
-                                        });
-                                    }}
-
-                                    ></div></FlexRow>
+                                    <a style="text-decoration:none" download-tpl={"{$file.name}"} href-tpl={"data:application/octet-stream;base64, {$file.file}"}>
+                                        <div class="attachment" text-bind="$file.name" />
+                                    </a>
+                                    <div class="button" onClick="delete"></div></FlexRow>
                             </Repeater>
 
                             <br />
@@ -127,7 +114,6 @@ export async function openIssueWindow(id) {
                                         optionTextField="name"
                                     />
                                     <DateField label="Due date"
-                                        minValue={new Date()}
                                         value-bind="issue.duedate"
                                         required />
                                 </div>

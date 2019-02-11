@@ -71,8 +71,8 @@ export default (
             <div class="reportCard">
                 <Section>
                     <FlexRow spacing>
-                        <h3 style="margin-left:15px">Reports for specific project</h3>
-                        <div style=" position: absolute; right: 10px; margin-top:10px;">
+                        <h3 style="margin-left:15px;">Reports for specific project</h3>
+                        <div style=" position: absolute; right: 10px; margin-top:0px;">
                             <LookupField
                                 label="Select project:"
                                 value-bind="$report.selectedProjectId"

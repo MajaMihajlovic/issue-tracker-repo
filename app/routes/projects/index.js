@@ -6,13 +6,6 @@ import { openIssueWindow } from '../../components/issueWindow';
 
 export default <cx>
     <main controller={Controller} class="b-list">
-        <div putInto="header">
-            <ul class="csb-breadcrumb">
-                <li class="cse-breadcrumb-item">
-                    <Link href="~/project">Projects</Link>
-                </li>
-            </ul>
-        </div>
         <Section mod="card">
             <FlexRow spacing>
                 <TextField
@@ -21,7 +14,7 @@ export default <cx>
                     style="font-size:30px; width: 100%; max-width: 720px; height:35px"
                     icon="search"
                 /><div style=" position: absolute; right: 0;">
-                    <Link onClick='addProject' style="font-size:18px" href="#" > Add project <i style="padding-left:10px" class="fa fa-plus" /></Link></div>
+                    <Link onClick='addProject' style="font-size:15px" href="#" > Add project <i style="padding-left:10px" class="fa fa-plus" /></Link></div>
             </FlexRow>
         </Section>
         <div
