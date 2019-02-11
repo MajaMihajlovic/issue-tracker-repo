@@ -2,9 +2,9 @@ import { Menu, Link, Text, Submenu } from 'cx/widgets';
 
 import { Glyph } from 'app/components/Glyph';
 
-import { openSettingsWindow } from './SettingsWindow';
+import { openSettingsWindow } from './settingsWindow/index';
 import { openChangePasswordWindow } from './EditPasswordWindow';
-import { computable } from 'cx/ui';
+import { computable, History, Url } from 'cx/ui';
 
 export const UserInfo = <cx>
     <Menu horizontal>
@@ -20,7 +20,7 @@ export const UserInfo = <cx>
                 <a class="cxm-menu-pad" href="#" onClick={(e, { store }) => { openChangePasswordWindow(store); e.preventDefault(); }}>Change password</a>
 
                 <hr />
-                <Link mod="menu-pad" href="~/sign/out">Sign Out</Link>
+                <a class="cxm-menu-pad" href="#" onClick={(e, { store }) => { History.pushState({}, null, Url.resolve("~/sign/out")); }}>Sign out</a>
             </Menu>
         </Submenu>
     </Menu>

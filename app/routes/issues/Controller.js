@@ -1,6 +1,8 @@
-import { GET } from "../../api/methods";
+import { GET, DELETE } from "../../api/methods";
 import { Controller, History, Url } from "cx/ui";
 import { openIssueWindow } from "../../components/issueWindow/index";
+import { RSA_PKCS1_OAEP_PADDING } from "constants";
+import { toast } from "../../components/toasts";
 export default class extends Controller {
     init() {
         this.store.init("$page.page", 1);
@@ -63,6 +65,13 @@ export default class extends Controller {
     edit() {
         let issueId = this.store.get("$page.selectedIssue");
         openIssueWindow(issueId);
+    }
+
+    async delete() {
+        let issueId = this.store.get("$page.selectedIssue");
+        await DELETE("issue/delete/" + issueId);
+        toast("Issue successfully deleted.")
+        this.loadProjects();
     }
 
     async loadProjects() {

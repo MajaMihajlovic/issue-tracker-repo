@@ -3,13 +3,13 @@ import { Window, LabeledContainer, Button, UploadButton, TextField, ValidationGr
 import { toast, showErrorToast } from "../components/toasts";
 import { PUT, POST } from "../api/methods";
 import { emailValidationRegex } from "../util/validation"
-import "./SettingsWindow.scss"
+
 const ChangePasswordWindow = <cx>
   <Window title="" modal center>
     <div putInto="header">
       Change Password
         </div>
-    <div style="width:350px;height:160px;padding: 20px" layout={LabelsLeftLayout}>
+    <div style="width:350px;height:195px;padding: 20px" layout={LabelsLeftLayout}>
       <ValidationGroup
         layout={LabelsLeftLayout}
         invalid-bind="changePasword.invalid"

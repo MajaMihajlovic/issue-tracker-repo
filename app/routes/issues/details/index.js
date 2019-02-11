@@ -1,4 +1,4 @@
-import { LabelsLeftLayout, Repeater } from 'cx/ui';
+import { LabelsLeftLayout, Repeater, Text } from 'cx/ui';
 import { Button, DateField, FlexCol, FlexRow, Link, LookupField, MsgBox, Section, TextArea, TextField, UploadButton, ValidationGroup } from 'cx/widgets';
 import Controller from './Controller';
 
@@ -16,75 +16,34 @@ export default <cx>
                 <FlexRow style="padding:30px">
                     <FlexCol style="width:600px; padding-right:30px">
                         <div layout={LabelsLeftLayout}>
-                            <LookupField //visible-expr="!{projectSelected}"
-                                label="Project"
-                                value-bind="$page.selectedProjectId"
-                                text-bind="$page.selectedProjectName"
-                                options-bind="$page.projects"
-                                mode-bind="$page.mode"
-                            />
                             <TextField
                                 value-bind="$page.issue.title"
                                 label="Summary"
-                                style="width: 100%; max-width: 950px"
-                                required
+                                style="width: 100%;"
                                 mode-bind="$page.mode"
                             />
                             <TextArea
                                 value-bind="$page.issue.description"
                                 label="Description"
-                                style="width: 100%; max-width: 950px"
+                                style="width: 100%; max-width: 950px; padding-bottom:50px"
                                 rows={10}
-                                required
                                 mode-bind="$page.mode"
                             />
-                            <br />
-                            <div layout={LabelsLeftLayout}  >
-                                <UploadButton
-                                    mode-bind="$page.mode"
-                                    value-bind="$page.issue.attachments"
-                                    url="#"
-                                    onUploadStarting="onUploadStarting"
-                                    onUploadComplete="onUploadComplete"
-                                    onUploadError="onUploadError"
-                                    label="Attachments"
-                                    style="width:33px; border-radius:25%">
-                                    <i class="fas fa-plus"></i>
-                                </UploadButton>
-                            </div>
+                            <br /></div>
+                        <FlexRow>
+                            <Text value="Attachment" visible-expr="!{issue.attachments}" style="width: 100%"></Text>
                             <Repeater
                                 records-bind='issue.attachments'
                                 recordAlias="$file"
-                            >
-                                <FlexRow>
-                                    <div class="attachment" text-bind="$file.text" /><div mode-bind="$page.mode" class="button" onClick={(e, { store }) => {
-                                        MsgBox.yesNo("Are you sure you want to delete this attachment").then((btn) => {
-                                            if (btn == 'yes') {
-                                                var record = store.get("$file");
-                                                store.update('issue.attachments', records => records.filter(r => r != record))
-                                            }
-                                        });
-                                    }}
-
-                                    ></div></FlexRow>
-                            </Repeater>
-
-                            <br />
-                            <FlexRow spacing justify="end" putInto="footer">
-                                <Button
-                                    text="Cancel"
-                                    onClicl="cancel"
-                                />
-                                <Button
-                                    mod="primary"
-                                    onClick='edit'
-                                    text="Edit"
-                                    disabled-bind="issue.invalid"
-                                    mod="primary"
-                                />
-
-                            </FlexRow>
-                        </div></FlexCol>
+                                label="Attachments">
+                                <FlexCol>
+                                    <a style="text-decoration:none" download-tpl={"{$file.name}"} href-tpl={"data:application/octet-stream;base64, {$file.file}"}>
+                                        <div class="attachment" text-bind="$file.name" />
+                                    </a>
+                                    <div class="button" onClick="delete"></div></FlexCol>
+                            </Repeater></FlexRow>
+                        <br />
+                    </FlexCol>
                     <div class="project" style="width:385px"><Section>
                         <h3 style="margin:10px 10px">Project <span text-bind="$page.selectedProjectName" /></h3>
                         <FlexCol>

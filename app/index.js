@@ -38,7 +38,8 @@ if (u) {
   store.set('user', {
     username: user.username,
     photo: user.photo,
-    fullName: user.fullName
+    fullName: user.fullName,
+    email: user.email
   });
 }
 

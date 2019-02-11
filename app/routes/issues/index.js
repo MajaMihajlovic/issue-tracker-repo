@@ -35,10 +35,9 @@ export default <cx>
             onRowContextMenu={(e, { store }) => openContextMenu(e, <cx>
                 <Menu controller={Controller}>
                     <a style="padding-left:10px" onClick="edit" href="#"><i style="padding-right:5px" class="fas fa-pencil-alt"></i> Edit</a>
-                    <a style="padding-left:10px" onClick="details" href="#"><i style="padding-right:5px" class="fas fa-file-alt"></i>  Details</a>
+                    <a style="padding-left:10px" onClick="delete" href="#"><i style="padding-right:5px" class="fas fa-trash-alt"></i> Delete</a>
                 </Menu>
             </cx>, store)}
-            lockColumnWidths
             columns={[
                 {
                     header1: "Project",
@@ -67,12 +66,10 @@ export default <cx>
                     field: "title"
                 }, {
                     header1: "Description",
-                    style: "width: 400px",
                     header2: {
                         items: (
                             <TextField
                                 value-bind="$page.filter.description"
-                                style="width:100%"
                             />
                         )
                     },

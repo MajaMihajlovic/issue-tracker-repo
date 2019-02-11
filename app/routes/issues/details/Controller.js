@@ -7,17 +7,20 @@ export default class extends Controller {
         // this.loadProject(this.store);
         this.store.set("$page.mode", "view");
         this.loadData();
+        this.loadAttachments();
     }
 
-    async edit(e) {
-        e.preventDefault();
-
-        this.store.set('$page.mode', 'edit');
-    }
-
-    async save(e) {
-
-
+    async loadAttachments() {
+        let id = this.store.get("$route.id");
+        var result = await GET("attachment/getById/" + id);
+        var newResult = [];
+        result.forEach(element => {
+            newResult.push({
+                name: element.name,
+                file: element.file
+            });
+        });
+        this.store.set("issue.attachments", newResult);
     }
 
     async loadData() {

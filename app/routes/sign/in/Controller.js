@@ -7,17 +7,26 @@ export default class extends Controller {
   async signIn() {
     try {
       var data = new FormData();
-      if(file)
-      var fileParsed=JSON.stringify(file).replace(/^"(.+(?="$))"$/, '$1');
+
       let formData = this.store.get('sign_in');
       let { email, file, password, username, fullname } = formData;
+      if (file)
+        var fileParsed = JSON.stringify(file).replace(/^"(.+(?="$))"$/, '$1');
       data.append('email', email);
-      data.append('file', fileParsed );
+      data.append('file', fileParsed);
       data.append('password', password);
       data.append('username', username);
       data.append('fullname', fullname);
 
-      var result = POST('user/insert',data);
+      var result = await fetch('http://localhost:8080/api/user/insert', {
+        method: 'POST',
+        body: data
+      })
+        .then(async r => {
+          let res = await r.text();
+          return res;
+        });
+
       if (result != "Success") {
         showErrorToast(result);
       }
@@ -53,7 +62,7 @@ export default class extends Controller {
   }
 
   onUploadComplete(xhr, instance, file) {
-    var reader = new FileReader();p
+    var reader = new FileReader();
     let store = this.store;
     store.set('fileLoading', true);
     reader.onload = function (event) {

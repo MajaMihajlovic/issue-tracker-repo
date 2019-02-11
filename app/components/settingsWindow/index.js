@@ -1,15 +1,16 @@
 import { Widget, LabelsLeftLayout, LabelsTopLayout } from 'cx/ui';
 import { Window, LabeledContainer, Button, UploadButton, TextField, ValidationGroup } from 'cx/widgets';
-import { toast, showErrorToast } from "../components/toasts";
-import { PUT } from "../api/methods";
-import { emailValidationRegex } from "../util/validation"
-import "./SettingsWindow.scss"
+import { toast, showErrorToast } from "../toasts";
+import { PUT } from "../../api/methods";
+import { emailValidationRegex } from "../../util/validation"
+import Controller from "./Controller";
+
 const SettingsWindow = <cx>
   <Window title="" modal center>
     <div putInto="header">
       Edit Profile
         </div>
-    <div style="width:430px;height:230px;padding: 10px" layout={LabelsLeftLayout}>
+    <div style="width:430px;height:260px;padding: 10px" layout={LabelsLeftLayout} controller={Controller}>
       <ValidationGroup
         layout={LabelsLeftLayout}
         invalid-bind="user.invalid"
@@ -42,23 +43,22 @@ const SettingsWindow = <cx>
                 <div style="padding:5px 5px 5px 5px;">
                   <img
                     style=" border-radius:50px; height:100px; width:100px; position:relative;"
-                    src-expr=" '~/app/assets/img/user_placeholder.png'"
+                    src-tpl={"data:image/jpg;base64, {user.photo}"}
                     alt="Person"
                   />
                 </div></div>
               <div layout={LabelsTopLayout} class="form-group" >
-
                 <UploadButton
                   value-bind="user.photo"
                   url="#"
-                  style="position:center"
+                  style="position: center; align: center"
                   onUploadStarting="onUploadStarting"
                   onUploadComplete="onUploadComplete"
                   onUploadError="onUploadError"
                   mode-bind="mode"
-                  icon="upload"
+                  style="width:72px"
                 >
-                  Upload
+                  Browse
               </UploadButton></div>
             </LabeledContainer>
           </section></div>
@@ -82,7 +82,7 @@ const SettingsWindow = <cx>
 
     </div>
   </Window>
-</cx>;
+</cx >;
 
 export function openSettingsWindow(store) {
   //dobaviti korisnika

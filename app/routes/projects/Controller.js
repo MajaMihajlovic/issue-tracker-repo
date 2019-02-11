@@ -29,7 +29,6 @@ export default class extends Controller {
 
     async addProject() {
         let result = await openProjectWindow(this.store);
-
         if (result)
             this.load();
     }
