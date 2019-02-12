@@ -26,7 +26,6 @@ export default class extends Controller {
     async loadData() {
         let id = this.store.get("$route.id");
         let issue = await GET("issue/getById/" + id);
-        console.log(issue);
         this.store.set("$page.selectedPriorityName", issue.issueCustom.priority)
         this.store.set("$page.selectedTypeName", issue.issueCustom.type)
         this.store.set("$page.selectedStateName", issue.issueCustom.state)

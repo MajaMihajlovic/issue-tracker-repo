@@ -43,7 +43,6 @@ export default class extends Controller {
   }
 
   async getData() {
-    console.log("aaaaa")
     let id = this.store.get("$report.selectedProjectId");
     var result = await GET("issue/issuePerAssignee/" + id);
     this.store.set('chartData', result);

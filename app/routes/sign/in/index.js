@@ -81,12 +81,12 @@ export default (
                 onUploadComplete="onUploadComplete"
                 onUploadError="onUploadError"
                 mode-bind="mode"
-                style="width:72px"
+                style="width:72px; margin-left:10px"
               >
                 Browse
               </UploadButton>
             </LabeledContainer>
-            <div>
+            <div style="margin-left:10px">
               <Button
                 mod="primary"
                 style="padding: 5px 10px; margin-right: 10px; width:72px"

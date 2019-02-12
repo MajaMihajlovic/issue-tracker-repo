@@ -9,7 +9,7 @@ export async function openProjectWindow(store) {
             modal
             center
             style="width:950px;height:750px;"
-            bodyStyle="display: flex; flex-direction: column; padding: 20px"
+            bodyStyle="display: flex; flex-direction: column; padding: 10px"
             controller={getController(resolve)}
         >
             <FirstVisibleChildLayout>
@@ -57,7 +57,7 @@ export async function openProjectWindow(store) {
                     <Text bind="$card.name" />
                                                     </h4>
                                                 </DragHandle>
-                                                <FlexCol style="overflow: auto; height: 310px;">
+                                                <FlexCol style="overflow: auto; height: 250px;">
                                                     <DropZone
                                                         mod="block"
                                                         style="display: block"

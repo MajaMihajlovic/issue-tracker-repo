@@ -47,7 +47,6 @@ export default class extends Controller {
   }
 
   onUploadStarting(xhr, instance, file) {
-    console.log(file)
     if (file.type.indexOf("image/") != 0) {
       toast("Only images are allowed.");
       return false;

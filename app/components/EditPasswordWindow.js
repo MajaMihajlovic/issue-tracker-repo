@@ -56,8 +56,6 @@ const ChangePasswordWindow = <cx>
     <div putInto="footer" style="text-align: right">
       <Button style="margin:5px 15px 0px 15px" onClick={(e, instance) => { instance.parentOptions.dismiss() }}>Cancel</Button>
       <Button onClick={async (e, instance) => {
-        console.log(store.get('user.id'));
-
         try {
           var passwordInformation = {
             id: instance.store.get('user.id'),

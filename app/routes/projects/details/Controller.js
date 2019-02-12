@@ -75,9 +75,7 @@ export default class extends Controller {
     async edit(e) {
         e.preventDefault();
         var result = await GET("user/getNonParticipants/" + this.store.get("$page.projectDetails.id"));
-        console.log(result)
         var newResult = [];
-
         result.forEach(element => {
             newResult.push({
                 id: element.id,

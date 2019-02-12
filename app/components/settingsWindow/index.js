@@ -72,7 +72,6 @@ const SettingsWindow = <cx>
           var fileParsed = JSON.stringify(instance.store.get('user.photo')).replace(/^"(.+(?="$))"$/, '$1');
           var user = instance.store.get('user');
           user.photo = fileParsed;
-          console.log(instance.store.getData())
           var result = await PUT("user/" + instance.store.get('user.id'), user, null);
           if (result != "Success") {
             showErrorToast(result);

@@ -9,8 +9,8 @@ enableTooltips();
 
 export default (
     <cx>
-        <div controller={Controller}>
-            <DashboardWidget title="Issues by Priority" bodyStyle="padding: 5px; display: flex;">
+        <div controller={Controller} style='align-self: center'>
+            <DashboardWidget title="Issues by Priority" style='align-self: center' bodyStyle="padding: 5px; display: flex; align-self:center">
                 <Legend />
                 <Svg style="width:400px; height:300px;">
                     <ColorMap />
