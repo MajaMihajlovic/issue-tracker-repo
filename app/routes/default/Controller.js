@@ -29,13 +29,25 @@ export default class extends Controller {
       },
       {
         type: "issues-by-state-bar"
+      },
+      {
+        type: "issues-per-assignee"
       }
-
     ]);
+
+    this.getData();
   }
   signIn() {
     var returnUrl = this.store.get("$route.returnUrl");
     History.pushState({}, null, Url.resolve(returnUrl || "~/sign/in"));
+  }
+
+  async getData() {
+    console.log("aaaaa")
+    let id = this.store.get("$report.selectedProjectId");
+    var result = await GET("issue/issuePerAssignee/" + id);
+    this.store.set('chartData', result);
+    return result;
   }
 
   async login(e) {

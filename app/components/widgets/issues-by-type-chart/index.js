@@ -17,7 +17,7 @@ export default (
         title="Open Issues by Type"
         bodyStyle="padding: 5px; display: flex;"
       >
-        <Svg style="flex: 1; height: auto">
+        <Svg style="flex: 1; width: 400px; height: 300px;">
           <Chart
             margin="10 10 40 30"
             axes={{

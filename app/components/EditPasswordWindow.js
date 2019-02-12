@@ -84,8 +84,6 @@ const ChangePasswordWindow = <cx>
 </cx>;
 
 export function openChangePasswordWindow(store) {
-  //dobaviti korisnika
-  console.log(store.get('user'));
   var win = Widget.create(ChangePasswordWindow);
   win.open(store);
 }

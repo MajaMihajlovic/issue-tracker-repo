@@ -1,40 +1,8 @@
-import { Url, History } from "cx/ui";
 import { showErrorToast } from "../components/toasts";
 
 let restApiUrl = "http://localhost:8080/api/";
 
-export async function checkOk(r, requestType = "normal") {
-  if (r.status == 401) {
-    switch (requestType) {
-      case "auth":
-        break;
 
-      case "normal":
-      default:
-        refresh();
-        break;
-    }
-  }
-
-  if (r.status >= 400) {
-    let data = null;
-    try {
-      data = await r.json();
-    } catch (e) { }
-
-    if (data) {
-    }
-
-    let errorMsg = r.headers.get("error");
-    if (errorMsg) throw new Error(errorMsg);
-
-    throw new Error("Error");
-  }
-
-  if (!r.ok) throw Error("Error");
-
-  return r;
-}
 export function resolveAPIUrl(path, query) {
   let p = restApiUrl + path;
   let qs = "";
@@ -157,6 +125,5 @@ export function DELETE(url, hints) {
 }
 export function urlEncode(params) {
   return Object.keys(params)
-    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
-    .join('&');
+    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k])).join('&');
 }

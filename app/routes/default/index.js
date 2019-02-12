@@ -16,6 +16,9 @@ import { swapElements } from "./swapElements";
 import issuesByTypeChart from "./../../components/widgets/issues-by-type-chart";
 import IssuesByPriorityPie from "./../../components/widgets/issues-by-priority-pie";
 import issuesByStateBarChart from "./../../components/widgets/issues-by-state-bar";
+import { BarChartComponent } from "../../components/widgets/issues-by-state-bar/BarChartComponent";
+import { GET } from "../../api/methods";
+import issuesPerAssignee from "../../components/widgets/issues-per-assignee";
 
 enableTooltips();
 
@@ -49,8 +52,7 @@ export default (
                                 class="login-btn"
                                 mod="primary"
                                 disabled-bind="login.invalid"
-                                submit
-                            >
+                                submit>
                                 Login
                             </Button>
                         </div>
@@ -110,6 +112,15 @@ export default (
                                                     return issuesByTypeChart;
                                                 case "issues-by-state-bar":
                                                     return issuesByStateBarChart;
+
+                                                case "issues-per-assignee":
+                                                    return issuesPerAssignee;
+                                                /* return <cx>
+                                                     <BarChartComponent
+                                                         data-bind="chartData"
+                                                         title="Title"
+                                                     />
+                                                 </cx>*/
                                                 case "issues-by-priority-pie":
                                                     return IssuesByPriorityPie;
                                                 default:

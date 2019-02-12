@@ -2,7 +2,6 @@ import DashboardWidget from "../DashboardWidget";
 import { Svg } from "cx/svg";
 import {
   Chart,
-  ColumnGraph,
   Gridlines,
   CategoryAxis,
   NumericAxis,
@@ -36,8 +35,6 @@ export default (
                 keyField: 'type'
               }}
             />
-
-
           </Chart>
         </Svg>
       </DashboardWidget>

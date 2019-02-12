@@ -1,8 +1,20 @@
 import { Controller } from "cx/ui";
+import { PUT } from "../../api/methods";
 
 export default class extends Controller {
 
-    onInit() {
+    async save() {
+        try {
+            var result = await PUT("user/" + instance.store.get('user.id'), instance.store.get('user'), null);
+            if (result != "Success") {
+                showErrorToast(result);
+            }
+            else {
+                this.instance.parentOptions.dismiss();
+            }
+        } catch (e) {
+            showErrorToast(e);
+        }
     }
 
     onUploadStarting(xhr, instance, file) {

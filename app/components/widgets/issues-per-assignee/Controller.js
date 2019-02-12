@@ -8,7 +8,7 @@ export default class extends Controller {
 
     async getChartData() {
         let id = this.store.get("selectedProjectId");
-        var result = await GET("issue/byState/" + id);
-        this.store.set('barChartData', result);
+        var result = await GET("issue/issuePerAssignee/" + id);
+        this.store.set('issuePerAssignee', result);
     }
 }

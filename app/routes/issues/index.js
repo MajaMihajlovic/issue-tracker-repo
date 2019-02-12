@@ -62,7 +62,11 @@ export default <cx>
                             />
                         )
                     },
-                    style: "width: 200px",
+                    items: (
+                        <cx>
+                            <div text-bind="$record.description" class="ellipsis" style="width:200px " />
+                        </cx>
+                    ),
                     field: "title"
                 }, {
                     header1: "Description",
@@ -73,7 +77,11 @@ export default <cx>
                             />
                         )
                     },
-                    field: "description"
+                    items: (
+                        <cx>
+                            <div text-bind="$record.description" class="ellipsis" style="width:400px " />
+                        </cx>
+                    )
                 },
                 {
                     header1: "Assignee",

@@ -1,4 +1,4 @@
-import { Widget, VDOM, CSS } from 'cx/ui';
+import { Widget, CSS } from 'cx/ui';
 
 export class Glyph extends Widget {
     declareData() {

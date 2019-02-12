@@ -1,6 +1,7 @@
 import { Controller } from "cx/ui";
 import { GET } from "../../../api/methods";
 export default class extends Controller {
+
     onInit() {
         this.addTrigger("reportSelectedProjectId", ["selectedProjectId"], () => this.getChartData(), true);
     }

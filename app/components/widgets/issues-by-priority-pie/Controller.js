@@ -1,8 +1,8 @@
 import { Controller } from "cx/ui";
 import { GET } from "../../../api/methods";
 export default class extends Controller {
-    onInit() {
 
+    onInit() {
         this.addTrigger("reportSelectedProjectId", ["selectedProjectId"], () => this.getChartData(), true);
     }
 
@@ -21,7 +21,6 @@ export default class extends Controller {
 
             });
         }
-        console.log(formatResult)
         this.store.set('points', formatResult);
     }
 }

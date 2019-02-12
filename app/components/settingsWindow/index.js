@@ -4,6 +4,7 @@ import { toast, showErrorToast } from "../toasts";
 import { PUT } from "../../api/methods";
 import { emailValidationRegex } from "../../util/validation"
 import Controller from "./Controller";
+import { userInfo } from 'os';
 
 const SettingsWindow = <cx>
   <Window title="" modal center>
@@ -68,7 +69,11 @@ const SettingsWindow = <cx>
       <Button style="margin:5px 15px 0px 15px" onClick={(e, instance) => { instance.parentOptions.dismiss() }}>Cancel</Button>
       <Button onClick={async (e, instance) => {
         try {
-          var result = await PUT("user/" + instance.store.get('user.id'), instance.store.get('user'), null);
+          var fileParsed = JSON.stringify(instance.store.get('user.photo')).replace(/^"(.+(?="$))"$/, '$1');
+          var user = instance.store.get('user');
+          user.photo = fileParsed;
+          console.log(instance.store.getData())
+          var result = await PUT("user/" + instance.store.get('user.id'), user, null);
           if (result != "Success") {
             showErrorToast(result);
           }
@@ -85,8 +90,6 @@ const SettingsWindow = <cx>
 </cx >;
 
 export function openSettingsWindow(store) {
-  //dobaviti korisnika
-  console.log(store.get('user'));
   var win = Widget.create(SettingsWindow);
   win.open(store);
 }

@@ -3,14 +3,16 @@ import { Legend, ColorMap, PieChart, PieSlice, LegendEntry } from "cx/charts";
 import { Svg, Line, Rectangle, Text } from "cx/svg";
 import { Repeater, KeySelection } from "cx/ui";
 import Controller from "./Controller";
+import { enableTooltips } from "cx/widgets";
 
+enableTooltips();
 
 export default (
     <cx>
         <div controller={Controller}>
             <DashboardWidget title="Issues by Priority" bodyStyle="padding: 5px; display: flex;">
                 <Legend />
-                <Svg style="width:600px; height:300px;">
+                <Svg style="width:400px; height:300px;">
                     <ColorMap />
                     <PieChart angle={360}>
                         <Repeater records-bind="points">
@@ -23,7 +25,7 @@ export default (
                                 offset={5}
                                 tooltip={{
                                     text: {
-                                        tpl: "{$record.name} {$index}: {$record.value:n;2}"
+                                        tpl: "{$record.name} : {$record.value:n;2}"
                                     },
                                     trackMouse: true
                                 }}

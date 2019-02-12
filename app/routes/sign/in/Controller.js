@@ -7,7 +7,6 @@ export default class extends Controller {
   async signIn() {
     try {
       var data = new FormData();
-
       let formData = this.store.get('sign_in');
       let { email, file, password, username, fullname } = formData;
       if (file)

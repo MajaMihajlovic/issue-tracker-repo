@@ -1,4 +1,4 @@
-import { Widget, VDOM } from 'cx/ui';
+import { Widget } from 'cx/ui';
 
 export class Error extends Widget {
 
@@ -9,7 +9,7 @@ export class Error extends Widget {
    }
 
    render(context, instance, key) {
-      var {data} = instance;
+      var { data } = instance;
       return <div key={key} className="error-indicator">
          {data.text || this.renderChildren(context, instance)}
       </div>;
