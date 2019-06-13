@@ -18,11 +18,11 @@ Trace:
 
 npm manifest: 
   {
-    "name": "cx-starter-kit",
-    "version": "16.6.0",
+    "name": "",
+    "version": "",
     "repository": {
       "type": "git",
-      "url": "git@github.com:codaxy/cx-starter-kit.git"
+      "url": ""
     },
     "keywords": [
       "UI",
@@ -31,7 +31,7 @@ npm manifest:
       "Charts",
       "React"
     ],
-    "author": "Igor Timarac",
+    "author": "",
     "license": "SEE LICENSE IN LICENSE.md",
     "scripts": {
       "start": "webpack-dev-server --config config/webpack.dev.js --open",
