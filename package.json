@@ -28,7 +28,7 @@
     "cx-theme-material": "^18.7.0",
     "deep-equal": "^1.0.1",
     "eslint": "^5.16.0",
-    "marked": "^0.3.7",
+    "marked": "^0.3.18",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "whatwg-fetch": "^2.0.3"
